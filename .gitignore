@@ -6,3 +6,8 @@
 # textfile
 /~*
 /..*.kate-swp
+
+#tex
+/*.log
+/*.aux
+/BiciRent.pdf
