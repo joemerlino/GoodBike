@@ -8,9 +8,9 @@
 /..*.kate-swp
 
 #tex
+/BiciRent.pdf
 /*.log
 /*.aux
 /*.out
 /*.toc
 /*.tex.backup
-/*.pdf
