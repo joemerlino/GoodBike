@@ -1,12 +1,17 @@
 % PROGETTO BASI DI DATI 2015 , MERLINO GIUSEPPE is CEO and VIOLETTO MIKI is SGUATTERO
 
-\documentclass[10pt,a4paper,italian]{article}
-\usepackage[english,main=italian]{babel}
+\documentclass[1 pt,a4paper,twoside]{article}
+
+\usepackage[margin=3cm]{geometry}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
+\usepackage[main=italian, english]{babel}
 \usepackage{graphicx}
+\usepackage{rotating}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=black,urlcolor=blue}
+
 \author{Miki Violetto (per ora)}
 \title{Relazione progetto BiciRent}
 \date{\today}
@@ -15,10 +20,25 @@
 \maketitle
 
 \newpage
-\paragraph{Nota:}
-Ho incluso in questo documento le immagini più significative che allego anche
+\tableofcontents
+
+\newpage
+\section{Link utili}
+\begin{itemize}
+\item \textbf{http://www.goodbikepadova.it/Default.aspx} : GoodBike, dove 
+prendiamo spunto per il progetto
+\item \textbf{www.lucidchart.com} : programma per fare i grafici dei schemi 
+concettuale e logico
+\end{itemize}
+
+\section{Abstract}
+BiciRent è un servizio di bike sharing di biciclette ispirato a Goodbike presente qui a Padova.
+Permette grazie ad una tessera personale, rilasciata a chiunque ma con sconti per studenti e turisti, di noleggiare in qualsiasi momento una qualsiasi delle bici presenti su delle apposite aree grazie ad una semplice tessera e utilizzarla per muoversi in centro città, lasciandola poi in un'altra area dove sia presente un posto libero. 
+La tessera può avere validità giornaliera o per un singolo fine settimana (sabato-domenica), oppure essere collegata ad un abbonamento di varie taglie: settimanale, mensile, trimestrale, semestrale o  annuale.
+Sono presenti, oltre alle normali bici che hanno integrato un posto aggiuntivo per bambini, biciclette con pedalata assistita e biciclette con 2 seggiolini;
+Le aree apposite sono prsenti in molti punti della città e munite si sicure automatiche antifurto e sono sempre presenti sia spazio per lasciare la bici noleggiata sia biciclette da noleggiare, grazie a varie convenzioni con ditte esperte di logistica che si occupano a muovere le bici tra le varie aree in base alle varie disponibilità e di portare le biciclette segnalate rotte ai meccnici con cui siamo convenzionati.
+Il servizio tende ad essere automatizzato, e fornisce all'abbonato di controllare facilmente se in una data area ci siano presenti biciclette, ci siano posti vuoti e può direttamente dall'area o dal sito avvertire se ci sono presenti biciclette con rotture.
+Nell'ultimo mese il servizio ha registrato più di 150 nuovi abbonamenti, con un utilizzo medio di circa 300 spostamenti e una media di 100 richieste di intervento (tra mancanza di bici o spazio e rotture); 
+inoltre è stata richiesta la composizione delle bici nelle aree (presenza bici e posti e quali bici) almeno 800 volte ogni giorno, circa ma con punte di quasi 100 volte nel giro di una sola mezz'ora (ad esempio nelle ore di punta).
+
 \end{document}
-
-
-link utili
-http://www.goodbikepadova.it/Default.aspx

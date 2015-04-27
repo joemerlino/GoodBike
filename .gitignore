@@ -10,4 +10,7 @@
 #tex
 /*.log
 /*.aux
+/*.out
+/*.toc
+/*.tex.backup
 /BiciRent.pdf
