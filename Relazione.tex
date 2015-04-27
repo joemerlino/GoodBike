@@ -41,8 +41,19 @@ inoltre viene richiesta la composizione delle bici nelle aree (presenza bici - q
 
 \section{Descrizione testuale dei requisiti e operazioni tipiche}
 %Alias analisi dei requisiti XD
+Si vuole realizzare una base di dati e una semplice applicazione web che contenga e gestisca le informazioni relative al
+bike sharing, simulando inoltre le procedure automatiche realizzate dalle aree di deposito delle biciclette.\newline
+\subsection{Requisiti}
+Degli utenti ci interessano le loro informazioni personali necessari per rintracciarli come nome, cognome, data e luogo di nascita, residenza(via, città, cap), numero di telefono ed email; se sono studenti inoltre si vuole sapere l'università e la matricola per controllare che non stiano mentendo chiedendo un abbonamento a costo ridotto.\newline
+Ogni tessera è connessa ad un e un solo utente, identificata da un codice e con validità variabile in base al piano: gionaliera, weekend, settimanale, mensile, trimestrale,semestrale o annuale. Un ed un solo piano è possibile per tessera e prevede agevolazioni specifiche per i turisti per i soli piani giornalieri e weekend (-15\% grazie ad un contributo della regione), mentre per i studenti prevede agevolazioni su tutti gli abbonamenti da settimanale in su(-10\%).\newline
+Le biciclette sono identificate da un codice numerico e ci interessa sapere di che tipo sono (normali, pedalata assistita o con 2 seggiolini), il loro stato (in uso, in magazzino, o danneggiate o in riparazione) e da quando sono in quello stato.
+
+\subsection{Operazioni tipiche}
+
+In casi eccezzionali si può richiedere tutti gli utenti che hanno utilizzato una bici, quando e per quanti, e in che aree è stata la bici. Può venire anche richiesto una lista dei mezzi danneggiati e in quali aree, e una statistica nel tempo di questi dati.
 
 \section{Progettazione concettuale}
+%top-down , bottom-up, inside-out , misto
 
 \section{Progettazione logica}
 
