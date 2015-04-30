@@ -4,13 +4,13 @@
 /.directory
 
 # textfile
-/~*
-/..*.kate-swp
+**/~*
+**/..*.kate-swp
 
 #tex
-/Relazione.pdf
-/*.log
-/*.aux
-/*.out
-/*.toc
-/*.tex.backup
+Relazione/Relazione.pdf
+**/*.log
+**/*.aux
+**/*.out
+**/*.toc
+**/*.tex.backup
