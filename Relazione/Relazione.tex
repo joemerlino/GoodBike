@@ -30,11 +30,11 @@
 \end{itemize}
 
 \section{Abstract}
-BiciRent è un servizio di bike sharing di biciclette ispirato a Goodbike presente qui a Padova.\newline
+BiciRent è un servizio di bike sharing ispirato a Goodbike presente qui a Padova.\newline
 Permette grazie ad una tessera personale, rilasciata a chiunque ma con sconti per studenti e turisti, di noleggiare in qualsiasi momento una qualsiasi delle bici presenti su delle apposite aree grazie ad una semplice tessera ed utilizzarla per muoversi in centro città, lasciandola poi in un'altra area dove sia presente un posto libero.\newline
 La tessera può avere validità giornaliera o per un singolo fine settimana (sabato-domenica), oppure essere collegata ad un abbonamento di varie taglie: settimanale, mensile, trimestrale, semestrale o  annuale.\newline
 Sono presenti, oltre alle normali bici che hanno integrato un posto aggiuntivo per bambini, biciclette con pedalata assistita e biciclette con 2 seggiolini;\newline
-Le aree apposite sono prsenti in molti punti della città e munite si sicure automatiche antifurto e sono sempre presenti sia spazio per lasciare la bici noleggiata sia biciclette da noleggiare, grazie a varie convenzioni con ditte esperte di logistica che si occupano a muovere le bici tra le varie aree in base alle varie disponibilità e di portare le biciclette segnalate rotte ai meccnici con cui siamo convenzionati.\newline
+Le aree apposite sono presenti in molti punti della città e munite di sicure automatiche antifurto e sono sempre presenti sia spazio per lasciare la bici noleggiata sia biciclette da noleggiare, grazie a trasportatori, e le biciclette rotte verranno aggiustate da meccanici convenzionati il giorno stesso della segnalazione.\newline
 Il servizio tende ad essere automatizzato, e fornisce all'abbonato di controllare facilmente se in una data area ci siano presenti biciclette, ci siano posti vuoti e può direttamente dall'area o dal sito avvertire se ci sono presenti biciclette con rotture.\newline
 Nell'ultimo mese il servizio ha registrato più di 70 nuovi abbonamenti, con un utilizzo medio di circa 1700 noleggi (bici presa in un pinto e lasciata in un altro) giornalieri e una media di 200 richieste di intervento giornaliere (tra mancanza di bici o spazio e rotture);\newline
 inoltre viene richiesta la composizione delle bici nelle aree (presenza bici - quali e posti liberi) almeno 1300 volte ogni giorno, ma con punte di quasi 400 volte nel giro di una sola mezz'ora (ad esempio nelle ore di punta).
@@ -42,15 +42,24 @@ inoltre viene richiesta la composizione delle bici nelle aree (presenza bici - q
 \section{Descrizione testuale dei requisiti e operazioni tipiche}
 %Alias analisi dei requisiti XD
 Si vuole realizzare una base di dati e una semplice applicazione web che contenga e gestisca le informazioni relative al
-bike sharing, simulando inoltre le procedure automatiche realizzate dalle aree di deposito delle biciclette.\newline
+bike sharing, simulando inoltre le procedure automatiche realizzate dalle aree di deposito delle biciclette.
+
 \subsection{Requisiti}
 Degli utenti ci interessano le loro informazioni personali necessari per rintracciarli come nome, cognome, data e luogo di nascita, residenza(via, città, cap), numero di telefono ed email; se sono studenti inoltre si vuole sapere l'università e la matricola per controllare che non stiano mentendo chiedendo un abbonamento a costo ridotto.\newline
-Ogni tessera è connessa ad un e un solo utente, identificata da un codice e con validità variabile in base al piano: gionaliera, weekend, settimanale, mensile, trimestrale,semestrale o annuale. Un ed un solo piano è possibile per tessera e prevede agevolazioni specifiche per i turisti per i soli piani giornalieri e weekend (-15\% grazie ad un contributo della regione), mentre per i studenti prevede agevolazioni su tutti gli abbonamenti da settimanale in su(-10\%).\newline
-Le biciclette sono identificate da un codice numerico e ci interessa sapere di che tipo sono (normali, pedalata assistita o con 2 seggiolini), il loro stato (in uso, in magazzino, o danneggiate o in riparazione) e da quando sono in quello stato.
+Ogni tessera è connessa ad un e un solo utente, identificata da un codice e con validità variabile in base al piano: gionaliera, weekend, settimanale, mensile, trimestrale,semestrale o annuale. Un ed un solo piano è possibile per tessera e prevede agevolazioni specifiche per i turisti per i soli piani giornalieri e weekend (-15\% grazie ad un contributo della regione), mentre per i studenti prevede agevolazioni su tutti gli abbonamenti da settimanale in poi(-10\%).\newline
+Le biciclette sono identificate da un codice numerico e ci interessa sapere di che tipo sono (normali, pedalata assistita o con 2 seggiolini), il loro stato (in uso o in magazzino, danneggiate o in riparazione) e da quando sono in quello stato.\newline
+Le aree-stazioni(luoghi di deposito e prelievo delle bici) sono identificate da un codice e ci serve sapere dove sono posizionate, quante postazioni hanno e relativamente allo stato attuale quanti posti liberi ci sono e quali bici sono presenti.\newline
+Dei meccanici e dei trasportatori ci interessano i loro dati personali, necessari per effettuare il pagamento ogni singolo mese, e per i meccanici quale e quando hanno riparato una bicicletta, oltre a una descrizione del danno; dei trasportatori quale, quando, da dove a dove ha trasportato una bici.\newline
+La manutenzione delle colonnine delle aree-stazioni è a carico del nostro gruppo e si deve registrare solo quale colonnina è stata riparata, quando e una descrizione del danno.
 
 \subsection{Operazioni tipiche}
-
-In casi eccezzionali si può richiedere tutti gli utenti che hanno utilizzato una bici, quando e per quanti, e in che aree è stata la bici. Può venire anche richiesto una lista dei mezzi danneggiati e in quali aree, e una statistica nel tempo di questi dati.
+Operazioni comuni saranno il noleggio di una bicicletta da parte di un tesserato, la sua restituzione, il controllo della disponibilità di biciclette o spazi liberi nelle aree-stazioni, la segnalazione di area piena(no spazi vuoti) oppure della mancanza di biciclette, la segnalazione di bicicletta rotta oppure di colonnina rotta, il trasporto di una bicicletra tra varie stazioni o tra una stazione o il magazzino, o una riparazione di una bicicletta (bici in riparazione).\newline
+Ogni mese andrà richiesto un resoconto dei lavori di manutenzione sulle colonnine delle aree-stazioni e sulle biciclette, inoltre verrà richiesta una lista conteggiante tutte le bici traspostate da ogni trasportatore, necessaria per calcolare il pagamento dovuto.\newline
+In casi eccezzionali si può richiedere tutti gli utenti che hanno utilizzato una bici, quando e per quanti, e in che aree è stata la bici. Può venire anche richiesto una lista dei mezzi danneggiati e in quali aree, e una statistica nel tempo di questi dati.\newline
+%
+%questo non so se serve, farebbe bello ma ci si mette poco a cancellare se vediamo che è troppo lavoro
+Necessarie per la valutazione e la previsione futura saranno necessarie varie statistiche richieste mensilmente, come una statistica sui trasporti delle bici, sull'utilizzo delle aree, ecc.
+%
 
 \section{Progettazione concettuale}
 %top-down , bottom-up, inside-out , misto
