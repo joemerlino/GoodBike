@@ -8,9 +8,10 @@
 **/..*.kate-swp
 
 #tex
-Relazione/Relazione.pdf
+**/Relazione.pdf
 **/*.log
 **/*.aux
 **/*.out
 **/*.toc
 **/*.tex.backup
+**/*.synctex.gz

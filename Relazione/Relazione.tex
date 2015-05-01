@@ -1,5 +1,11 @@
 % PROGETTO BASI DI DATI 2015 , MERLINO GIUSEPPE is CEO and VIOLETTO MIKI is SGUATTERO
-
+%
+% stato della relazione :
+%
+% abstract da rileggere e forse modificare
+% analisi dei requisiti da cambiare un bel pò, aspetterei di farlo dopo aver fatto la progettazione concettuale, almeno l'inizio
+% progettazione concettuale rimodellata, ci sarà ca sostituire gli itemize con strutture migliori
+%
 \documentclass[a4paper,twoside]{article}
 
 \usepackage[margin=3cm]{geometry}
@@ -32,7 +38,7 @@ BiciRent è un servizio di bike sharing ispirato a Goodbike presente qui a Padov
 Permette grazie ad una tessera personale, rilasciata a chiunque ma con sconti per studenti e turisti, di noleggiare in qualsiasi momento una delle bici presenti in apposite stazioni collocate in diverse aree della città ed utilizzarla per muoversi, lasciandola poi in un'altra stazione dove sia presente un posto libero.\newline
 La tessera può avere validità giornaliera, per un singolo fine settimana (sabato e domenica), oppure essere collegata ad un abbonamento di varie taglie: settimanale, mensile, trimestrale, semestrale o  annuale.\newline
 Sono presenti, oltre alle normali bici che hanno integrato un posto aggiuntivo per bambini, biciclette con pedalata assistita o aventi 2 seggiolini;\newline
-Le stazioni sono presenti in molti punti della città e sono munite di sicure automatiche antifurto. Sono sempre presenti biciclette da noleggiare e posti per lasciare la bici noleggiata , grazie a trasportatori, le biciclette rotte verranno aggiustate da meccanici convenzionati il giorno stesso in cui viene segnalata un'anomalia dai clienti.\newline
+Le stazioni sono presenti in molti aree della città e sono munite di sicure automatiche antifurto. Saranno sempre presenti biciclette da noleggiare e posti per lasciare la bici noleggiata grazie ad un servizio di trasporto e le biciclette rotte verrano sostituite da biciclette nuove.\newline
 Il servizio tende ad essere automatizzato, permettendo all'abbonato di controllare facilmente se in una data stazione siano presenti biciclette o ci siano posti vuoti per depositare la bici noleggiata. Può segnalare se ci sono presenti biciclette con rotture.\newline
 Nell'ultimo mese il servizio ha registrato più di 70 nuovi abbonamenti, con un utilizzo medio di circa 1700 noleggi giornalieri e una media di 200 richieste d'intervento al giorno (tra mancanza di bici, spazio per il deposito e rotture);\newline
 inoltre viene richiesta la composizione dei posti di ogni singola stazione (presenza biciclette, tipi disponibili e posti liberi) almeno 3000 volte ogni giorno, ma con punte di quasi 900 richieste in una singola mezz'ora (ad esempio nelle ore di punta).
@@ -40,11 +46,9 @@ inoltre viene richiesta la composizione dei posti di ogni singola stazione (pres
 \section{Descrizione testuale dei requisiti e operazioni tipiche}
 %Alias analisi dei requisiti XD
 Si vuole realizzare una base di dati e una semplice applicazione web che contenga e gestisca le informazioni relative al
-bike sharing, simulando inoltre le procedure automatiche realizzate dalle aree di deposito delle biciclette.
+bike sharing, simulando inoltre le procedure automatiche realizzate dalle colonnine di deposito delle biciclette.
 
 %cose dubbie-extra :
-%meccanici-trasportatori esterni o interni (~2 tabelle e alcuni atributi)
-%pezzi in custodia dei meccanici (tantissime cose in più, ~un altro database nel database)
 %possibilità di query extra per le valutazioni e previsioni (tante query in più, non troppo lavoro comunque)
 
 \subsection{Requisiti}
@@ -72,27 +76,24 @@ Biciclette:
 \begin{itemize}
  \item codice identificativo
  \item tipo: normali, pedalata assistita o con 2 seggiolini
- \item stato: in uso, a magazzino, danneggiate o in riparazione %e quelle disponibili?
+ \item stato: in uso (noleggiate e disponibili), a magazzino, danneggiate o in riparazione
 \end{itemize}
 Stazioni:
 \begin{itemize}
  \item codice
  \item posizione (luogo, via e numero)
  \item postazioni presenti (colonnine)
- \item stato attuale della colonnina (occupata, libera, tipologia di bici presente) %quindi la colonnina potrebbe essere un'altra entità
-%extra \item possibile collegamento preferenziato con meccanici o trasportatori, ad esempio un meccanico vicino ad una stazione
+ \item stato attuale della colonnina (occupata, libera, tipologia di bici presente)
 \end{itemize}
-Meccanici e trasportatori:
+Manutenzione delle biciclette:
 \begin{itemize}
- \item nome e cognome
- \item residenza (via, numero)
- \item contatto telefonico e/o email
- \item per i soli meccanici quando hanno riparato una specifica bicicletta, e una descrizione del danno presente %italiano da rivedere
- \item per i soli trasportatori quando hanno trasportato una singola bicicletta, il luogo di partenza e quello di arrivo (stazione-colonnina)
+ \item cliente che ha inviato la segnalazione
+ \item colonnina dove è presente la bicicletta rotta
+ \item la bicicletta rotta verrà portata a riparare, nel frattempo sarà sostituita da una nuova
 \end{itemize}
-Manutenzione delle stazioni:
+Manutenzione delle colonnine:
 \begin{itemize}
- \item il codice della colonnina riparata
+ \item il codice della colonnina da riparata
  \item la data e l'orario della riparazione
  \item una descrizione del danno presente
 \end{itemize}
@@ -106,26 +107,35 @@ Operazioni comuni effettuate nella quasi totalità dei casi:
  \item Segnalazione di mancanza di bici(area vuota) o di una specifica categoria di bici, o di posti liberi(area piena) : interessa la stazione segnalata e il tipo di segnalazione; a questa segnalazione seguirà una richiesta di intervento in automatico
  \item Segnalazione di bicicletta rotta o di colonnina rotta : interessa il cliente che l'ha fatta, la stazione e colonnina da cui è stata inviata e l'orario; a questa seguirà una richiesta di intervento di riparazione in automatico
  \item Movimento di una bicicletta : interessa chi ha trasportato la bicicletta, l'orario e il numero identificativo del viaggio, il motivo del viaggio (per area piena o vuota, per riparazione della bicicletta), da dove proveniva la bici, dove è stata depositata e il codice identificativo della bici
- \item Riparazione di una bicicletta : interessa il meccanico che esegue la riparazione, il codice identificativo della bicicletta, l'orario di riparazione (inizio e fine, infatti il meccanico ha fino a 2 giorni di tempo per ripararla) e una descrizione del danno presente nella bicicletta
- \item Riparazione di una colonnina : interessa quale colonnina, l'orario e una descrizione del danno.
+ \item Riparazione di una bicicletta : interessa il codice identificativo della bicicletta, la data di riparazione (inizio e fine) e una descrizione del danno presente nella bicicletta
+ \item Riparazione di una colonnina : interessa quale colonnina, la data e una descrizione del danno.
 \end{itemize}
 Operazioni meno comuni:
 \begin{itemize}
  \item Ogni mese andrà richiesto un resoconto dei lavori di manutenzione sulle colonnine delle aree-stazioni e sulle biciclette
- \item Inoltre verrà richiesta una lista conteggiante tutte le bici trasportate da ogni trasportatore, necessaria per calcolare il pagamento mensile dovuto
  \item In casi eccezionali si può richiedere tutti gli utenti che hanno utilizzato una bici, quando e per quanti, e in che aree è stata la bici
  \item Può venire anche richiesto una lista dei mezzi danneggiati e in quali aree, e una statistica nel tempo di questi dati
 %extra \item Necessarie per la valutazione e la previsione futura saranno necessarie varie statistiche richieste mensilmente, come una statistica sui trasporti delle bici, sull'utilizzo delle aree, ecc
 \end{itemize}
 
+\subsection{Nuovi requisiti}
+Descrivendo le operazioni tipiche, soprattutto quelle più comuni come la segnalazione di danni o il noleggio, ci si accorge che bisogna inserire dei nuovi requisiti :
+\begin{itemize}
+ \item Sarà necessario tenere traccia dello storico dei noleggi e restituzioni degli utenti per l'amministrazione, ma agli utenti interessa solo il loro stato attuale (se stanno noleggiando una bicicletta oppure no)
+ \item Le Segnalazioni possono essere pendenti, quindi non ancora risolte, oppure risolte ; una segnalazione pendente comporterà unoperazione di manutentione, che sia movimento  di bici o riparazione
+ \item altre
+\end{itemize}
+
 \section{Progettazione concettuale}
+%
 %top-down , bottom-up, inside-out , misto
-
 % credo di stare usando un inside-out modellando a mano a mano quello che leggo
-
-\subsection{Prima modellazione concettuale}
+%
+% cambiato tutto, inserisco le immagini passo a passo per ogni cosa che si fa
+%
+Partendo dall'inizio decido di modellare l'entità Utente.\newline
 Entità : \textbf{Utente}\newline
-Attributi di \textbf{Utente} :
+Attributi di Utente :
 \begin{itemize}
  \item nome
  \item cognome
@@ -134,36 +144,55 @@ Attributi di \textbf{Utente} :
  \item indirizzo di residenza(via e numero)
  \item città di residenza
  \item cap
- \item email
- \item numero telefonico
+ \item email (può essere nullo)
+ \item numero telefonico (può essere nullo)
+ \item tessera
 \end{itemize}
-Generalizzazione di \textbf{Utente} : \textbf{Studente}\newline
-Attributo di \textbf{Studente} :
+%immagine ConUtente01
+Sottoinsieme di Utente : \textbf{Studente}\newline
+Attributi di Studente :
 \begin{itemize}
  \item matricola
 \end{itemize}
+%immagine ConUtente02
+Continuando a cercare informazioni sugli utenti trovo un'altro sottoinsieme.\newline
+Sottoinsieme di Utente : \textbf{Turista}\newline
+Rivaluto quindi Studente e Turista come delle generalizzazioni parziali esclusive di Utente.\newline
+%immagine ConUtente03
+Cercando le informazioni relative alla tessere dell'utente mi accorgo potrebbe essere rappresentata come una entità.\newline
 Entità : \textbf{Tessera}\newline
-Attributi di \textbf{Tessera} :
+Attributi di Tessera :
 \begin{itemize}
- \item codice (chiave)
+ \item codice tesseramento (chiave)
  \item validità
+ \item tipo di abbonamento o piano
 \end{itemize}
-Relazione : \textbf{Tesseramento} tra \textbf{Tessera} e \textbf{Utente} :
+%immagine ConTessera01
+Riflettendo su Utente e Tessera decido di collegarli con una relazione.\newline
+Relazione : \textbf{Tesseramento} tra Tessera e Utente :
 \begin{itemize}
- \item da \textbf{Tessera} a \textbf{Utente} 1 : 1
- \item da \textbf{Utente} a \textbf{Tessera} 1 : 1
+ \item da Tessera a Utente 1 : 1
+ \item da Utente a Tessera 1 : 1
 \end{itemize}
+%immagine ConTesseramento01
+Con una veloce letta dei requisiti mi accorgo che la maggior parte delle volte che ci si riferisce ad Utente in realtà ci si riferisce alla Tessera dell'Utente, quindi prendo nota che Utente potrebbe venire identificato dalla tessera che possiede, principalmente perchè la relazione Tesseramento che li unisce ha cardinalità 1 : 1.\newline
+%immagine ConUtente04
+I tipi di abbonamento possibili sono gli stessi per tutte le tessere quindi il concetto di piano della tessera può venire modellato come un'entità.\newline
 Entità : \textbf{Piano}\newline
-Attributi di \textbf{Piano} :
+Attributi di Piano :
 \begin{itemize}
  \item tipologia : giornaliero, weekend, settimanale, mensile, trimestrale, semestrale o annuale
+ \item costo
 \end{itemize}
-Generalizzazione di \textbf{Utente} : \textbf{Turista}\newline
-Relazione : \textbf{Abbonamento} tra \textbf{Tessera} e \textbf{Piano}
+%immagine ConPiano01
+Tessera e Piano sono ovviamente collegati da una relazione.\newline
+Relazione : \textbf{Abbonamento} tra Tessera e Piano :
 \begin{itemize}
- \item da \textbf{Tessera} a \textbf{Piano} 1 : 1
- \item da \textbf{Piano} a \textbf{Tessera} 1 : 1
+ \item da Tessera a Piano 1 : 1
+ \item da Piano a Tessera 0 : N
 \end{itemize}
+%immagine ConAbbonamento01
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%fino a qui
 Entità : \textbf{Bicicletta}\newline
 Attributi di \textbf{Bicicletta} :
 \begin{itemize}
@@ -175,7 +204,8 @@ Entità : \textbf{Stazione}\newline
 Attributi di \textbf{Stazione} :
 \begin{itemize}
  \item codice (chiave)
- \item indirizzo (via e numero, luogo)
+ \item area (ex: Stazione, Prato... dove sono presenti più stazioni)
+ \item indirizzo (via e numero)
  \item postazioni presenti (numero di colonnine)
  \item stato attuale delle colonnine (occupate, libere, tipologia di bici presenti)
  \end{itemize}
@@ -200,6 +230,57 @@ Relazione : \textbf{Posizionamento} tra \textbf{Colonnina occupata} e \textbf{Bi
  \item da \textbf{Colonnina occupata} a \textbf{Bicicletta} 1 : 1
  \item da \textbf{Bicicletta} a \textbf{Colonnina occupata} 1 : 1
 \end{itemize}
+Per rappresentare il concetto della manutenzione delle biciclette decido di creare una nuova Relazione.\newline
+Relazione : \textbf{Segnalazione bicicletta} tra \textbf{Utente} e \textbf{Bicicletta}
+\begin{itemize}
+ \item da \textbf{Utente} a \textbf{Bicicletta} 0 : N
+ \item da \textbf{Bicicletta} a \textbf{Utente} 0 : N
+\end{itemize}
+Attributi di \textbf{Segnalazione bicicletta} :
+\begin{itemize}
+ \item la colonnina dove è presente la bicicletta
+ \item descrizione del danno
+\end{itemize}
+Cercando di rappresentare il concetto della manutenzione delle colonnine mi accorgo che la Relazione \textbf{Segnalazione bicicletta} è molto simile e potrebbero essere 2 Generalizzazioni di un concetto di Segnalazione più generale da parte dell'Entità \textbf{Utente};\newline
+Quindi per concettualizzare meglio il tutto decido di introdurre una nuova Entità, due Generalizzazioni e varie Relazioni.\newline
+Entità : \textbf{Segnalazione}\newline
+Attributi di \textbf{Segnalazione} :
+\begin{itemize}
+ \item descrizione del danno presente
+ \item data di segnalazione
+\end{itemize}
+Generalizzazione di \textbf{Segnalazione} : \textbf{Segnalazione bicicletta}\newline
+Generalizzazione di \textbf{Segnalazione} : \textbf{Segnalazione colonnina}\newline
+%Generalizzazione completa, ma non so come scriverlo
+Relazione : \textbf{Segnalamento} tra \textbf{Utente} e \textbf{Segnalazione}
+\begin{itemize}
+ \item da \textbf{Utente} a \textbf{Segnalazione} 0 : N
+ \item da \textbf{Segnalazione} a \textbf{Utente} 1 : 1
+\end{itemize}
+Relazione : \textbf{Riferisce} tra \textbf{Colonnina} e \textbf{Segnalazione}
+\begin{itemize}
+ \item da \textbf{Colonnina} a \textbf{Segnalazione} 0 : N
+ \item da \textbf{Segnalazione} a \textbf{Colonnina} 1 : 1
+\end{itemize}
+Relazione : \textbf{Rottura} tra \textbf{Bicicletta} e \textbf{Segnalazione}
+\begin{itemize}
+ \item da \textbf{Bicicletta} a \textbf{Segnalazione} 0 : N
+ \item da \textbf{Segnalazione} a \textbf{Bicicletta} 1 : 1
+\end{itemize}
+Per tenere traccia delle \textbf{Segnalazioni} ancora attive e quelle processate si introduce una nuova Generalizzazione.\newline
+Generalizzazione di \textbf{Segnalazione} : \textbf{Segnalazione pendente}\newline
+Generalizzazione di \textbf{Segnalazione} : \textbf{Segnalazione risolta}\newline
+%Generalizzazione completa, ma non so come scriverlo
+Perché l'utente possa eseguire l'operazione di noleggio o restituzione di una bicicletta c'è bisogno di modellare una nuova Relazione.\newline
+Relazione : \textbf{Noleggio} tra \textbf{Utente} e \textbf{Bicicletta}
+\begin{itemize}
+ \item da \textbf{Utente} a \textbf{Segnalazione} 0 : N
+ \item da \textbf{Segnalazione} a \textbf{Utente} 1 : 1
+\end{itemize}
+
+
+
+
 %
 %%%da finire
 %
