@@ -29,13 +29,13 @@
 
 \section{Abstract}
 BiciRent è un servizio di bike sharing ispirato a Goodbike presente qui a Padova.\newline
-Permette grazie ad una tessera personale, rilasciata a chiunque ma con sconti per studenti e turisti, di noleggiare in qualsiasi momento una qualsiasi delle bici presenti su delle apposite aree grazie ad una semplice tessera ed utilizzarla per muoversi in centro città, lasciandola poi in un'altra area dove sia presente un posto libero.\newline
-La tessera può avere validità giornaliera o per un singolo fine settimana (sabato-domenica), oppure essere collegata ad un abbonamento di varie taglie: settimanale, mensile, trimestrale, semestrale o  annuale.\newline
-Sono presenti, oltre alle normali bici che hanno integrato un posto aggiuntivo per bambini, biciclette con pedalata assistita e biciclette con 2 seggiolini;\newline
-Le aree apposite sono presenti in molti punti della città e munite di sicure automatiche antifurto e sono sempre presenti sia spazio per lasciare la bici noleggiata sia biciclette da noleggiare, grazie a trasportatori, e le biciclette rotte verranno aggiustate da meccanici convenzionati il giorno stesso della segnalazione.\newline
-Il servizio tende ad essere automatizzato, e fornisce all'abbonato di controllare facilmente se in una data area ci siano presenti biciclette, ci siano posti vuoti e può direttamente dall'area o dal sito avvertire se ci sono presenti biciclette con rotture.\newline
-Nell'ultimo mese il servizio ha registrato più di 70 nuovi abbonamenti, con un utilizzo medio di circa 1700 noleggi (bici presa in un pinto e lasciata in un altro) giornalieri e una media di 200 richieste di intervento giornaliere (tra mancanza di bici o spazio e rotture);\newline
-inoltre viene richiesta la composizione delle bici in un'area (presenza bici - quali e posti liberi) almeno 3000 volte ogni giorno, ma con punte di quasi 900 volte nel giro di una sola mezz'ora (ad esempio nelle ore di punta).
+Permette grazie ad una tessera personale, rilasciata a chiunque ma con sconti per studenti e turisti, di noleggiare in qualsiasi momento una delle bici presenti in apposite stazioni collocate in diverse aree della città ed utilizzarla per muoversi, lasciandola poi in un'altra stazione dove sia presente un posto libero.\newline
+La tessera può avere validità giornaliera, per un singolo fine settimana (sabato e domenica), oppure essere collegata ad un abbonamento di varie taglie: settimanale, mensile, trimestrale, semestrale o  annuale.\newline
+Sono presenti, oltre alle normali bici che hanno integrato un posto aggiuntivo per bambini, biciclette con pedalata assistita o aventi 2 seggiolini;\newline
+Le stazioni sono presenti in molti punti della città e sono munite di sicure automatiche antifurto. Sono sempre presenti biciclette da noleggiare e posti per lasciare la bici noleggiata , grazie a trasportatori, le biciclette rotte verranno aggiustate da meccanici convenzionati il giorno stesso in cui viene segnalata un'anomalia dai clienti.\newline
+Il servizio tende ad essere automatizzato, permettendo all'abbonato di controllare facilmente se in una data stazione siano presenti biciclette o ci siano posti vuoti per depositare la bici noleggiata. Può segnalare se ci sono presenti biciclette con rotture.\newline
+Nell'ultimo mese il servizio ha registrato più di 70 nuovi abbonamenti, con un utilizzo medio di circa 1700 noleggi giornalieri e una media di 200 richieste d'intervento al giorno (tra mancanza di bici, spazio per il deposito e rotture);\newline
+inoltre viene richiesta la composizione dei posti di ogni singola stazione (presenza biciclette, tipi disponibili e posti liberi) almeno 3000 volte ogni giorno, ma con punte di quasi 900 richieste in una singola mezz'ora (ad esempio nelle ore di punta).
 
 \section{Descrizione testuale dei requisiti e operazioni tipiche}
 %Alias analisi dei requisiti XD
@@ -48,49 +48,49 @@ bike sharing, simulando inoltre le procedure automatiche realizzate dalle aree d
 %possibilità di query extra per le valutazioni e previsioni (tante query in più, non troppo lavoro comunque)
 
 \subsection{Requisiti}
-Degli utenti ci interessano le loro informazioni personali necessari per rintracciarli :
+Sono necessarie le informazioni personali degli utenti per poterli eventualmente rintracciare :
 \begin{itemize}
  \item nome e cognome
  \item data e luogo di nascita
  \item residenza (via, numero, città, cap)
  \item email-numero telefonico
- \item se studenti si vuole anche la matricola per poter così controllare se sta dicendo la verità
+ \item se studenti è necessario il codice di matricola in caso di universitari o id della card Iostudio, rilasciata dal Ministero dell'Istruzione agli studenti delle scuole superiori. 
 \end{itemize}
-Ogni tessera è connessa ad un e un solo utente e ha un singolo piano :
-\begin{itemize}
+Ogni tessera identifica un solo utente e ha un singolo piano:
+\begin{itemize}%la tessera con questi attributi non va bene 
  \item codice univoco
  \item validità
- \item piano: gionaliera, weekend, settimanale, mensile, trimestrale,semestrale o annuale
+ \item piano: giornaliero, weekend, settimanale, mensile, trimestrale,semestrale o annuale
 \end{itemize}
-Un solo piano è possibile per tessera, e una tessera deve per forza avere un piano.\newline
-Ogni tessera deve avere uno e un solo utente, in particolare ci sono agevolazioni :
+Una tessera deve per forza avere un piano abbinato.\newline
+Agevolazioni:
 \begin{itemize}
- \item  i turisti per i soli piani giornaliero o weekend (-15\% grazie ad un contributo della regione)
- \item i studenti per gli abbonamenti da settimanale in su (-10\%).
+ \item turisti, per i soli piani giornaliero o weekend (-15\% grazie ad un contributo della regione)
+ \item studenti per gli abbonamenti da settimanale in su (-10\%).
 \end{itemize}
-Le biciclette sono di vari tipi :
+Biciclette:
 \begin{itemize}
  \item codice identificativo
- \item tipo : normali, pedalata assistita o con 2 seggiolini
- \item stato : in uso o in magazzino, danneggiate o in riparazione
+ \item tipo: normali, pedalata assistita o con 2 seggiolini
+ \item stato: in uso, a magazzino, danneggiate o in riparazione %e quelle disponibili?
 \end{itemize}
-Le aree di stazionamento delle biciclette o stazioni :
+Stazioni:
 \begin{itemize}
  \item codice
  \item posizione (luogo, via e numero)
  \item postazioni presenti (colonnine)
- \item stato attuale delle colonnine (occupate, libere, tipologia di bici presenti)
+ \item stato attuale della colonnina (occupata, libera, tipologia di bici presente) %quindi la colonnina potrebbe essere un'altra entità
 %extra \item possibile collegamento preferenziato con meccanici o trasportatori, ad esempio un meccanico vicino ad una stazione
 \end{itemize}
-Dei meccanici e dei trasportatori ci interessano i loro dati personali, necessari per identificarli :
+Meccanici e trasportatori:
 \begin{itemize}
  \item nome e cognome
- \item residenza(via, numero)
+ \item residenza (via, numero)
  \item contatto telefonico e/o email
- \item per i soli meccanici quando hanno riparato una specifica bicicletta, e una descrizione del danno presente
+ \item per i soli meccanici quando hanno riparato una specifica bicicletta, e una descrizione del danno presente %italiano da rivedere
  \item per i soli trasportatori quando hanno trasportato una singola bicicletta, il luogo di partenza e quello di arrivo (stazione-colonnina)
 \end{itemize}
-La manutenzione delle colonnine delle aree-stazioni è a carico del nostro gruppo e si deve registrare :
+Manutenzione delle stazioni:
 \begin{itemize}
  \item il codice della colonnina riparata
  \item la data e l'orario della riparazione
@@ -98,13 +98,13 @@ La manutenzione delle colonnine delle aree-stazioni è a carico del nostro grupp
 \end{itemize}
 
 \subsection{Operazioni tipiche}
-Operazioni comuni effettuate nella quasi totalità dei casi :
+Operazioni comuni effettuate nella quasi totalità dei casi:
 \begin{itemize}
- \item Noleggio di una bicicletta : interessa da quale stazione e colonnina è stata prelevata la bici, l'orario di prelievo, il codice del mezzo e l'dentificatore del tesserato
+ \item Noleggio di una bicicletta : interessa da quale stazione e colonnina è stata prelevata la bici, l'orario di prelievo, il codice del mezzo e l'identificatore del tesserato
  \item Restituzione di una bicicletta : interessa su quale stazione e colonnina viene depositata, l'orario di deposito, il codice del mezzo e del cliente
  \item Controllo della disponibilità di biciclette o spazi liberi : interessa in quale stazione, quanti posti vuoti e quante biciclette ci sono nella stazione, in particolare che tipo di bici sono presenti
  \item Segnalazione di mancanza di bici(area vuota) o di una specifica categoria di bici, o di posti liberi(area piena) : interessa la stazione segnalata e il tipo di segnalazione; a questa segnalazione seguirà una richiesta di intervento in automatico
- \item Segnalazione di bicicletta rotta o di colonnina rotta : interessa il cliente che l'ha fatta, la stazione e colonnina da cui è stata inviata e l'orario; a questa seguira una richiesta di intervento di riparazione in automatico
+ \item Segnalazione di bicicletta rotta o di colonnina rotta : interessa il cliente che l'ha fatta, la stazione e colonnina da cui è stata inviata e l'orario; a questa seguirà una richiesta di intervento di riparazione in automatico
  \item Movimento di una bicicletta : interessa chi ha trasportato la bicicletta, l'orario e il numero identificativo del viaggio, il motivo del viaggio (per area piena o vuota, per riparazione della bicicletta), da dove proveniva la bici, dove è stata depositata e il codice identificativo della bici
  \item Riparazione di una bicicletta : interessa il meccanico che esegue la riparazione, il codice identificativo della bicicletta, l'orario di riparazione (inizio e fine, infatti il meccanico ha fino a 2 giorni di tempo per ripararla) e una descrizione del danno presente nella bicicletta
  \item Riparazione di una colonnina : interessa quale colonnina, l'orario e una descrizione del danno.
@@ -112,8 +112,8 @@ Operazioni comuni effettuate nella quasi totalità dei casi :
 Operazioni meno comuni:
 \begin{itemize}
  \item Ogni mese andrà richiesto un resoconto dei lavori di manutenzione sulle colonnine delle aree-stazioni e sulle biciclette
- \item Inoltre verrà richiesta una lista conteggiante tutte le bici traspostate da ogni trasportatore, necessaria per calcolare il pagamento mensile dovuto
- \item In casi eccezzionali si può richiedere tutti gli utenti che hanno utilizzato una bici, quando e per quanti, e in che aree è stata la bici
+ \item Inoltre verrà richiesta una lista conteggiante tutte le bici trasportate da ogni trasportatore, necessaria per calcolare il pagamento mensile dovuto
+ \item In casi eccezionali si può richiedere tutti gli utenti che hanno utilizzato una bici, quando e per quanti, e in che aree è stata la bici
  \item Può venire anche richiesto una lista dei mezzi danneggiati e in quali aree, e una statistica nel tempo di questi dati
 %extra \item Necessarie per la valutazione e la previsione futura saranno necessarie varie statistiche richieste mensilmente, come una statistica sui trasporti delle bici, sull'utilizzo delle aree, ecc
 \end{itemize}
@@ -156,7 +156,7 @@ Relazione : \textbf{Tesseramento} tra \textbf{Tessera} e \textbf{Utente} :
 Entità : \textbf{Piano}\newline
 Attributi di \textbf{Piano} :
 \begin{itemize}
- \item tipologia : gionaliera, weekend, settimanale, mensile, trimestrale,semestrale o annuale
+ \item tipologia : giornaliero, weekend, settimanale, mensile, trimestrale, semestrale o annuale
 \end{itemize}
 Generalizzazione di \textbf{Utente} : \textbf{Turista}\newline
 Relazione : \textbf{Abbonamento} tra \textbf{Tessera} e \textbf{Piano}
