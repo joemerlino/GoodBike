@@ -39,92 +39,45 @@ Permette grazie ad una tessera personale, rilasciata a chiunque ma con sconti pe
 La tessera può avere validità giornaliera, per un singolo fine settimana (sabato e domenica), oppure essere collegata ad un abbonamento di varie taglie: settimanale, mensile, trimestrale, semestrale o  annuale.\newline
 Sono presenti, oltre alle normali bici che hanno integrato un posto aggiuntivo per bambini, biciclette con pedalata assistita o aventi 2 seggiolini;\newline
 Le stazioni sono presenti in molti aree della città e sono munite di sicure automatiche antifurto. Saranno sempre presenti biciclette da noleggiare e posti per lasciare la bici noleggiata grazie ad un servizio di trasporto e le biciclette rotte verrano sostituite da biciclette nuove.\newline
-Il servizio tende ad essere automatizzato, permettendo all'abbonato di controllare facilmente se in una data stazione siano presenti biciclette o ci siano posti vuoti per depositare la bici noleggiata. Può segnalare se ci sono presenti biciclette con rotture.\newline
+Il servizio tende ad essere automatizzato e permette all'abbonato di controllare facilmente se in una data stazione siano presenti biciclette o ci siano posti vuoti per depositare la bici noleggiata. Può segnalare se ci sono presenti biciclette con rotture.\newline
 Nell'ultimo mese il servizio ha registrato più di 70 nuovi abbonamenti, con un utilizzo medio di circa 1700 noleggi giornalieri e una media di 200 richieste d'intervento al giorno (tra mancanza di bici, spazio per il deposito e rotture);\newline
 inoltre viene richiesta la composizione dei posti di ogni singola stazione (presenza biciclette, tipi disponibili e posti liberi) almeno 3000 volte ogni giorno, ma con punte di quasi 900 richieste in una singola mezz'ora (ad esempio nelle ore di punta).
 
 \section{Descrizione testuale dei requisiti e operazioni tipiche}
 %Alias analisi dei requisiti XD
 Si vuole realizzare una base di dati e una semplice applicazione web che contenga e gestisca le informazioni relative al
-bike sharing, simulando inoltre le procedure automatiche realizzate dalle colonnine di deposito delle biciclette.
+bike sharing, simulando inoltre le operazioni che è possibile eseguire tramite la colonnina.
 
-%cose dubbie-extra :
-%possibilità di query extra per le valutazioni e previsioni (tante query in più, non troppo lavoro comunque)
-
-\subsection{Requisiti}
-Sono necessarie le informazioni personali degli utenti per poterli eventualmente rintracciare :
-\begin{itemize}
- \item nome e cognome
- \item data e luogo di nascita
- \item residenza (via, numero, città, cap)
- \item email-numero telefonico
- \item se studenti è necessario il codice di matricola in caso di universitari o id della card Iostudio, rilasciata dal Ministero dell'Istruzione agli studenti delle scuole superiori. 
-\end{itemize}
-Ogni tessera identifica un solo utente e ha un singolo piano:
-\begin{itemize}%la tessera con questi attributi non va bene 
- \item codice univoco
- \item validità
- \item piano: giornaliero, weekend, settimanale, mensile, trimestrale,semestrale o annuale
-\end{itemize}
-Una tessera deve per forza avere un piano abbinato.\newline
-Agevolazioni:
-\begin{itemize}
- \item turisti, per i soli piani giornaliero o weekend (-15\% grazie ad un contributo della regione)
- \item studenti per gli abbonamenti da settimanale in su (-10\%).
-\end{itemize}
-Biciclette:
-\begin{itemize}
- \item codice identificativo
- \item tipo: normali, pedalata assistita o con 2 seggiolini
- \item stato: in uso (noleggiate e disponibili), a magazzino, danneggiate o in riparazione
-\end{itemize}
-Stazioni:
-\begin{itemize}
- \item codice
- \item posizione (luogo, via e numero)
- \item postazioni presenti (colonnine)
- \item stato attuale della colonnina (occupata, libera, tipologia di bici presente)
-\end{itemize}
-Manutenzione delle biciclette:
-\begin{itemize}
- \item cliente che ha inviato la segnalazione
- \item colonnina dove è presente la bicicletta rotta
- \item la bicicletta rotta verrà portata a riparare, nel frattempo sarà sostituita da una nuova
-\end{itemize}
-Manutenzione delle colonnine:
-\begin{itemize}
- \item il codice della colonnina da riparata
- \item la data e l'orario della riparazione
- \item una descrizione del danno presente
-\end{itemize}
+\subsection{Descrizione testuale}
+Sono necessarie le informazioni personali degli utenti per permettergli di registrarsi e comperare una tessera; saranno quindi obbligatori nome e cognome, la data e il luogo di nascita, le informazioni sulla residenza (via,numero civico,città e cap) e un'email, di aggiuntivo l'utente può inserire il suo numero telefonico per ricevere infomazioni aggiuntive.\newline
+Per potere poi usufruire di convenzioni rilasciate solo a studenti sarà necessario il codice mi matricola in caso di universitari o l'id della carta Iostudio, e le agevolazioni verrano fornite solo per validità da mensili in su.\newline
+Nel caso di turisti non è necessaria nessuna informazione aggiuntiva, ma l'agevolazione verrà fornita solo sulla validità giornaliera, weekend o settimanale.\newline
+L'utenza disporrà di una tessera personale, che verrà utilizzata per identificare l'utente in tutte le operazioni che effettuerà, questa tessera avrà una validità data dal piano presente e non potrà mai rimanere senza piano. Un utente con un piano ancora valido (attivo) potrà usufruire di tutti i servizi, mentre un utente con una tessera non più valida (piano scaduto) potrà solo comperare un nuovo piano ad un prezzo prefissato, da cui verrà tolto il 15\% per i turisti che usufruiscono dell'agevolazione e del 10\% per i studenti che usufruiscono dell'agevolazione.\newline
+Le biciclette, identificate da un codice personale, possono essere a pedalata assistita (elettriche) oppure con un seggiolino (la maggior parte), mentre in base al loro stato possono essere suddivise tra biciclette in uso, cioè che possono essere nolleggiate o che stanno venendo noleggiate, biciclette in deposito o biciclette danneggiate; lo stato di una bicicletta non sempre corrisponde alla propria posizione, infatti una bicicletta danneggiata può sia essere presente in magazzino sia in una colonnina.\newline
+Una bicicletta in uso verrà noleggiata e depositata in una colonnina, identificata da un codice numerico e dalla stazione di cui fa parte; una colonnina presenta uno stato, che può essere occupata se vi è presente una bicicletta, libera se non vi è presente una bicicletta, oppure danneggiata se la colonnina o la bicicletta presente sono daneggiate.\newline
+Una stazione é formata da più colonnine e si utilizza un numero per identificarla tra tutte le stazioni della città; una stazione avrà un proprio indirizzo per facilitare la ricerca nelle mappe, e in una specifica area della città ci possono essere anche più stazioni vicine. L'utente interaggirà con la stazione per sapere i stati delle varie colonnine presenti ma non si interesserà di quale colonnina avrà tale stato.\newline
+Il noleggio di una bicicletta, richiede che venga ricordato l'orario in cui è avvenuto il prelievo della bicicletta e in quale colonnina è stata presa, e una volta terminato l'orario e la colonnina in cui è stata depositata la bicicletta; per questo il noleggio può essere diviso in noleggi in corso, che quindi identificano i prelievi delle biciclette non ancora depositate, oppure i noleggi terminati, che hanno anche il deposito.
 
 \subsection{Operazioni tipiche}
-Operazioni comuni effettuate nella quasi totalità dei casi:
-\begin{itemize}
- \item Noleggio di una bicicletta : interessa da quale stazione e colonnina è stata prelevata la bici, l'orario di prelievo, il codice del mezzo e l'identificatore del tesserato
- \item Restituzione di una bicicletta : interessa su quale stazione e colonnina viene depositata, l'orario di deposito, il codice del mezzo e del cliente
- \item Controllo della disponibilità di biciclette o spazi liberi : interessa in quale stazione, quanti posti vuoti e quante biciclette ci sono nella stazione, in particolare che tipo di bici sono presenti
- \item Segnalazione di mancanza di bici(area vuota) o di una specifica categoria di bici, o di posti liberi(area piena) : interessa la stazione segnalata e il tipo di segnalazione; a questa segnalazione seguirà una richiesta di intervento in automatico
- \item Segnalazione di bicicletta rotta o di colonnina rotta : interessa il cliente che l'ha fatta, la stazione e colonnina da cui è stata inviata e l'orario; a questa seguirà una richiesta di intervento di riparazione in automatico
- \item Movimento di una bicicletta : interessa chi ha trasportato la bicicletta, l'orario e il numero identificativo del viaggio, il motivo del viaggio (per area piena o vuota, per riparazione della bicicletta), da dove proveniva la bici, dove è stata depositata e il codice identificativo della bici
- \item Riparazione di una bicicletta : interessa il codice identificativo della bicicletta, la data di riparazione (inizio e fine) e una descrizione del danno presente nella bicicletta
- \item Riparazione di una colonnina : interessa quale colonnina, la data e una descrizione del danno.
-\end{itemize}
-Operazioni meno comuni:
-\begin{itemize}
- \item Ogni mese andrà richiesto un resoconto dei lavori di manutenzione sulle colonnine delle aree-stazioni e sulle biciclette
- \item In casi eccezionali si può richiedere tutti gli utenti che hanno utilizzato una bici, quando e per quanti, e in che aree è stata la bici
- \item Può venire anche richiesto una lista dei mezzi danneggiati e in quali aree, e una statistica nel tempo di questi dati
-%extra \item Necessarie per la valutazione e la previsione futura saranno necessarie varie statistiche richieste mensilmente, come una statistica sui trasporti delle bici, sull'utilizzo delle aree, ecc
-\end{itemize}
+Operazioni tipiche eseguite dall'utente :
+\paragraph{Noleggio di una bicicletta} Il noleggio di una bicicletta interessa una bicicletta che ha lo stato in uso, ed sta attualmente occupando una colonnina perchè non è già in noleggio, e lascia la colonnina nello stato di libera. Questo genera un noleggio di tipo in corso, dove viene salvata la bicicletta, la colonnina di prelievo e l'orario di prelievo. Un utente può avere un singolo noleggio attivo alla volta.
+\paragraph{Deposito di una bicicletta} Il deposito di una bicicletta interessa sempre una bicicletta con lo stato in uso, e modifica un noleggio di tipo in uso in uno di tipo terminato, salvando quindi la colonnina in cui viene depositata la bicicletta e l'orario di deposito; questo porta la colonnina, che prima era nello stato libera, nello stato occupata.
+\paragraph{Controllo dello stato di una stazione o area} Il controllo dello stato implica un controllo di ogni singola colollonina, e ritorna quanti spazi, liberi e quante biciclette e di quale tipo sono presenti sulla data stazione , per l'area si cerca in tutte le stazioni di quell'area.
+\paragraph{Segnalazione di mancanza di biciclette o spazi vuoti} Una segnalazione di tipo mancanza viene chiamata dall'utente tramite il sito oppure il numero telefonico su una data stazione e comporterà uno o più trasporti per assolvere la segnalazione.
+\paragraph{Segnalazione di rottura} Una segnalazione di rottura viene chiamata dall'utente da una singola colonnina o dal sito e comporterà un ordine di manutenzione che potrà interessare la colonnina o la bicicletta.
+\par Operazioni tipiche non effettuate dall'utente :
+\paragraph{Trasporto di una bicicletta} Il trasporto può avvenire perché segnalato da un utente oppure per esigenze interne, e comporta il movimento di una bicicletta in tre modi diversi: tra due colonnine di diverse stazioni, dal magazzino ad una colonnina oppure da una colonnina al magazzino. Il trasporto di una bicicletta cambia sicuramente lo stato della colonnina interessata, e forse cambia anche lo stato della bicicletta.
+\paragraph{Manutenzione di una colonnina o di una bicicletta} La manutenzione può avviene a seguito di una segnalazione oppure può essere richiesta dall'azienda e prevede un controllo della bicicletta o della colonnina, che verrà riassunto in una descrizione dei danni presenti che sono stati riparati, e dall'orario di fine manutenzione. Si nota che la manutenzione di una bicicletta interessa la colonninna su cui è stata presente, e che per semplicità ed efficienza viene sempre controllata sia la colonnina che la bicicletta se presente.Un'operazione di matunenzione comporterà per la colonnina e la bicicletta un cambio di stato (erano daneggiate, ora non lo sono più).
+\par Operazioni dell'area amministrativa :
+\paragraph{resoconto dei lavori di manutenzione} E' visibile dall'area amministrativa un resoconto dei lavori di manutenzione alle biciclette e alle colonnine dello scorso mese. Con riportati le date e gli orari.
+\paragraph{storico di una bicicletta} Può venire richiesto dall'area amministrativa le manutenzioni di una bicicletta, come gli utenti che l'hanno noleggiata e il tempo in cui è stata noleggiata.
+\paragraph{lista dei mezzi danneggiati} Può venire richiesta una lista delle biciclette danneggiate, con la stazione e l'area in cui sono presenti.
 
 \subsection{Nuovi requisiti}
-Descrivendo le operazioni tipiche, soprattutto quelle più comuni come la segnalazione di danni o il noleggio, ci si accorge che bisogna inserire dei nuovi requisiti :
-\begin{itemize}
- \item Sarà necessario tenere traccia dello storico dei noleggi e restituzioni degli utenti per l'amministrazione, ma agli utenti interessa solo il loro stato attuale (se stanno noleggiando una bicicletta oppure no)
- \item Le Segnalazioni possono essere pendenti, quindi non ancora risolte, oppure risolte ; una segnalazione pendente comporterà unoperazione di manutentione, che sia movimento  di bici o riparazione
- \item altre
-\end{itemize}
+Dopo un'esposizione e un ragionamento sulle operazioni da eseguire, si possono delineare delle prime modifiche da effettuare alla descrizione testuale :
+\paragraph{Operazioni di diverso spessore} Si nota che operazioni quali noleggio-deposito, segnalazione, trasporto e manutentione non sono semplici operazioni unitarie, ma coinvolgono molteplici operazioni.
+\paragraph{modifica dello stato della bicicletta} Lo stato di una bicicletta non può venire rappresentato solo con in uso, in magazzino o danneggiata; Si decide di utilizzare 2 caratteristiche : lo stato della bicicletta (operativa o danneggiata) e la sua posizione (magazzino o in uso); Questo comporta un miglior rappresentazione dello stato della bicicletta.
+\paragraph{Realtà su due livelli} Si nota che si potrebbe dividere la realtà d rappresentare in due parti: una parte si occupa dello stato attuale del sistema, quindi di dove attualmente sono le bici, della presenza di collonnine vuote o piene, etc mentre un'altra si occupa dello storico di queste informazioni, quindi dei noleggi terminati, dei trasorti effettuati, delle manutenzioni, etc.
 
 \section{Progettazione concettuale}
 %
@@ -171,8 +124,8 @@ Attributi di Tessera :
 Riflettendo su Utente e Tessera decido di collegarli con una relazione.\newline
 Relazione : \textbf{Tesseramento} tra Tessera e Utente :
 \begin{itemize}
- \item da Tessera a Utente 1 : 1
- \item da Utente a Tessera 1 : 1
+ \item da Tessera a Tesseramento 1 : 1
+ \item da Utente a Tesseramento 1 : 1
 \end{itemize}
 %immagine ConTesseramento01
 Con una veloce letta dei requisiti mi accorgo che la maggior parte delle volte che ci si riferisce ad Utente in realtà ci si riferisce alla Tessera dell'Utente, quindi prendo nota che Utente potrebbe venire identificato dalla tessera che possiede, principalmente perchè la relazione Tesseramento che li unisce ha cardinalità 1 : 1.\newline
@@ -188,18 +141,58 @@ Attributi di Piano :
 Tessera e Piano sono ovviamente collegati da una relazione.\newline
 Relazione : \textbf{Abbonamento} tra Tessera e Piano :
 \begin{itemize}
- \item da Tessera a Piano 1 : 1
- \item da Piano a Tessera 0 : N
+ \item da Tessera a Abbonamento 1 : 1
+ \item da Piano a Abbonamento 0 : N
 \end{itemize}
 %immagine ConAbbonamento01
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%fino a qui
+Per modellare la parte principale del database, cioè il noleggio di biciclette da parte degli utenti, comincio con l'entità Bicicletta.\newline
 Entità : \textbf{Bicicletta}\newline
-Attributi di \textbf{Bicicletta} :
+Attributi di Bicicletta :
 \begin{itemize}
  \item codice identificativo (chiave)
  \item tipo : normali, pedalata assistita o con 2 seggiolini
- \item stato : in uso, in magazzino, danneggiate, in riparazione
+ \item stato : in uso(noleggiata o disponibile), in magazzino, danneggiate, in riparazione
 \end{itemize}
+%immagine ConBicicletta01
+Lo stato di una bicicletta non viene rappresntato bene da un attributo, quindi prima di tutto suddivido le biciclette tra in servizio e ferme.\newline
+Generalizzazione completa esclusiva di Bicicletta : \textbf{In servizio} e \textbf{Ferme}\newline
+%immagine ConBicicletta02
+Una bicicletta in servizio è sempre o noleggiata o noleggiabile :\newline
+Generalizzazione completa esclusiva di In servizio : \textbf{In uso} e \textbf{in attesa}\newline
+%immagine ConInservizio01
+Una bicicletta è In uso lo perchè noleggiata da un utente con la sua tessera, quindi inserisco questa relazione.\newline
+Relazione : \textbf{Noleggio} tra Tessera e In uso :
+\begin{itemize}
+ \item da Tessera a Noleggio 0 : 1
+ \item da In uso a Noleggio 1 : 1
+\end{itemize}
+Un Noleggio però deve contenere anche la colonnina da cui è stata prelevata la bici, la data e l'orario di prelievo.\newline
+Attributi di Noleggio :
+\begin{itemize}
+ \item colonnina
+ \item data e ora
+\end{itemize}
+%immagine ConNoleggio01
+Allo stesso modo una bicicletta è In attesa se non noleggiata da nessun Utente, cioè è ferma sulla colonnina.\newline
+Relazione : \textbf{Posizione} tra Colonnina e In attesa :
+%non mi piace per nulla il nome della relazione
+\begin{itemize}
+ \item da Colonnina a Posizione 0 : 1
+ \item da In attesa a Posizione 1 : 1
+\end{itemize}
+%immagine ConPosizione01
+Mi accorgo che l'attributo colonnina di Noleggio in realtà è una relazione con Colonnina, il che fa diventare Noleggio una relazione tra tre entità.\newline
+Relazione : \textbf{Noleggio} tra Tessera, In uso e Colonnina :
+\begin{itemize}
+ \item da Tessera a Noleggio 0 : 1
+ \item da In uso a Noleggio 1 : 1
+ \item da Colonnina a Noleggio 1 : 1
+\end{itemize}
+%immagine ConNoleggio02
+Anche per le biciclette Ferme posso trovare una suddivisione.\newline
+Generalizzazione completa esclusiva di Ferme : \textbf{Magazzino} e 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%fino a qui
+
 Entità : \textbf{Stazione}\newline
 Attributi di \textbf{Stazione} :
 \begin{itemize}
