@@ -4,7 +4,8 @@
 %
 % abstract da rileggere e forse modificare
 % analisi dei requisiti da cambiare un bel pò, aspetterei di farlo dopo aver fatto la progettazione concettuale, almeno l'inizio
-% progettazione concettuale rimodellata, ci sarà ca sostituire gli itemize con strutture migliori
+% progettazione concettuale rimodellata, da rileggiere da capo, molte frasi da migliorare che sicuramente ho scritto cazzate
+%immagini cominciate a fare
 %
 \documentclass[a4paper,twoside]{article}
 
@@ -55,8 +56,7 @@ Nel caso di turisti non è necessaria nessuna informazione aggiuntiva, ma l'agev
 L'utenza disporrà di una tessera personale, che verrà utilizzata per identificare l'utente in tutte le operazioni che effettuerà, questa tessera avrà una validità data dal piano presente e non potrà mai rimanere senza piano. Un utente con un piano ancora valido (attivo) potrà usufruire di tutti i servizi, mentre un utente con una tessera non più valida (piano scaduto) potrà solo comperare un nuovo piano ad un prezzo prefissato, da cui verrà tolto il 15\% per i turisti che usufruiscono dell'agevolazione e del 10\% per i studenti che usufruiscono dell'agevolazione.\newline
 Le biciclette, identificate da un codice personale, possono essere a pedalata assistita (elettriche) oppure con un seggiolino (la maggior parte), mentre in base al loro stato possono essere suddivise tra biciclette in uso, cioè che possono essere nolleggiate o che stanno venendo noleggiate, biciclette in deposito o biciclette danneggiate; lo stato di una bicicletta non sempre corrisponde alla propria posizione, infatti una bicicletta danneggiata può sia essere presente in magazzino sia in una colonnina.\newline
 Una bicicletta in uso verrà noleggiata e depositata in una colonnina, identificata da un codice numerico e dalla stazione di cui fa parte; una colonnina presenta uno stato, che può essere occupata se vi è presente una bicicletta, libera se non vi è presente una bicicletta, oppure danneggiata se la colonnina o la bicicletta presente sono daneggiate.\newline
-Una stazione é formata da più colonnine e si utilizza un numero per identificarla tra tutte le stazioni della città; una stazione avrà un proprio indirizzo per facilitare la ricerca nelle mappe, e in una specifica area della città ci possono essere anche più stazioni vicine. L'utente interaggirà con la stazione per sapere i stati delle varie colonnine presenti ma non si interesserà di quale colonnina avrà tale stato.\newline
-Il noleggio di una bicicletta, richiede che venga ricordato l'orario in cui è avvenuto il prelievo della bicicletta e in quale colonnina è stata presa, e una volta terminato l'orario e la colonnina in cui è stata depositata la bicicletta; per questo il noleggio può essere diviso in noleggi in corso, che quindi identificano i prelievi delle biciclette non ancora depositate, oppure i noleggi terminati, che hanno anche il deposito.
+Una stazione é formata da più colonnine e si utilizza un numero per identificarla tra tutte le stazioni della città; una stazione avrà un proprio indirizzo per facilitare la ricerca nelle mappe. L'utente interaggirà con la stazione per sapere i stati delle varie colonnine presenti ma non si interesserà di quale colonnina avrà tale stato.
 
 \subsection{Operazioni tipiche}
 Operazioni tipiche eseguite dall'utente :
@@ -67,7 +67,7 @@ Operazioni tipiche eseguite dall'utente :
 \paragraph{Segnalazione di rottura} Una segnalazione di rottura viene chiamata dall'utente da una singola colonnina o dal sito e comporterà un ordine di manutenzione che potrà interessare la colonnina o la bicicletta.
 \par Operazioni tipiche non effettuate dall'utente :
 \paragraph{Trasporto di una bicicletta} Il trasporto può avvenire perché segnalato da un utente oppure per esigenze interne, e comporta il movimento di una bicicletta in tre modi diversi: tra due colonnine di diverse stazioni, dal magazzino ad una colonnina oppure da una colonnina al magazzino. Il trasporto di una bicicletta cambia sicuramente lo stato della colonnina interessata, e forse cambia anche lo stato della bicicletta.
-\paragraph{Manutenzione di una colonnina o di una bicicletta} La manutenzione può avviene a seguito di una segnalazione oppure può essere richiesta dall'azienda e prevede un controllo della bicicletta o della colonnina, che verrà riassunto in una descrizione dei danni presenti che sono stati riparati, e dall'orario di fine manutenzione. Si nota che la manutenzione di una bicicletta interessa la colonninna su cui è stata presente, e che per semplicità ed efficienza viene sempre controllata sia la colonnina che la bicicletta se presente.Un'operazione di matunenzione comporterà per la colonnina e la bicicletta un cambio di stato (erano daneggiate, ora non lo sono più).
+\paragraph{Manutenzione di una colonnina o di una bicicletta} La manutenzione può avviene a seguito di una segnalazione oppure può essere richiesta dall'azienda e prevede un controllo della bicicletta o della colonnina, che verrà riassunto in una descrizione dei danni presenti che sono stati riparati, e dall'orario di fine manutenzione. Si nota che la manutenzione di una bicicletta interessa la colonninna su cui è stata presente, e che per semplicità ed efficienza viene sempre controllata sia la colonnina che la bicicletta se presente.Un'operazione di matunenzione comporterà per la colonnina e la bicicletta un cambio di stato (erano daneggiate, ora non lo sono più).\newline
 \par Operazioni dell'area amministrativa :
 \paragraph{resoconto dei lavori di manutenzione} E' visibile dall'area amministrativa un resoconto dei lavori di manutenzione alle biciclette e alle colonnine dello scorso mese. Con riportati le date e gli orari.
 \paragraph{storico di una bicicletta} Può venire richiesto dall'area amministrativa le manutenzioni di una bicicletta, come gli utenti che l'hanno noleggiata e il tempo in cui è stata noleggiata.
@@ -80,14 +80,49 @@ Dopo un'esposizione e un ragionamento sulle operazioni da eseguire, si possono d
 \paragraph{Realtà su due livelli} Si nota che si potrebbe dividere la realtà d rappresentare in due parti: una parte si occupa dello stato attuale del sistema, quindi di dove attualmente sono le bici, della presenza di collonnine vuote o piene, etc mentre un'altra si occupa dello storico di queste informazioni, quindi dei noleggi terminati, dei trasorti effettuati, delle manutenzioni, etc.
 
 \section{Progettazione concettuale}
-%
 %top-down , bottom-up, inside-out , misto
-% credo di stare usando un inside-out modellando a mano a mano quello che leggo
-%
-% cambiato tutto, inserisco le immagini passo a passo per ogni cosa che si fa
-%
-Partendo dall'inizio decido di modellare l'entità Utente.\newline
-Entità : \textbf{Utente}\newline
+Per la modellazione concettuale decido di partire dall'operazione principale del sistema che stiamo modellando, il noleggio.
+Il noleggio, visto come l'azione che va da quando si preleva una bicicletta da una colonnina a quando la si deposita, è uno stato presente del sistema; ma possiamo assocciare a noleggio una caratteristica di storico dei noleggi, che corrispondo ai tutti i noleggi che sono stati effettuati, non solo quelli in corso.
+
+\subsection{Entità Noleggio}
+L'entità \textbf{Noleggio} rappresenta il singolo noleggio effettuabile dall'utente.\newline
+Attributi di Noleggio :
+\begin{itemize}
+ \item utente
+ \item bicicletta
+ \item colonnina prelievo
+ \item orario prelievo
+ \item data prelievo
+ \item colonnina deposito
+ \item orario deposito
+ \item data deposito
+\end{itemize}
+%immagine ConNoleggio01
+Osservando gli attributi si può trovare una suddivisione dell'entità Noleggio, tra noleggi in corso e terminati.\newline
+L'entità \textbf{Noleggio in corso} è un sottoinsieme di Noleggio.\newline
+Attributi di Noleggio in corso :
+\begin{itemize}
+ \item orario prelievo
+ \item data prelievo
+ \item colonnina prelievo
+\end{itemize}
+L'entità \textbf{Noleggio terminato} è un sottoinsieme di Noleggio.\newline
+Attributi di Noleggio terminato :
+\begin{itemize}
+ \item orario deposito
+ \item data deposito
+ \item colonnina deposito
+\end{itemize}
+Noleggio è quindi una generalizzazione completa ed esclusiva dei sottoinsiemi Noleggio in corso e Noleggio terminato.\newline
+L'entità \textbf{Noleggio} risultante ha quindi come attributi :
+\begin{itemize}
+ \item utente
+ \item bicicletta
+\end{itemize}
+%immagine ConNoleggio02
+
+\subsection{Entità Utente}
+L'entità \textbf{Utente} rappresenta la persona che effettua i noleggio, e più avanti anche altre cose (segnalazioni per esempio).\newline
 Attributi di Utente :
 \begin{itemize}
  \item nome
@@ -101,188 +136,230 @@ Attributi di Utente :
  \item numero telefonico (può essere nullo)
  \item tessera
 \end{itemize}
-%immagine ConUtente01
-Sottoinsieme di Utente : \textbf{Studente}\newline
+L'entità \textbf{Studente} è un sottoinsieme di Utente.\newline
 Attributi di Studente :
 \begin{itemize}
  \item matricola
 \end{itemize}
-%immagine ConUtente02
-Continuando a cercare informazioni sugli utenti trovo un'altro sottoinsieme.\newline
-Sottoinsieme di Utente : \textbf{Turista}\newline
-Rivaluto quindi Studente e Turista come delle generalizzazioni parziali esclusive di Utente.\newline
-%immagine ConUtente03
-Cercando le informazioni relative alla tessere dell'utente mi accorgo potrebbe essere rappresentata come una entità.\newline
-Entità : \textbf{Tessera}\newline
+L'entità \textbf{Turista} è un sottoinsieme di Utente.\newline
+Utente è quindi una generalizzazione parziale esclusiva delle specializzazioni Studente e Turista.
+%immagine ConUtente01
+
+\subsection{Relazione NomeRelazioneboo}
+Relazione tra Utente e Noleggio : \textbf{NomeRelazioneboo}.\newline
+Un Utente può effettuare da 0 a N noleggi, mentre ogni Noleggio viene effettuato da 1 e solo 1 Utente.
+%immagine ConNomeRelazioneboo01
+
+\subsection{Entità Tessera}
+l'Entità : \textbf{Tessera} rappresenta la tessera personale in possesso di ogni singolo utente.\newline
 Attributi di Tessera :
 \begin{itemize}
- \item codice tesseramento (chiave)
- \item validità
- \item tipo di abbonamento o piano
+ \item codice tessera (chiave)
+ \item data sottoscrizione abbonamento
+ \item abbonamento
 \end{itemize}
 %immagine ConTessera01
-Riflettendo su Utente e Tessera decido di collegarli con una relazione.\newline
-Relazione : \textbf{Tesseramento} tra Tessera e Utente :
-\begin{itemize}
- \item da Tessera a Tesseramento 1 : 1
- \item da Utente a Tesseramento 1 : 1
-\end{itemize}
+
+\subsection{Relazione Tesseramento}
+Relazione tra Utente e Tessera : \textbf{Tesseramento}.\newline
+Un Utente può avere una sola Tessera, e la Tessera avrà come proprietario quell'unico Utente.\newline
+Mi accorgo che quando ci si riferisce ad Utente, la maggior parte delle volte ci si riferisce alla sua tessera, questo è possibile in quanto Tesseramento ha una cardinalità 1:1 : queste volte verrà usata tessera per esempio con NomeRelazioneboo.
 %immagine ConTesseramento01
-Con una veloce letta dei requisiti mi accorgo che la maggior parte delle volte che ci si riferisce ad Utente in realtà ci si riferisce alla Tessera dell'Utente, quindi prendo nota che Utente potrebbe venire identificato dalla tessera che possiede, principalmente perchè la relazione Tesseramento che li unisce ha cardinalità 1 : 1.\newline
-%immagine ConUtente04
-I tipi di abbonamento possibili sono gli stessi per tutte le tessere quindi il concetto di piano della tessera può venire modellato come un'entità.\newline
-Entità : \textbf{Piano}\newline
+
+\subsection{Relazione NomeRelazioneboo modificata}
+Relazione non più tra Utente e Noleggio ma tra Tessera e Nolaggio: \textbf{NomeRelazioneboo}.\newline
+Una Tessera può effettuare da 0 a N noleggi, mentre ogni Noleggio viene effettuato da 1 e solo 1 Tessera.
+%immagine ConNomeRelazioneboo02
+
+\subsection{Entità Piano}
+Entità : \textbf{Piano} rappresenta la validità con cui la tessera è valida.\newline
 Attributi di Piano :
 \begin{itemize}
  \item tipologia : giornaliero, weekend, settimanale, mensile, trimestrale, semestrale o annuale
  \item costo
 \end{itemize}
 %immagine ConPiano01
-Tessera e Piano sono ovviamente collegati da una relazione.\newline
-Relazione : \textbf{Abbonamento} tra Tessera e Piano :
-\begin{itemize}
- \item da Tessera a Abbonamento 1 : 1
- \item da Piano a Abbonamento 0 : N
-\end{itemize}
+
+\subsection{Relazione Abbonamento}
+Relazione tra Tessera e Piano : \textbf{Abbonamento}.\newline
+Una Tessera ha 1 e 1 solo piano, mentre un Piano può essere sottoscritto da 0 a N tessere.
 %immagine ConAbbonamento01
-Per modellare la parte principale del database, cioè il noleggio di biciclette da parte degli utenti, comincio con l'entità Bicicletta.\newline
-Entità : \textbf{Bicicletta}\newline
+
+\subsection{Entità Bicicletta}
+Entità : \textbf{Bicicletta} rappresenta la bicicletta noleggiabile dall'utente.\newline
 Attributi di Bicicletta :
 \begin{itemize}
  \item codice identificativo (chiave)
- \item tipo : normali, pedalata assistita o con 2 seggiolini
- \item stato : in uso(noleggiata o disponibile), in magazzino, danneggiate, in riparazione
+ \item tipo : normali o pedalata assistita
+ \item stato attuale (
 \end{itemize}
 %immagine ConBicicletta01
-Lo stato di una bicicletta non viene rappresntato bene da un attributo, quindi prima di tutto suddivido le biciclette tra in servizio e ferme.\newline
-Generalizzazione completa esclusiva di Bicicletta : \textbf{In servizio} e \textbf{Ferme}\newline
+Lo stato attuale della bicicletta potrebbe restare espesso come un attributo, ma per rappresentare meglio le relazioni che interessano non solo Bicicletta e Noleggio, ma anche il concetto di Segnalazione espresson più avanti, si procede con una serie di sottoinsiemi.\newline
+Entità \textbf{Bicicletta attiva} è un sottoinsieme di Biciclette che rappresenta le biciclette in stato attivo, cioè noleggiate o noleggiabili.\newline
+Entità \textbf{Bicicletta danneggiata} è un sottoinsieme di Biciclette che rappresenta le biciclette idanneggiate, cioè che non possono venire noleggiate e necessitano di una manutentione.\newline
+Entità \textbf{Bicicletta ferma} è un sottoinsieme di Biciclette che rappresenta le biciclette in magazzino, cioè biciclette che non sono in servizio al momento.\newline
+Bicicletta attiva, Bicicletta danneggiata e Bicicletta ferma sono sottoinsiemi globali esclusivi di Bicicletta.\newline
 %immagine ConBicicletta02
-Una bicicletta in servizio è sempre o noleggiata o noleggiabile :\newline
-Generalizzazione completa esclusiva di In servizio : \textbf{In uso} e \textbf{in attesa}\newline
-%immagine ConInservizio01
-Una bicicletta è In uso lo perchè noleggiata da un utente con la sua tessera, quindi inserisco questa relazione.\newline
-Relazione : \textbf{Noleggio} tra Tessera e In uso :
-\begin{itemize}
- \item da Tessera a Noleggio 0 : 1
- \item da In uso a Noleggio 1 : 1
-\end{itemize}
-Un Noleggio però deve contenere anche la colonnina da cui è stata prelevata la bici, la data e l'orario di prelievo.\newline
-Attributi di Noleggio :
-\begin{itemize}
- \item colonnina
- \item data e ora
-\end{itemize}
-%immagine ConNoleggio01
-Allo stesso modo una bicicletta è In attesa se non noleggiata da nessun Utente, cioè è ferma sulla colonnina.\newline
-Relazione : \textbf{Posizione} tra Colonnina e In attesa :
-%non mi piace per nulla il nome della relazione
-\begin{itemize}
- \item da Colonnina a Posizione 0 : 1
- \item da In attesa a Posizione 1 : 1
-\end{itemize}
-%immagine ConPosizione01
-Mi accorgo che l'attributo colonnina di Noleggio in realtà è una relazione con Colonnina, il che fa diventare Noleggio una relazione tra tre entità.\newline
-Relazione : \textbf{Noleggio} tra Tessera, In uso e Colonnina :
-\begin{itemize}
- \item da Tessera a Noleggio 0 : 1
- \item da In uso a Noleggio 1 : 1
- \item da Colonnina a Noleggio 1 : 1
-\end{itemize}
-%immagine ConNoleggio02
-Anche per le biciclette Ferme posso trovare una suddivisione.\newline
-Generalizzazione completa esclusiva di Ferme : \textbf{Magazzino} e 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%fino a qui
+NB :\newline
+Si può notare ora che si sono aggiunti dei sottoinsiemi di Bicicletta come l'attributo bicicletta di Noleggio debba essere cambiato : infatti un Noleggio in corso sarà effettuato su una Bicicletta attiva, mentre un Noleggio terminato può interessare una Bicicletta in qualsiasi stato attuale, essendo stato terminato nel passato.
 
-Entità : \textbf{Stazione}\newline
-Attributi di \textbf{Stazione} :
+\subsection{Relazione Prelievo}
+Relazione tra Bicicletta attiva e Noleggio in corso : \textbf{Prelievo}.\newline
+Possiamo togliere da noleggio degli attributi propri di Prelievo :
 \begin{itemize}
- \item codice (chiave)
- \item area (ex: Stazione, Prato... dove sono presenti più stazioni)
- \item indirizzo (via e numero)
- \item postazioni presenti (numero di colonnine)
- \item stato attuale delle colonnine (occupate, libere, tipologia di bici presenti)
- \end{itemize}
-Relazione : \textbf{Appartenenza} tra \textbf{Stazione} e \textbf{Colonnina}
-\begin{itemize}
- \item da \textbf{Stazione} a \textbf{Colonnina} 1 : N
- \item da \textbf{Colonnina} a \textbf{Stazione} 1 : 1
+ \item orario prelievo
+ \item data prelievo
+ \item colonnina prelievo
 \end{itemize}
-Mi accorgo che il concetto 'stato attuale delle colonnine' non riesco a rappresentarlo, quindi decido di sviluppare questo attributo in una nuova Entità e Relazione.\newline
-Entità : \textbf{Colonnina}\newline
-Attributi di \textbf{Colonnina} :
+Una Bicicletta attiva può avere 1 solo Noleggio al massimo, e un Noleggio in corso interessa 1 e 1 soltato Bicicletta Attva.
+%immagine ConPrelievo01
+
+\subsection{Relazione Deposito}
+Relazione tra Bicicletta e Noleggio terminato : \textbf{Deposito}.\newline
+Possiamo togliere da noleggio degli attributi propri di Deposito :
+\begin{itemize}
+ \item orario deposito
+ \item data deposito
+ \item colonnina deposito
+\end{itemize}
+Una Bicicletta può avere da 0 a N Noleggi terminati, ma un Noleggio terminato interesse sempre e solo 1 Bicicletta.7
+%immagine ConDeposito01
+
+\subsection{Entità Noleggio modificata}  %porta allo 'schema ragionamento 2'
+Tutte queste modifiche portano ad una modifica sostanziale dell'entità Noleggio.\newline
+Ci si occorge che quello che chiamiamo Noleggio altro non è che un Noleggio in corso, e che un Noleggio terminato è un sottoinsieme di un Noleggio in corso, con l'aggiunta delle informazioni del deposito.
+Quindi la nuova entità \textbf{Noleggio} ha come relazioni :
+\begin{itemize}
+ \item con tessera ha NomeRelazioneboo
+ \item con bicicletta dovrei avere Prelievo, che però deve essere modificata
+\end{itemize}
+Come sottoinsieme di Noleggio ho \textbf{Noleggio terminato}, che presenta la relazione deposito.\newline
+Dopo questa modifica bisogna riflettere sulle relazioni Prelievo e Deposito : in ogni singola ennupla la Bicicletta coinvolta in entrambe le relazioni è la stessa, le cose che differiscoso sono alcuni attributi (orario, data e colonnina interessati) e che Prelievo relaziona con il sottoinsieme Bicicletta attiva, e non la generalizzazione Bicicletta.\newline
+Da questo punto di vista la  modifica che si andrebbe necessariamente a fare renderebbe il modello più debole, in quanto si andrebbe a togliere il vincolo che lega un Noleggio in corso con una Bicicletta attiva, portandolo su Bicicletta.\newline
+Un'altro aspetto da discutere è dove inserire gli attrubiti data, ora e colonnina : se si unissero le relazioni si potrebbe scegliere di metterli come attributi sulle entità Noleggio e Noleggio terminato, in quanto le relazioni hanno cardinalita 1 : 1 con Bicicletta e Bicicletta attiva.\newline
+Altro punto favorevole all'unione delle due relazioni è l'analisi dell'attributo colonnina, che si può intuire verrà espresso in una relazione con un'entità colonnina ancora da modellare (in quanto colonnina presenta altre informazioni da modellare), quindi Prelievo e Deposito diventerrano relazioni tra Noleggio e colonnina.\newline
+Quindi Noleggio avrà come relazioni :
+\begin{itemize}
+ \item con Tessera rimane NomeRelazioneboo
+ \item con Bicicletta avrà una relazione
+ \item con Colonnina avro una relazione Prelievo, ancora da modellare
+\end{itemize}
+Il sottoinsieme di Noleggio sarà l'entità \textbf{Noleggio terminato} che avrà :
+\begin{itemize}
+ \item una relazione con Colonnina chiamata Deposito
+\end{itemize}
+Si può vedere questa modifica come una semplificazione delle due relazioni ternarie che sarebbero risultate tra Noleggio, Bicicletta e Colonnina.
+%immagine ConNoleggio03
+
+\subsection{Relazione Noleggio-Bicicletta}
+La relazione \textbf{Noleggio-Bicicletta} interessera La Bicicletta e il Noleggio in cui viene noleggiata.\newline
+Una Bicicletta può essere noleggiata da 0 a N volte, mal un noleggio interessa sempre e solo 1 bicicletta.
+%immagine ConNoleggio-Bicicletta01
+
+\subsection{Entità Colonnina}
+L'entità \textbf{Colonnina} rappresenta il luogo dove la bicicletta viene prelevata e successivamente depositata.\newline
+Attributi di Colonnina :
 \begin{itemize}
  \item codice numerico
+ \item stazione (che rappresenta il dove)
+ \item stato (danneggiata oppure sana)
 \end{itemize}
-Generalizzazione di \textbf{Colonnina} : \textbf{Colonnina occupata}\newline
-Attributi di \textbf{Colonnina occupata} :
-\begin{itemize}
- \item tipologia bicicletta
-\end{itemize}
-Relazione : \textbf{Posizionamento} tra \textbf{Colonnina occupata} e \textbf{Bicicletta}
-\begin{itemize}
- \item da \textbf{Colonnina occupata} a \textbf{Bicicletta} 1 : 1
- \item da \textbf{Bicicletta} a \textbf{Colonnina occupata} 1 : 1
-\end{itemize}
-Per rappresentare il concetto della manutenzione delle biciclette decido di creare una nuova Relazione.\newline
-Relazione : \textbf{Segnalazione bicicletta} tra \textbf{Utente} e \textbf{Bicicletta}
-\begin{itemize}
- \item da \textbf{Utente} a \textbf{Bicicletta} 0 : N
- \item da \textbf{Bicicletta} a \textbf{Utente} 0 : N
-\end{itemize}
-Attributi di \textbf{Segnalazione bicicletta} :
-\begin{itemize}
- \item la colonnina dove è presente la bicicletta
- \item descrizione del danno
-\end{itemize}
-Cercando di rappresentare il concetto della manutenzione delle colonnine mi accorgo che la Relazione \textbf{Segnalazione bicicletta} è molto simile e potrebbero essere 2 Generalizzazioni di un concetto di Segnalazione più generale da parte dell'Entità \textbf{Utente};\newline
-Quindi per concettualizzare meglio il tutto decido di introdurre una nuova Entità, due Generalizzazioni e varie Relazioni.\newline
-Entità : \textbf{Segnalazione}\newline
-Attributi di \textbf{Segnalazione} :
-\begin{itemize}
- \item descrizione del danno presente
- \item data di segnalazione
-\end{itemize}
-Generalizzazione di \textbf{Segnalazione} : \textbf{Segnalazione bicicletta}\newline
-Generalizzazione di \textbf{Segnalazione} : \textbf{Segnalazione colonnina}\newline
-%Generalizzazione completa, ma non so come scriverlo
-Relazione : \textbf{Segnalamento} tra \textbf{Utente} e \textbf{Segnalazione}
-\begin{itemize}
- \item da \textbf{Utente} a \textbf{Segnalazione} 0 : N
- \item da \textbf{Segnalazione} a \textbf{Utente} 1 : 1
-\end{itemize}
-Relazione : \textbf{Riferisce} tra \textbf{Colonnina} e \textbf{Segnalazione}
-\begin{itemize}
- \item da \textbf{Colonnina} a \textbf{Segnalazione} 0 : N
- \item da \textbf{Segnalazione} a \textbf{Colonnina} 1 : 1
-\end{itemize}
-Relazione : \textbf{Rottura} tra \textbf{Bicicletta} e \textbf{Segnalazione}
-\begin{itemize}
- \item da \textbf{Bicicletta} a \textbf{Segnalazione} 0 : N
- \item da \textbf{Segnalazione} a \textbf{Bicicletta} 1 : 1
-\end{itemize}
-Per tenere traccia delle \textbf{Segnalazioni} ancora attive e quelle processate si introduce una nuova Generalizzazione.\newline
-Generalizzazione di \textbf{Segnalazione} : \textbf{Segnalazione pendente}\newline
-Generalizzazione di \textbf{Segnalazione} : \textbf{Segnalazione risolta}\newline
-%Generalizzazione completa, ma non so come scriverlo
-Perché l'utente possa eseguire l'operazione di noleggio o restituzione di una bicicletta c'è bisogno di modellare una nuova Relazione.\newline
-Relazione : \textbf{Noleggio} tra \textbf{Utente} e \textbf{Bicicletta}
-\begin{itemize}
- \item da \textbf{Utente} a \textbf{Segnalazione} 0 : N
- \item da \textbf{Segnalazione} a \textbf{Utente} 1 : 1
-\end{itemize}
+Una caratteristica della colonnina é la possibilità di essere considerata libera oppure occupata : una colonnina occupata differisce da una colonnina libera in quanto occupata da una bicicletta, quindi in relazione con l'Entità Bicicletta.
+Le colonnine occupate fanno parte del sottoinsieme \textbf{Colonnina occupata} che non presenta nessun attributo ma solo una relazione con la bicicletta che al momento è presente.
+%immagine ConColonnina01
 
+\subsection{Relazione Posizione}
+La relazione \textbf{Posizione} collega la Bicicletta attiva con la Colonnina occupata su cui è possibile trovarla.\newline
+Una Bicicletta attiva può essere presente al massimo su una Colonnina occupata (0 : 1) mentre una Colonnina occupata ha presente una Bicicletta attiva (0 : 1).
+%immagine ConPosizione01
 
-
-
-%
-%%%da finire
-%
-Legami non rappresentati :\newline
-Alcuni utenti possono avere agevolazioni in base alla loro tipologia e piano che scelgono sulla loro tessera :
+\subsection{Relazione Prelievo modificata}
+La relazione \textbf{Prelievo} collega il Noleggio con la Colonnina in cui è stata prelevata la Bicicletta.\newline
+Attributi di Prelievo :
 \begin{itemize}
- \item  i turisti per i soli piani giornaliero o weekend (-15\% grazie ad un contributo della regione)
- \item i studenti per gli abbonamenti da settimanale in su (-10\%).
+ \item orario prelievo
+ \item data prelievo
 \end{itemize}
+Una Colonnina può avere da 0 a N prelievi, mentre un Noleggio ha sempre e solo 1 prelievo.\newline
+Si nota come Prelievo influisce sulla Colonnina : un'istanza della relazione Prelievo può venire invocata solo su una Colonnina considerata occupata, facendola diventare libera, cioè rimuovendo in quella specifica ennupla di colonnina la relazione Posizione al momento della creazione della relazione Prelievo.
+%immagine ConPrelievo02
+
+\subsection{Relazione Deposito modificata}
+La relazione \textbf{Deposito} è simile alla relazione prelievo e collega la Colonnina con il Noleggio terminato che ha depositato lì la Bicicletta.\newline
+Attributi di Deposito :
+\begin{itemize}
+ \item orario deposito
+ \item data deposito
+\end{itemize}
+Una Colonnina può avere da 0 a N depositi, ma un Noleggio terminato ha sempre e solo 1 deposito.\newline
+Come per prelievo si nota che un deposito può avvenire solo su una Colonnina considerata libera, e conseguentemente provoca la creazione di una relazione Posizione nella ennupla interessata.
+%immagine ConDeposito02
+
+\subsection{Entità Stazione}
+L'entità \textbf{Stazione} rappresenta un gruppo di più colonnine fisicamente nella stessa zona.\newline
+Attributi di \textbf{Stazione} :
+\begin{itemize}
+ \item codice identificativo (chiave)
+ \item indirizzo (via e numero)
+ \item postazioni presenti (numero di colonnine)
+ \end{itemize}
+%immagine ConStazione01
+
+\subsection{Relazione Appartenenza}
+La relazione \textbf{Appartenenza} associa le colonnine con la propria stazione a cui appartengono.\newline
+Una colonnina appartiene necessariamente a soltanto 1 stazione, mentre la stazione ha più colonnine (1 : N).
+%immagine ConAppartenenza01
+
+\subsection{Relazione Segnalazione di rottura}
+La relazione \textbf{Segnalazione di rottura} associa l'utente che la effettua con la colonnina segnalata e in alcuni casi la Bicicletta presente.\newline
+Una tessera può compiere da 0 a N segnalazioni di rottura, mentre una Segnalazione di rottura viene eseguita da 1 tessera al massimo.\newline
+Si nota come una volta inserita la segnalazione lo stato della Colonnina e della Bicicletta che la occupa (se presente) cambi e diventi danneggiata.
+%immagine ConSegnalazione di rottura01
+
+\subsection{Relazione Segnalazione di mancanza}
+La relazione \textbf{Segnalazione di mancanza} associa l'utente che la effettua con la Stazione che segnala, manifestando la necessità di un trasporto (sia per mancanza di colonnine libere, che per mancanza di biciclette d noleggiare (colonnine occupate).\newline
+Una tessera può effettuare da 0 a N segnalazioni di mancanza, ma una stazione può avere al più 1 segnalazione.
+%immagine ConSegnalazione di mancanza01
+
+\subsection{Entità Manutenzione}
+L'entità \textbf{manutentione} rappresenta lo storico delle manutenzioni sulle colonnine o biciclette e ha come attributi :
+\begin{itemize}
+ \item data del completamento
+ \item descrizione del danno riparato
+\end{itemize}
+A seconda di cosa ha subito la manutenzione si avranno due sottoinsiemi \textbf{bicicletta} e \textbf{colonnina}, quindi Manutenzione sarà una generalizzazione globale esclusiva.
+%immagine ConManutenzione01
+
+\subsection{Relazione Manutenzione bicicletta-Bicicletta}
+La relazione \textbf{Manutenzione bicicletta-Bicicletta} associa ogni singolo lavoro di manutentione alla bicicletta che l'ha subito.\newline
+Ogni Bicicletta può subire da 0 a N lavori di manutentione mentre ogni lavoro di manutenzione bicicletta è stato fatto su una singola bicicletta.
+%immagine ConManutenzione bicicletta-Bicicletta01
+
+\subsection{Relazione Manutenzione colonnina-Colonnina}
+La relazione \textbf{Manutenzione colonnina-Colonnina} associa ogni singolo lavoro di manutentione alla colonnina che l'ha subito.\newline
+Ogni Colonnina può subire da 0 a N lavori di manutentione mentre ogni lavoro di manutenzione colonnina è stato fatto su una singola colonnina.
+%immagine ConManutenzione colonnina-Colonnina01
+
+\subsection{Entità Trasporto}
+L'entità \textbf{Trasporto} rappresenta lo storico dei trasporti effettuati per muovere una singola Bicicletta con attributi :
+\begin{itemize}
+ \item data
+ \item numero viaggio
+\end{itemize}
+In realtà esistono tre tipi di trasporto in base a dove si preleva la bicicletta e dove la si deposita (da non confondere con l'azione dell'utente, questi sono trasporti interni).\newline
+Un sottoinsieme \textbf{movimento} è un trasporto che interessa 2 colonnine : si preleva da una e la si deposita nell'altra.\newline
+Un sottoinsieme \textbf{aggiunta} è un trasporto che interessa una sola colonnina : si prende la Bicicletta dal magazzino e la si deposita in una Colonnina.\newline
+Un altro sottoinsieme \textbf{rimozione} è un trasporto che interessa anch'esso solo una colonnina : si preleva la Bicicletta dalla Colonnina e la si deposita dal magazzino.\newline
+Si nota come tutti questi trasporti provochino un cambio di stato della Colonnina; inoltre rimozione e aggiunta modificano anche lo stato della Bicicletta.
+%immagine ConTrasporto01
+
+\subsection{Relazione Trasporto-Bicicletta}
+La relazione \textbf{Trasporto-Bicicletta} assoccia ad ogni singolo Trasporto la Bicicletta trasportata.\newline
+Una Bicicletta piò subire da 1 a N trasporti (inizialmente la si estrae dal magazzino, quindi la si aggiunge), mentre un Trasporto trasporta 1 e una soltanto Bicicletta.
+%immagine Con Trasporto-Bicicletta
+
+\subsection{4 Relazioni Trasporto-Colonnina}
+Da finire
 
 \section{Progettazione logica}
 
