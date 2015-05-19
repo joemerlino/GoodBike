@@ -16,5 +16,6 @@
 **/*.aux
 **/*.out
 **/*.toc
+**/*.lof
 **/*.tex.backup
 **/*.synctex.gz

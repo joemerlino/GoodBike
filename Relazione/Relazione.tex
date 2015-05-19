@@ -5,7 +5,7 @@
 % abstract da rileggere e forse modificare
 % analisi dei requisiti da cambiare un bel pò, aspetterei di farlo dopo aver fatto la progettazione concettuale, almeno l'inizio
 % progettazione concettuale rimodellata, da rileggiere da capo, molte frasi da migliorare che sicuramente ho scritto cazzate
-%immagini cominciate a fare
+% immagini cominciate a fare
 %
 \documentclass[a4paper,twoside]{article}
 
@@ -18,6 +18,7 @@
 \usepackage{listings}
 \usepackage[colorlinks=true,linkcolor=black,urlcolor=blue]{hyperref} % ancore delle varie sezioni sul menu
 
+%\graphicspath{Immagini/} %non va ... bho
 
 \author{Giuseppe Merlino,Miki Violetto}
 \title{Relazione progetto BiciRent}
@@ -29,6 +30,8 @@
 \newpage
 \tableofcontents
 \newpage
+\listoffigures
+\newpage
 
 %  link utili
 %  http://www.goodbikepadova.it/Default.aspx : GoodBike, dove prendiamo spunto per il progetto
@@ -36,9 +39,9 @@
 
 \section{Abstract}
 BiciRent è un servizio di bike sharing ispirato a Goodbike presente qui a Padova.\newline
-Permette grazie ad una tessera personale, rilasciata a chiunque ma con sconti per studenti e turisti, di noleggiare in qualsiasi momento una delle bici presenti in apposite stazioni collocate in diverse aree della città ed utilizzarla per muoversi, lasciandola poi in un'altra stazione dove sia presente un posto libero.\newline
-La tessera può avere validità giornaliera, per un singolo fine settimana (sabato e domenica), oppure essere collegata ad un abbonamento di varie taglie: settimanale, mensile, trimestrale, semestrale o  annuale.\newline
-Sono presenti, oltre alle normali bici che hanno integrato un posto aggiuntivo per bambini, biciclette con pedalata assistita o aventi 2 seggiolini;\newline
+Permette grazie ad una tessera personale di noleggiare in qualsiasi momento una delle bici presenti in apposite stazioni collocate in diverse aree della città ed utilizzarla per muoversi, lasciandola poi in un'altra stazione dove sia presente un posto libero.\newline
+La tessera ha validità specifica a seconda del piano che si sottoscrive, e sono previsti sconti per studenti e turisti.\newline
+Le biciclette noleggiabili sono di due tipi, quella classica munita di un passeggino oppure quella a pedalata assistita.\newline
 Le stazioni sono presenti in molti aree della città e sono munite di sicure automatiche antifurto. Saranno sempre presenti biciclette da noleggiare e posti per lasciare la bici noleggiata grazie ad un servizio di trasporto e le biciclette rotte verranno sostituite da nuove.\newline
 Il servizio tende ad essere automatizzato e permette all'abbonato di controllare facilmente se in una data stazione siano presenti biciclette o ci siano posti vuoti per depositare la bici noleggiata. Può segnalare la presenza di guasti delle biciclette.\newline
 Si prospettano circa 1700 noleggi giornalieri e una media di 200 richieste d'intervento al giorno (mancanza di bici e rotture); inoltre viene richiesta la composizione dei posti di ogni singola stazione (presenza biciclette, tipi disponibili e posti liberi) almeno 3000 volte ogni giorno, ma con punte di quasi 900 richieste in una singola mezz'ora (ad esempio nelle ore di punta).
@@ -51,7 +54,7 @@ Si vuole realizzare una base di dati e una semplice applicazione web che conteng
 Sono necessarie le informazioni personali degli utenti per permettergli di registrarsi e comprare una tessera; saranno quindi obbligatori nome e cognome, la data e il luogo di nascita, le informazioni sulla residenza (via, numero civico, città, C.A.P.) e un indirizzo email, l'utente può inserire il suo numero telefonico (campo facoltativo) per ricevere ulteriori informazioni.\newline
 Per poter poi usufruire di convenzioni rilasciate solo a studenti, sarà necessario il codice di matricola in caso di universitari o l'id della carta Io Studio, e le agevolazioni verranno fornite solo per abbonamenti da mensili in su.\newline
 Nel caso di turisti non è necessaria nessuna informazione aggiuntiva, ma l'agevolazione verrà fornita solo ai piani giornalieri, weekend o settimanali.\newline
-La tessera personale, che verrà utilizzata per identificare l'utente in tutte le operazioni che effettuerà, avrà una validità data dal piano presente e non potrà mai rimanere senza piano. Un utente con piano ancora valido (attivo) potrà usufruire di tutti i servizi, mentre un utente con una tessera non più valida (piano scaduto) potrà solo comprare un nuovo piano ad un prezzo prefissato, da cui verrà tolto il 15\% per i turisti che usufruiscono dell'agevolazione e del 10\% per gli studenti.\newline
+La tessera personale, che verrà utilizzata per identificare l'utente in tutte le operazioni che effettuerà, avrà una validità data dal piano presente (giornaliera, per un singolo fine settimana (sabato e domenica), oppure essere collegata ad un abbonamento di varie taglie: settimanale, mensile, trimestrale, semestrale o annuale) e non potrà mai rimanere senza piano. Un utente con piano ancora valido (attivo) potrà usufruire di tutti i servizi, mentre un utente con una tessera non più valida (piano scaduto) potrà solo comprare un nuovo piano ad un prezzo prefissato, da cui verrà tolto il 15\% per i turisti che usufruiscono dell'agevolazione e del 10\% per gli studenti.\newline
 Le biciclette, identificate da un id univoco, possono essere a pedalata assistita (elettriche) oppure con un seggiolino (la maggior parte), mentre in base al loro stato possono essere suddivise tra biciclette in uso, cioè che possono essere noleggiate o che stanno venendo noleggiate, biciclette in deposito o biciclette danneggiate; lo stato di una bicicletta non sempre corrisponde alla propria posizione, infatti una bici danneggiata può sia essere presente in magazzino che presso una colonnina.\newline
 La  colonnina, identificata da un codice numerico e dalla stazione di cui fa parte, presenta uno stato,  libera o occupata a seconda della presenza o meno di una bicicletta, oppure danneggiata se la colonnina o la bici presente sono danneggiate.\newline
 Una stazione é formata da più colonnine e si utilizza anche in questo caso un id per l'identificazione; avrà un attributo contenente l'indirizzo di ubicazione, per facilitare la ricerca nelle mappe. L'utente interagirà con la stazione per conoscere gli stati delle varie colonnine (ma non si interesserà del singolo stato di ogni colonnina).
@@ -65,7 +68,7 @@ Operazioni tipiche eseguite dall'utente :
 \paragraph{Segnalazione di rottura} Una segnalazione di rottura viene chiamata dall'utente da una singola colonnina o dal sito e comporterà un ordine di manutenzione che potrà interessare la colonnina o la bicicletta.
 \par Operazioni tipiche non effettuate dall'utente :
 \paragraph{Trasporto di una bicicletta} Il trasporto può avvenire perché segnalato da un utente oppure per esigenze interne, e comporta il movimento di una bicicletta in tre modi diversi: tra due colonnine di diverse stazioni, dal magazzino ad una colonnina oppure da una colonnina al magazzino. Il trasporto di una bicicletta cambia sicuramente lo stato della colonnina interessata, e forse cambia anche lo stato della bicicletta.
-\paragraph{Manutenzione di una colonnina o di una bicicletta} La manutenzione può avviene a seguito di una segnalazione oppure può essere richiesta dall'azienda e prevede un controllo della bicicletta o della colonnina, che verrà riassunto in una descrizione dei danni presenti che sono stati riparati, e dall'orario di fine manutenzione. Si nota che la manutenzione di una bicicletta interessa la colonninna su cui è stata presente, e che per semplicità ed efficienza viene sempre controllata sia la colonnina che la bicicletta se presente.Un'operazione di matunenzione comporterà per la colonnina e la bicicletta un cambio di stato (erano daneggiate, ora non lo sono più).\newline
+\paragraph{Manutenzione di una colonnina o di una bicicletta} La manutenzione può avviene a seguito di una segnalazione oppure può essere richiesta dall'azienda e prevede un controllo della bicicletta o della colonnina, che verrà riassunto in una descrizione dei danni presenti che sono stati riparati, e dall'orario di fine manutenzione. Si nota che la manutenzione di una bicicletta interessa la colonninna su cui è stata presente, e che per semplicità ed efficienza viene sempre controllata sia la colonnina che la bicicletta se presente.Un'operazione di matunenzione comporterà per la colonnina e la bicicletta un cambio di stato (erano daneggiate, ora non lo sono più).
 \par Operazioni dell'area amministrativa :
 \paragraph{resoconto dei lavori di manutenzione} E' visibile dall'area amministrativa un resoconto dei lavori di manutenzione alle biciclette e alle colonnine dello scorso mese. Con riportati le date e gli orari.
 \paragraph{storico di una bicicletta} Può venire richiesto dall'area amministrativa le manutenzioni di una bicicletta, come gli utenti che l'hanno noleggiata e il tempo in cui è stata noleggiata.
@@ -182,6 +185,15 @@ Attributi di Piano :
 Relazione tra Tessera e Piano : \textbf{Abbonamento}.\newline
 Una Tessera ha 1 e 1 solo piano, mentre un Piano può essere sottoscritto da 0 a N tessere.
 %immagine ConAbbonamento01
+
+\begin{figure}[h]
+ \centering
+  \includegraphics[width=0.5\textwidth]{Immagini/ConAbbonamento01}
+\caption{}
+\end{figure} 
+
+
+
 
 \subsection{Entità Bicicletta}
 Entità : \textbf{Bicicletta} rappresenta la bicicletta noleggiabile dall'utente.\newline
