@@ -6,6 +6,8 @@
 % analisi dei requisiti da cambiare un bel pò, aspetterei di farlo dopo aver fatto la progettazione concettuale, almeno l'inizio
 % progettazione concettuale rimodellata, da rileggiere da capo, molte frasi da migliorare che sicuramente ho scritto cazzate
 % immagini cominciate a fare
+%  Cambiare biciclette in uso con biciclette in servizio (biciclette attive)
+%  Cambiare noleggio in corso con noleggio PENDENTE
 %
 \documentclass[a4paper,twoside]{article}
 
@@ -36,6 +38,7 @@
 %  link utili
 %  http://www.goodbikepadova.it/Default.aspx : GoodBike, dove prendiamo spunto per il progetto
 %  www.lucidchart.com : programma per fare i grafici dei schemi concettuale e logico
+%
 
 \section{Abstract}
 BiciRent è un servizio di bike sharing ispirato a Goodbike presente qui a Padova.\newline
@@ -54,17 +57,18 @@ Si vuole realizzare una base di dati e una semplice applicazione web che conteng
 Sono necessarie le informazioni personali degli utenti per permettergli di registrarsi e comprare una tessera; saranno quindi obbligatori nome e cognome, la data e il luogo di nascita, le informazioni sulla residenza (via, numero civico, città, C.A.P.) e un indirizzo email, l'utente può inserire il suo numero telefonico (campo facoltativo) per ricevere ulteriori informazioni.\newline
 Per poter poi usufruire di convenzioni rilasciate solo a studenti, sarà necessario il codice di matricola in caso di universitari o l'id della carta Io Studio, e le agevolazioni verranno fornite solo per abbonamenti da mensili in su.\newline
 Nel caso di turisti non è necessaria nessuna informazione aggiuntiva, ma l'agevolazione verrà fornita solo ai piani giornalieri, weekend o settimanali.\newline
-La tessera personale, che verrà utilizzata per identificare l'utente in tutte le operazioni che effettuerà, avrà una validità data dal piano presente (giornaliera, per un singolo fine settimana (sabato e domenica), oppure essere collegata ad un abbonamento di varie taglie: settimanale, mensile, trimestrale, semestrale o annuale) e non potrà mai rimanere senza piano. Un utente con piano ancora valido (attivo) potrà usufruire di tutti i servizi, mentre un utente con una tessera non più valida (piano scaduto) potrà solo comprare un nuovo piano ad un prezzo prefissato, da cui verrà tolto il 15\% per i turisti che usufruiscono dell'agevolazione e del 10\% per gli studenti.\newline
-Le biciclette, identificate da un id univoco, possono essere a pedalata assistita (elettriche) oppure con un seggiolino (la maggior parte), mentre in base al loro stato possono essere suddivise tra biciclette in uso, cioè che possono essere noleggiate o che stanno venendo noleggiate, biciclette in deposito o biciclette danneggiate; lo stato di una bicicletta non sempre corrisponde alla propria posizione, infatti una bici danneggiata può sia essere presente in magazzino che presso una colonnina.\newline
-La  colonnina, identificata da un codice numerico e dalla stazione di cui fa parte, presenta uno stato,  libera o occupata a seconda della presenza o meno di una bicicletta, oppure danneggiata se la colonnina o la bici presente sono danneggiate.\newline
+La tessera personale, che verrà utilizzata per identificare l'utente in tutte le operazioni che effettuerà, avrà una validità data dal piano associato ad essa (giornaliera, per un singolo fine settimana, oppure essere collegata ad un abbonamento di varie taglie: settimanale, mensile, trimestrale, semestrale o annuale) e non potrà mai rimanere senza piano.\newline 
+Un utente con piano ancora valido (attivo) potrà usufruire di tutti i servizi, mentre un utente con una tessera non più valida (piano scaduto) potrà solo comprare un nuovo piano ad un prezzo prefissato, da cui verrà tolto il 15\% per i turisti che usufruiscono dell'agevolazione e del 10\% per gli studenti.\newline
+Le biciclette, identificate da un id univoco, possono essere a pedalata assistita (elettriche) oppure con un seggiolino (la maggior parte), mentre in base al loro stato sono suddivise tra biciclette in servizio (ferme alla colonnina o noleggiate), in deposito o biciclette danneggiate; lo stato di una bicicletta non sempre corrisponde alla propria posizione, infatti una bici danneggiata può  essere presente in magazzino o presso una colonnina.\newline
+La  colonnina, identificata da un codice numerico e dalla stazione di cui fa parte, presenta uno stato: libera, occupata (a seconda della presenza o meno di una bicicletta) o danneggiata se la colonnina è guasta.\newline
 Una stazione é formata da più colonnine e si utilizza anche in questo caso un id per l'identificazione; avrà un attributo contenente l'indirizzo di ubicazione, per facilitare la ricerca nelle mappe. L'utente interagirà con la stazione per conoscere gli stati delle varie colonnine (ma non si interesserà del singolo stato di ogni colonnina).
 
 \subsection{Operazioni tipiche}
 Operazioni tipiche eseguite dall'utente :
-\paragraph{Noleggio di una bicicletta} Il noleggio interessa una bici con stato "in uso" che sta attualmente occupando una colonnina perché non è già in noleggio, e lascia la colonnina nello stato di libera. Questo genera un noleggio di tipo in corso, dove viene salvata la bicicletta, la colonnina di prelievo e l'orario di prelievo. Un utente può avere un singolo noleggio attivo alla volta.
-\paragraph{Deposito di una bicicletta} Il deposito di una bicicletta interessa sempre una bicicletta con lo stato in uso, e modifica un noleggio di tipo in uso in uno di tipo terminato, salvando quindi la colonnina in cui viene depositata la bicicletta e l'orario di deposito; questo porta la colonnina, che prima era nello stato libera, nello stato occupata.
-\paragraph{Controllo dello stato di una stazione o area} Il controllo dello stato implica un controllo di ogni singola colollonina, e ritorna quanti spazi, liberi e quante biciclette e di quale tipo sono presenti sulla data stazione , per l'area si cerca in tutte le stazioni di quell'area.
-\paragraph{Segnalazione di mancanza di biciclette o spazi vuoti} Una segnalazione di tipo mancanza viene chiamata dall'utente tramite il sito oppure il numero telefonico su una data stazione e comporterà uno o più trasporti per assolvere la segnalazione.
+\paragraph{Noleggio di una bicicletta} Il noleggio interessa una bici in servizio che sta attualmente occupando una colonnina. Prendendo la bici in comodato, lo stato della colonnina cambia in "libera" e ciò genera un noleggio di tipo pendente, dove vengono memorizzati i dati della bicicletta noleggiata, la colonnina di prelievo e l'orario di prelievo. Un utente può avere un singolo noleggio attivo alla volta.
+\paragraph{Deposito di una bicicletta} Il deposito interessa sempre una bicicletta in servizio, l'operazione modifica un noleggio pendente in uno di tipo terminato, salvando quindi la colonnina in cui viene depositata la bici e l'orario di deposito; questo porta la colonnina, che prima era libera, nello stato di occupata.
+\paragraph{Controllo dello stato di una stazione} Controlla lo stato di ogni singola colonnina della stazione, e ritorna quanti spazi liberi e quante biciclette per tipo sono presenti.
+\paragraph{Segnalazione mancanza di biciclette o spazi vuoti} Una segnalazione di tipo mancanza viene chiamata dall'utente tramite il sito oppure il numero telefonico su una data stazione e comporterà uno o più trasporti per assolvere la segnalazione.
 \paragraph{Segnalazione di rottura} Una segnalazione di rottura viene chiamata dall'utente da una singola colonnina o dal sito e comporterà un ordine di manutenzione che potrà interessare la colonnina o la bicicletta.
 \par Operazioni tipiche non effettuate dall'utente :
 \paragraph{Trasporto di una bicicletta} Il trasporto può avvenire perché segnalato da un utente oppure per esigenze interne, e comporta il movimento di una bicicletta in tre modi diversi: tra due colonnine di diverse stazioni, dal magazzino ad una colonnina oppure da una colonnina al magazzino. Il trasporto di una bicicletta cambia sicuramente lo stato della colonnina interessata, e forse cambia anche lo stato della bicicletta.
@@ -189,7 +193,7 @@ Una Tessera ha 1 e 1 solo piano, mentre un Piano può essere sottoscritto da 0 a
 \begin{figure}[h]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini/ConAbbonamento01}
-\caption{}
+\caption{Relazione Abbonamento}
 \end{figure} 
 
 
@@ -323,12 +327,14 @@ Una colonnina appartiene necessariamente a soltanto 1 stazione, mentre la stazio
 \subsection{Relazione Segnalazione di rottura}
 La relazione \textbf{Segnalazione di rottura} associa l'utente che la effettua con la colonnina segnalata e in alcuni casi la Bicicletta presente.\newline
 Una tessera può compiere da 0 a N segnalazioni di rottura, mentre una Segnalazione di rottura viene eseguita da 1 tessera al massimo.\newline
-Si nota come una volta inserita la segnalazione lo stato della Colonnina e della Bicicletta che la occupa (se presente) cambi e diventi danneggiata.
+Si nota come una volta inserita la segnalazione lo stato della Colonnina e della Bicicletta che la occupa (se presente) cambi e diventi danneggiata.\newline
+Attributi della segnalazione di rottura: bicicletta si o no per identificare rottura bicicletta o colonnina
 %immagine ConSegnalazione di rottura01
 
 \subsection{Relazione Segnalazione di mancanza}
 La relazione \textbf{Segnalazione di mancanza} associa l'utente che la effettua con la Stazione che segnala, manifestando la necessità di un trasporto (sia per mancanza di colonnine libere, che per mancanza di biciclette d noleggiare (colonnine occupate).\newline
-Una tessera può effettuare da 0 a N segnalazioni di mancanza, ma una stazione può avere al più 1 segnalazione.
+Una tessera può effettuare da 0 a N segnalazioni di mancanza, ma una stazione può avere al più 1 segnalazione.\newline
+Colonnina piena o vuota
 %immagine ConSegnalazione di mancanza01
 
 \subsection{Entità Manutenzione}
