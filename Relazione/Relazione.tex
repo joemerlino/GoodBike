@@ -191,7 +191,7 @@ Per rappresentare i trasporti mi accorgo che avrei già un modello simile: le op
 \caption{Aggiunta dei trasporti e quindi modifica della relazione tra operazione e noleggio}
 \end{figure}
 
-\subsection{Modello concettuale finale}
+\subsection{Modello concettuale completo}
 Questo è il modello concettuale risultante.
 \begin{figure}[H]
  \centering
@@ -202,12 +202,27 @@ Questo è il modello concettuale risultante.
 \subsection{Vincoli non rappresentati nel modello}
 Nel modello concettuale non si riesce a rappresentare tutti i vincoli logici che si sono individuati :
 \begin{itemize} %ne ho dimenticati in giro
+ \item la matricola universitaria e il codice IoStudio della Studente sono unici, possono essere nulli e almeno uno dei due deve essere presente.
  \item Un noleggio può essere iniziato (prelevare la bicicletta) solo da una tessera che ha un piano non scaduto.
  \item Un noleggio può essere iniziato (prelevare la bicicletta) solo su una bicicletta in servizio, e lo stato della bicicletta non può venire cambiato finché non viene depositata su una colonnina.
  \item La segnalazione di mancanza riconosce cosa manca (bici o spazi) in base al conteggio delle colonnine che la compongono.
  \item Una segnalazione di rottura di una bicicletta ha come colonnina segnalata una colonnina occupata.
  \item in un trasporto dev'esserci almeno 1 relazione, non è possibile 0.
 \end{itemize}
+
+\subsection{Raffinamento a posteriori del modello concettuale}
+Il modello creato deve venire raffinato ulteriormente per migliorarlo.\newline
+Vengono identificate delle chiavi per le entità che non ne disponevano già:
+\begin{itemize}
+ \item per il noleggio la chiave sono le relazioni con tessera e l'operazione di prelievo
+ \item per operazione è la relazione con colonnina e l'attributo data e ora
+ \item per la manutenzione si utilizza la data e si aggiunge un numero di manutententione giornaliero
+\end{itemize}
+\begin{figure}[H]
+ \centering
+  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale15.png}
+\caption{Identificazione delle chiavi mancanti}
+\end{figure}
 %%%%%%
 
 \section{Progettazione logica}
