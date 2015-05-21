@@ -212,6 +212,8 @@ Nel modello concettuale non si riesce a rappresentare tutti i vincoli logici che
 
 \subsection{Raffinamento a posteriori del modello concettuale}
 Il modello creato deve venire raffinato ulteriormente per migliorarlo.\newline
+
+\subsubsection{Chiavi}
 Vengono identificate delle chiavi per le entità che non ne disponevano già:
 \begin{itemize}
  \item per il noleggio la chiave sono le relazioni con tessera e l'operazione di prelievo
@@ -223,9 +225,27 @@ Vengono identificate delle chiavi per le entità che non ne disponevano già:
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale15.png}
 \caption{Identificazione delle chiavi mancanti}
 \end{figure}
+
+\subsubsection{Modifica della relazione abbonamento}
+La relazione abbonamento non presenta alcun problema a rappresentare un singolo piano attivo su una scheda da una specifica data, ma in un'ottica di successive aggiunte di piani (non tutte alla scadenza del precedente) e soprattutto per una questione di storico dei piani attivati da un utente, si procede a modificare la relazione.
+\begin{figure}[H]
+ \centering
+  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale16.png}
+\caption{Modifica ad abbonamento}
+\end{figure}
+Si decide di raffinare subito la relazione, creando l'entita Abbonamento per scomporre la relazione N:N.
+\begin{figure}[H]
+ \centering
+  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale17.png}
+\caption{raffinamento di abbonamento}
+\end{figure}
 %%%%%%
 
 \section{Progettazione logica}
+Per la trasformazione del modello concettuale in logico è meglio riassumere le varie operazioni che verrano eseguite e per ognuna valutare se il modello concettuale necessiti di una modifica.
+
+%da ricontrollare sopra se ci sono tutte
+
 
 \section{Implementazione dello schema logico}
 
