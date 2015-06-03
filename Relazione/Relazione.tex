@@ -47,7 +47,6 @@ La tessera ha validità specifica a seconda del piano che si sottoscrive, e sono
 Le biciclette noleggiabili sono di due tipi, quella classica munita di un passeggino oppure quella a pedalata assistita.\newline
 Le stazioni sono presenti in molti aree della città e sono munite di sicure automatiche antifurto. Saranno sempre presenti biciclette da noleggiare e posti per lasciare la bici noleggiata grazie ad un servizio di trasporto e le biciclette rotte verranno sostituite da nuove.\newline
 Il servizio tende ad essere automatizzato e permette all'abbonato di controllare facilmente se in una data stazione siano presenti biciclette o ci siano posti vuoti per depositare la bici noleggiata. Può segnalare la presenza di guasti delle biciclette.\newline
-Si prospettano circa 1700 noleggi giornalieri e una media di 200 richieste d'intervento al giorno (mancanza di bici e rotture); inoltre viene richiesta la composizione dei posti di ogni singola stazione (presenza biciclette, tipi disponibili e posti liberi) almeno 3000 volte ogni giorno, ma con punte di quasi 900 richieste in una singola mezz'ora (ad esempio nelle ore di punta).
 
 \section{Descrizione testuale dei requisiti e operazioni tipiche}
 %Alias analisi dei requisiti XD
@@ -61,7 +60,8 @@ La tessera personale, che verrà utilizzata per identificare l'utente in tutte l
 Un utente con piano ancora valido (attivo) potrà usufruire di tutti i servizi, mentre un utente con una tessera non più valida (piano scaduto) potrà solo comprare un nuovo piano ad un prezzo prefissato, da cui verrà tolto il 15\% per i turisti che usufruiscono dell'agevolazione e del 10\% per gli studenti.\newline
 Le biciclette, identificate da un id univoco, possono essere a pedalata assistita (elettriche) oppure con un seggiolino (la maggior parte), mentre in base al loro stato sono suddivise tra biciclette in servizio (ferme alla colonnina o noleggiate), in deposito o biciclette danneggiate; lo stato di una bicicletta non sempre corrisponde alla propria posizione, infatti una bici danneggiata può  essere presente in magazzino o presso una colonnina.\newline
 La  colonnina, identificata da un codice numerico e dalla stazione di cui fa parte, presenta uno stato: libera, occupata (a seconda della presenza o meno di una bicicletta) o danneggiata se la colonnina è guasta.\newline
-Una stazione é formata da più colonnine e si utilizza anche in questo caso un id per l'identificazione; avrà un attributo contenente l'indirizzo di ubicazione, per facilitare la ricerca nelle mappe. L'utente interagirà con la stazione per conoscere gli stati delle varie colonnine (ma non si interesserà del singolo stato di ogni colonnina).
+Una stazione é formata da 20 colonnine e si utilizza anche in questo caso un id per l'identificazione; avrà un attributo contenente l'indirizzo di ubicazione, per facilitare la ricerca nelle mappe. L'utente interagirà con la stazione per conoscere gli stati delle varie colonnine (ma non si interesserà del singolo stato di ogni colonnina).\newline
+Si prospettano circa 1700 noleggi giornalieri e una media di 200 richieste d'intervento al giorno (mancanza di bici e rotture); inoltre viene richiesta la composizione dei posti di una singola stazione (presenza biciclette, tipi disponibili e posti liberi) almeno 30000 volte ogni giorno (ogni volta che viene visualizzato il sito), ma con punte di quasi 900 richieste in una singola mezz'ora (ad esempio nelle ore di punta).
 
 \subsection{Operazioni tipiche}
 Operazioni tipiche eseguite dall'utente :
@@ -242,12 +242,21 @@ Si decide di raffinare subito la relazione, creando l'entità Abbonamento per ev
 %%%%%%
 
 \section{Progettazione logica}
-Per la trasformazione del modello concettuale in logico è meglio riassumere le varie operazioni che verrano eseguite e per ognuna valutare se il modello concettuale necessiti di una modifica.
+Per la trasformazione del modello concettuale in logico bisogna controllare che le varie operazioni non vadano a diminuire le prestazioni del database.\newline
+Per prima cosa non sembrano esserci attributi che possono verire rimossi perché ricavabili da altri nè chiavi da cambiare.
 
-%da ricontrollare sopra se ci sono tutte
+\paragraph{Efficienza della richiesta dello stato delle colonnine di una stazione}
+L'operazione in questione , allo stato attuale del database, consisterebbe nel chiedere alle 20 colonnine della stazione se sono occupate o libere o danneggiate, e ritornare i numeri di quelle occupate, di quelle rotte e di quelle danneggiate (magari no perché non èuna buona pubblicità XD).\newline
+Secondo i dati di utilizzo questa richiesta verrebbe eseguita 30000*20 volte al giorno (più i tipi delle biciclette disponibili); una proprosta potrebbe essere quella di inserire degli attributi nella stazione per ovviare a questo controllo continuo delle stazioni.\newline
+L'introduzione di attributi (2 o 3 ) ridurrebbe di molto il carico di lavoro, ma questi attributi verrebbero modificati 1700*2 volte al giorni dai noleggi, 200*x volte al giorno per mancanza ( il trasporto può essere di più biciclette)
 
+Non so fare i `conti` ma mi sa che è meglio introdurre gli attributi XD hahahah
+
+\paragraph{Analisi tra tessera e utente}
+Essendo tessera e utente collegati con una relazione N a N sarebbe possibile unite le tabelle e risparmiare soazion
 
 \section{Implementazione dello schema logico}
+Implementando lo schema logico con mysql si modificano varie parti dello schema, quindi modifica mano a mano lo schema come è avvenuto per la modellazione concettuale
 
 \section{Query, procedure, trigger e funzioni}
 
