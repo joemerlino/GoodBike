@@ -68,21 +68,21 @@ Operazioni tipiche eseguite dall'utente :
 \paragraph{Prelievo di una bicicletta} Il noleggio interessa una bici in servizio che sta attualmente occupando una colonnina. Prendendo la bici in comodato, lo stato della colonnina cambia in "libera" e ciò genera un noleggio di tipo pendente, dove vengono memorizzati i dati della bicicletta noleggiata, la colonnina di prelievo e l'orario di prelievo. Un utente può avere un singolo noleggio attivo alla volta.
 \paragraph{Deposito di una bicicletta} Il deposito interessa sempre una bicicletta in servizio, l'operazione modifica un noleggio pendente in uno di tipo terminato, salvando quindi la colonnina in cui viene depositata la bici e l'orario di deposito; questo porta la colonnina, che prima era libera, nello stato di occupata.
 \paragraph{Controllo dello stato di una stazione} Controlla lo stato di ogni singola colonnina della stazione, e ritorna quanti spazi liberi e quante biciclette per tipo sono presenti.
-\paragraph{Segnalazione mancanza di biciclette o spazi vuoti} Una segnalazione di tipo mancanza viene chiamata dall'utente tramite il sito oppure il numero telefonico su una data stazione e comporterà uno o più trasporti per assolvere la segnalazione.
-\paragraph{Segnalazione di rottura} Una segnalazione di rottura viene chiamata dall'utente da una singola colonnina o dal sito e comporterà un ordine di manutenzione che potrà interessare la colonnina o la bicicletta.
+\paragraph{Segnalazione mancanza di biciclette o spazi vuoti} Una segnalazione di tipo mancanza viene aperta dall'utente tramite il sito o effettuando una telefonata e comporterà uno o più trasporti per assolvere la segnalazione.
+\paragraph{Segnalazione di rottura} L'utente può effettuare la segnalazione da una singola colonnina o dal sito, ciò comporterà un ordine di manutenzione che potrà interessare la colonnina o bicicletta.
 \par Operazioni tipiche non effettuate dall'utente :
-\paragraph{Trasporto di una bicicletta} Il trasporto può avvenire perché segnalato da un utente oppure per esigenze interne, e comporta il movimento di una bicicletta in tre modi diversi: tra due colonnine di diverse stazioni, dal magazzino ad una colonnina oppure da una colonnina al magazzino. Il trasporto di una bicicletta cambia sicuramente lo stato della colonnina interessata, e forse cambia anche lo stato della bicicletta.
-\paragraph{Manutenzione di una colonnina o di una bicicletta} La manutenzione può avviene a seguito di una segnalazione oppure può essere richiesta dall'azienda e prevede un controllo della bicicletta o della colonnina, che verrà riassunto in una descrizione dei danni presenti che sono stati riparati, e dall'orario di fine manutenzione. Si nota che la manutenzione di una bicicletta interessa la colonninna su cui è stata presente, e che per semplicità ed efficienza viene sempre controllata sia la colonnina che la bicicletta se presente.Un'operazione di matunenzione comporterà per la colonnina e la bicicletta un cambio di stato (erano daneggiate, ora non lo sono più).
+\paragraph{Trasporto di una bicicletta} Il trasporto può avvenire perché segnalato da un utente oppure per esigenze interne, e comporta il movimento di una bicicletta in tre modi diversi: tra due colonnine di diverse stazioni, dal magazzino ad una colonnina o viceversa. Il trasporto di una bicicletta cambia sicuramente lo stato della colonnina interessata, e forse cambia anche lo stato della bicicletta.
+\paragraph{Manutenzione di una colonnina o di una bicicletta} La manutenzione avviene in seguito ad una segnalazione oppure può essere richiesta dall'azienda e prevede un controllo della bicicletta o colonnina, che verrà riassunto in una descrizione dei danni presenti che sono stati riparati e dall'orario di fine manutenzione. Si nota che la manutenzione di una bicicletta interessa la colonnina in cui è stata presente, e che per semplicità ed efficienza viene sempre controllata sia la colonnina che la bicicletta se presente. Un'operazione di manutenzione comporterà per la colonnina e la bicicletta un cambio di stato (erano danneggiate, ora non lo sono più).
 \par Operazioni dell'area amministrativa :
-\paragraph{resoconto dei lavori di manutenzione} E' visibile dall'area amministrativa un resoconto dei lavori di manutenzione alle biciclette e alle colonnine dello scorso mese. Con riportati le date e gli orari.
+\paragraph{resoconto dei lavori di manutenzione} E' visibile un resoconto dei lavori di manutenzione alle biciclette e colonnine dello scorso mese. Con riportati le date e gli orari.
 \paragraph{storico di una bicicletta} Può venire richiesto dall'area amministrativa le manutenzioni di una bicicletta, come gli utenti che l'hanno noleggiata e il tempo in cui è stata noleggiata.
-\paragraph{lista dei mezzi danneggiati} Può venire richiesta una lista delle biciclette danneggiate, con la stazione e l'area in cui sono presenti.
+\paragraph{lista dei mezzi danneggiati} Può essere richiesta una lista delle biciclette danneggiate, con la stazione e l'area in cui sono presenti.
 
 \subsection{Nuovi requisiti}
 Dopo un'esposizione e un ragionamento sulle operazioni da eseguire, si possono delineare delle prime modifiche da effettuare alla descrizione testuale :
-\paragraph{Operazioni di diverso spessore} Si nota che operazioni quali noleggio-deposito, segnalazione, trasporto e manutentione non sono semplici operazioni unitarie, ma coinvolgono molteplici operazioni.
-\paragraph{modifica dello stato della bicicletta} Lo stato di una bicicletta non può venire rappresentato solo con in uso, in magazzino o danneggiata; Si decide di utilizzare 2 caratteristiche : lo stato della bicicletta (operativa o danneggiata) e la sua posizione (magazzino o in uso); Questo comporta un miglior rappresentazione dello stato della bicicletta.
-\paragraph{Realtà su due livelli} Si nota che si potrebbe dividere la realtà d rappresentare in due parti: una parte si occupa dello stato attuale del sistema, quindi di dove attualmente sono le bici, della presenza di collonnine vuote o piene, etc mentre un'altra si occupa dello storico di queste informazioni, quindi dei noleggi terminati, dei trasorti effettuati, delle manutenzioni, etc.
+\paragraph{Operazioni di diverso spessore} Si nota che operazioni quali noleggio-deposito, segnalazione, trasporto e manutenzione non sono semplici operazioni unitarie, ma coinvolgono molteplici operazioni.
+\paragraph{modifica dello stato della bicicletta} Lo stato di una bicicletta non può venire rappresentato solo con "in servizio", "in magazzino" o" danneggiata"; Si decide di utilizzare 2 caratteristiche : lo stato della bicicletta (operativa o danneggiata) e la sua posizione (magazzino o in servizio); Ciò comporta una miglior rappresentazione dello stato della bicicletta.
+\paragraph{Realtà su due livelli} Si potrebbe dividere la realtà rappresentandola in due parti: una parte si occupa dello stato attuale del sistema, quindi di dove attualmente sono le bici, della presenza di colonnine vuote o piene, etc mentre un'altra si occupa dello storico di queste informazioni, quindi dei noleggi terminati, dei trasporti effettuati, delle manutenzioni, etc.
 
 \section{Progettazione concettuale}
 %top-down , bottom-up, inside-out , misto
@@ -120,7 +120,7 @@ La tessera personale dell'utente lo rappresenta in tutte le operazioni che esegu
 \end{figure}
 
 \subsection{Piano}
-Gli abbonamenti delle tessere corrispondondo alla sottoscrizione di un piano che ha un costo e identifica la validità della tessera.
+Gli abbonamenti delle tessere corrispondono alla sottoscrizione di un piano che ha un costo e identifica la validità della tessera.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale05.png}
@@ -128,7 +128,7 @@ Gli abbonamenti delle tessere corrispondondo alla sottoscrizione di un piano che
 \end{figure}
 
 \subsection{Bicicletta}
-Le biciclette possono essere in servizio, ferme o danneggiate (specializzazioni globali esclusive)
+Le biciclette possono essere in servizio, ferme o danneggiate (specializzazioni globali esclusive).
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale06.png}
@@ -152,7 +152,7 @@ Le operazioni prelevano o depositano le biciclette su una colonnina, e un'operaz
 \end{figure}
 
 \subsection{Stazione}
-Le colonnine sono racconte tra lono in stazioni.
+Le colonnine sono raccolte tra loro in stazioni.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale09.png}
@@ -160,7 +160,7 @@ Le colonnine sono racconte tra lono in stazioni.
 \end{figure}
 
 \subsection{Segnalazione di mancanza}
-Un utente può segnalare la mancanza di spazi liberi o di biciclette in una stazione
+Un utente può segnalare la mancanza di spazi liberi o di biciclette in una stazione.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale10.png}
@@ -168,7 +168,7 @@ Un utente può segnalare la mancanza di spazi liberi o di biciclette in una staz
 \end{figure}
 
 \subsection{Segnalazione di rottura}
-Un utente può segnalare una rottura, indicando una colonnina rotta o la bicicletta presente (se presente)
+Un utente può segnalare una rottura, indicando una colonnina rotta o la bicicletta presente (se presente).
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale11.png}
@@ -176,7 +176,7 @@ Un utente può segnalare una rottura, indicando una colonnina rotta o la bicicle
 \end{figure}
 
 \subsection{Manutenzione}
-Una colonnina oppure una bicicletta possono subire un intervento di manutenzione (per togliere lo stato danneggiato
+Una bicicletta o colonnina possono subire un intervento di manutenzione (in seguito al quale verrà rimosso lo stato danneggiato).
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale12.png}
@@ -218,7 +218,7 @@ Vengono identificate delle chiavi per le entità che non ne disponevano già:
 \begin{itemize}
  \item per il noleggio la chiave sono le relazioni con tessera e l'operazione di prelievo
  \item per operazione è la relazione con colonnina e l'attributo data e ora
- \item per la manutenzione si utilizza la data e si aggiunge un numero di manutententione giornaliero
+ \item per la manutenzione si utilizza la data e si aggiunge un numero di manutenzione giornaliero
 \end{itemize}
 \begin{figure}[H]
  \centering
@@ -233,7 +233,7 @@ La relazione abbonamento non presenta alcun problema a rappresentare un singolo 
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale16.png}
 \caption{Modifica ad abbonamento}
 \end{figure}
-Si decide di raffinare subito la relazione, creando l'entita Abbonamento per scomporre la relazione N:N.
+Si decide di raffinare subito la relazione, creando l'entità Abbonamento per evitare la cardinalità N:N.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale17.png}
