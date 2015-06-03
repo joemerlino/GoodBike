@@ -243,7 +243,7 @@ Si decide di raffinare subito la relazione, creando l'entità Abbonamento per ev
 
 \section{Progettazione logica}
 Per la trasformazione del modello concettuale in logico bisogna controllare che le varie operazioni non vadano a diminuire le prestazioni del database.\newline
-Per prima cosa non sembrano esserci attributi che possono verire rimossi perché ricavabili da altri nè chiavi da cambiare.
+Per prima cosa non sembrano esserci attributi che possono venire rimossi perché ricavabili da altri nè chiavi da cambiare.
 
 \paragraph{Efficienza della richiesta dello stato delle colonnine di una stazione}
 L'operazione in questione , allo stato attuale del database, consisterebbe nel chiedere alle 20 colonnine della stazione se sono occupate o libere o danneggiate, e ritornare i numeri di quelle occupate, di quelle rotte e di quelle danneggiate (magari no perché non èuna buona pubblicità XD).\newline
@@ -252,8 +252,17 @@ L'introduzione di attributi (2 o 3 ) ridurrebbe di molto il carico di lavoro, ma
 
 Non so fare i `conti` ma mi sa che è meglio introdurre gli attributi XD hahahah
 
-\paragraph{Analisi tra tessera e utente}
-Essendo tessera e utente collegati con una relazione N a N sarebbe possibile unite le tabelle e risparmiare soazion
+\paragraph{Analisi tra Tessera e Utente}
+Essendo tessera e utente collegati con una relazione 1 a 1 sarebbe possibile unire le entità per risparmiare spazio ma risulterebbe controproducente dal lato computazionale poiché quasi la totalità delle operazioni non necessita dei dati personali relativi all'utente. \newline
+La chiave primaria di Utente è composta dalla tessera che gli appartiene.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale18.png}
+	\caption{Analisi tra Tessera e Utente}
+\end{figure}
+
+\paragraph{Rimozione Piano ed Abbonamento}
+LA FACCIO A CASA.
 
 \section{Implementazione dello schema logico}
 Implementando lo schema logico con mysql si modificano varie parti dello schema, quindi modifica mano a mano lo schema come è avvenuto per la modellazione concettuale
