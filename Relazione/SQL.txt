@@ -1,0 +1,77 @@
+/*Le specializzazioni di Utente (Studente, Turista) vengono implementate nell'entità utilizzando tre attributi aventi la seguente logica:
+L'attributo Tipo identifica la tipologia di utente (base, studente, turista) tramite un char(1).
+Nel caso specifico dello studente vengono utilizzati due attributi char(10) per la matricola dell'Università di Padova e per la carta IoStudio.
+Poichè questi due attributi sono esclusivi tra loro anzichè utilizzare due campi char(10) di cui uno dei due rimarrebbe sempre vuoto, si utilizza un attributo univoco CodiceStudente e un attributo booleano IoStudio per identificare se CodiceStudente appartiene ad una carta IoStudio (TRUE) o ad una matricola universitaria (FALSE).
+*/
+SET FOREIGN_KEY_CHECKS=0;
+
+DROP TABLE IF EXISTS Utente;
+
+CREATE TABLE Utente(
+	Nome varchar(20) NOT NULL,
+	Cognome varchar(20) NOT NULL,
+	DataNascita date NOT NULL,
+	LuogoNascita varchar(20) NOT NULL,
+	Residenza varchar(20) NOT NULL,
+	Indirizzo varchar(30) NOT NULL,
+	Email varchar(30) UNIQUE NOT NULL,
+	Tipo enum('Utente','Turista','Studente') DEFAULT 'Utente' NOT NULL,
+	CodiceStudente char(10),
+	IoStudio boolean,
+	Tessera integer UNSIGNED PRIMARY KEY,
+	FOREIGN KEY (Tessera) REFERENCES Tessera(Codice) ON DELETE CASCADE
+)ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Tessera;
+
+CREATE TABLE Tessera(
+	Codice integer UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	DataScadenza date NOT NULL,
+	/*FOREIGN KEY Rottura*/
+	/*FOREIGN KEY Mancanza*/
+	/*FOREIGN KEY Noleggio*/
+)ENGINE=InnoDB;
+
+/*Il sottotipo NoleggioTerminato presenta solo una relazione con l'entità Operazione (Deposito) rispetto a Noleggio quindi viene rappresentato aggiungengo un attributo a Noleggio utilizzandolo come chiave esterna dell'Operazione; quando nulla, l'istanza si riferisce ad un noleggio non terminato.*/
+
+DROP TABLE IF EXISTS Noleggio;
+
+CREATE TABLE Noleggio(
+	Tessera integer UNSIGNED,
+	Bicicletta integer UNSIGNED NOT NULL,
+	PRIMARY KEY (Tessera,/*Prelievo*/),
+	FOREIGN KEY (Tessera) REFERENCES Tessera(Codice) ON DELETE CASCADE,
+	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(Codice) ON DELETE CASCADE,
+	/*FOREIGN KEY Prelievo*/
+	/*FOREIGN KEY Deposito*/
+)ENGINE=InnoDB;
+
+/*Le specializzazioni di Bicicletta possono venire rappresentate con un singolo attributo (Stato) */
+
+DROP TABLE IF EXISTS Bicicletta;
+
+CREATE TABLE Bicicletta(
+	Codice integer UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	Elettrica boolean DEFAULT FALSE,
+	Stato enum('InServizio','Danneggiata','Ferma') DEFAULT 'Ferma'
+)ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Stazione;
+
+CREATE TABLE Stazione(
+	Codice integer UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	Via varchar(30) NOT NULL
+)ENGINE=InnoDB;
+
+/*L'attributo Stato della Colonnina è rappresentabile con un booleano di nome Danneggiata; inoltre per identificare una colonnina occupata si usa la chiave esterna a Bicicletta ottenuta dalla relazione Posizione.*/
+
+DROP TABLE IF EXISTS Colonnina;
+
+CREATE TABLE Colonnina(
+	Codice integer UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	Danneggiata boolean DEFAULT FALSE,
+	Bicicletta integer UNSIGNED UNIQUE,
+	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(Codice) ON DELETE SET NULL
+)ENGINE=InnoDB;
+
+SET FOREIGN_KEY_CHECKS=1;
