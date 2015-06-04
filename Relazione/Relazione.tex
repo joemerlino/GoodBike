@@ -257,12 +257,17 @@ Essendo tessera e utente collegati con una relazione 1 a 1 sarebbe possibile uni
 La chiave primaria di Utente è composta dalla tessera che gli appartiene.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale18.png}
+	\includegraphics[width=0.5\textwidth]{Immagini-Grafici/Logico01.png}
 	\caption{Analisi tra Tessera e Utente}
 \end{figure}
 
 \paragraph{Rimozione Piano ed Abbonamento}
-LA FACCIO A CASA.
+Visto che le entità non sono necessarie per la rappresentazione della realtà modellata (non serve tenere traccia dei vari piani attivati con relativo prezzo) vengono rimosse delegando all'entità Tessera l'attributo "data scadenza" per poter, tramite interfaccia web, risalire alla durata e tipo dei piani collegati ad essa. \newline
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{Immagini-Grafici/Logico02.png}
+	\caption{Riorganizzazione entità Tessera}
+\end{figure}
 
 \section{Implementazione dello schema logico}
 Implementando lo schema logico con mysql si modificano varie parti dello schema, quindi modifica mano a mano lo schema come è avvenuto per la modellazione concettuale
