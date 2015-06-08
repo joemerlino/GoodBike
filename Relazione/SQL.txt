@@ -52,8 +52,8 @@ DROP TABLE IF EXISTS Bicicletta;
 
 CREATE TABLE Bicicletta(
 	Codice integer UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	Elettrica boolean DEFAULT FALSE,
-	Stato enum('InServizio','Danneggiata','Ferma') DEFAULT 'Ferma'
+	Elettrica boolean DEFAULT 0,
+	Stato enum('In Servizio','Danneggiata','Ferma') DEFAULT 'Ferma' NOT NULL
 )ENGINE=InnoDB;
 
 DROP TABLE IF EXISTS Stazione;
@@ -69,7 +69,7 @@ DROP TABLE IF EXISTS Colonnina;
 
 CREATE TABLE Colonnina(
 	Codice integer UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	Danneggiata boolean DEFAULT FALSE,
+	Danneggiata boolean DEFAULT 0,
 	Bicicletta integer UNSIGNED UNIQUE,
 	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(Codice) ON DELETE SET NULL
 )ENGINE=InnoDB;
