@@ -1,134 +1,156 @@
+
+
+/* NB: provo a fare dei trigger , non so se vanno bene cmq ....
+ 
+- i dbms ignorano il CHECK .... quindi anche se lo metto non fanno controlli in teoria ..... dioooooo trigger allora
+
+*/
+
+
 /*Le specializzazioni di Utente (Studente, Turista) vengono implementate nell'entità utilizzando tre attributi aventi la seguente logica:
-L'attributo Tipo identifica la tipologia di utente (base, studente, turista) tramite un char(1).
-Nel caso specifico dello studente vengono utilizzati due attributi char(10) per la matricola dell'Università di Padova e per la carta IoStudio.
-Poichè questi due attributi sono esclusivi tra loro anzichè utilizzare due campi char(10) di cui uno dei due rimarrebbe sempre vuoto, si utilizza un attributo univoco CodiceStudente e un attributo booleano IoStudio per identificare se CodiceStudente appartiene ad una carta IoStudio (TRUE) o ad una matricola universitaria (FALSE).
+L'attributo Tipo identifica la tipologia di utente (base, studente, turista) tramite un CHAR(1).
+Nel caso specifico dello studente vengono utilizzati due attributi CHAR(10) per la matricola dell'Università di Padova e per la carta IoStudio.
+Poichè questi due attributi sono esclusivi tra loro anzichè utilizzare due campi CHAR(10) di cui uno dei due rimarrebbe sempre vuoto, si utilizza un attributo univoco CodiceStudente e un attributo BOOLEANo IoStudio per identificare se CodiceStudente appartiene ad una carta IoStudio (TRUE) o ad una matricola universitaria (FALSE).
 */
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS Utente;
-
 CREATE TABLE Utente(
-	Nome varchar(20) NOT NULL,
-	Cognome varchar(20) NOT NULL,
-	DataNascita date NOT NULL,
-	LuogoNascita varchar(20) NOT NULL,
-	Residenza varchar(20) NOT NULL,
-	Indirizzo varchar(30) NOT NULL,
-	Email varchar(30) UNIQUE NOT NULL,
-	Tipo enum('Utente','Turista','Studente') DEFAULT 'Utente' NOT NULL,
-	CodiceStudente char(10),
-	IoStudio boolean,
-	Tessera integer UNSIGNED PRIMARY KEY,
-	FOREIGN KEY (Tessera) REFERENCES Tessera(Codice) ON DELETE CASCADE
-)ENGINE=InnoDB;
+	Nome VARCHAR(20) NOT NULL,
+	Cognome VARCHAR(20) NOT NULL,
+	DataNascita DATE NOT NULL,
+	LuogoNascita VARCHAR(20) NOT NULL,
+	Residenza VARCHAR(20) NOT NULL,
+	Indirizzo VARCHAR(30) NOT NULL,
+	Email VARCHAR(30) UNIQUE NOT NULL,
+	Tipo ENUM('Utente','Turista','Studente') DEFAULT 'Utente' NOT NULL,
+	CodiceStudente CHAR(10),
+	IoStudio BOOLEAN,
+	Tessera INTEGER UNSIGNED PRIMARY KEY,
+	FOREIGN KEY (Tessera) REFERENCES Tessera(Codice) ON DELETE CASCADE,
+	CONSTRAINT check_Studente CHECK (Tipo='Studente' AND CodiceStudente IS NOT NULL AND IoStudio IS NOT NULL)
+)ENGINE=INNODB;
 
 DROP TABLE IF EXISTS Tessera;
-
 CREATE TABLE Tessera(
-	Codice integer UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	DataScadenza date NOT NULL
-)ENGINE=InnoDB;
+	Codice INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	DataScadenza DATE NOT NULL
+)ENGINE=INNODB;
 
 /*Il sottotipo NoleggioTerminato presenta solo una relazione con l'entità Operazione (Deposito) rispetto a Noleggio quindi viene rappresentato aggiungengo un attributo a Noleggio utilizzandolo come chiave esterna dell'Operazione; quando nulla, l'istanza si riferisce ad un noleggio non terminato.*/
 
 DROP TABLE IF EXISTS Noleggio;
-
 CREATE TABLE Noleggio(
-	Tessera integer UNSIGNED NOT NULL,
-	Bicicletta integer UNSIGNED NOT NULL,
-	Prelievo integer PRIMARY KEY,
-	Deposito integer UNIQUE DEFAULT NULL,
+	Tessera INTEGER UNSIGNED NOT NULL,
+	Bicicletta INTEGER UNSIGNED NOT NULL,
+	Prelievo INTEGER PRIMARY KEY,
+	Deposito INTEGER UNIQUE DEFAULT NULL,
 	FOREIGN KEY (Tessera) REFERENCES Tessera(Codice) ON DELETE CASCADE,
 	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(Codice) ON DELETE CASCADE,
 	FOREIGN KEY (Prelievo) REFERENCES Operazione(Id) ON DELETE CASCADE,
 	FOREIGN KEY (Deposito) REFERENCES Operazione(Id) ON DELETE CASCADE
-)ENGINE=InnoDB;
+)ENGINE=INNODB;
 
 /*Le specializzazioni di Bicicletta possono venire rappresentate con un singolo attributo (Stato) */
 
 DROP TABLE IF EXISTS Bicicletta;
-
 CREATE TABLE Bicicletta(
-	Codice integer UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	Elettrica boolean DEFAULT 0,
-	Stato enum('In Servizio','Danneggiata','Ferma') DEFAULT 'Ferma' NOT NULL
-)ENGINE=InnoDB;
+	Codice INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	Elettrica BOOLEAN DEFAULT 0 NOT NULL,
+	Stato ENUM('In Servizio','Danneggiata','Ferma') DEFAULT 'Ferma' NOT NULL
+)ENGINE=INNODB;
 
 DROP TABLE IF EXISTS Stazione;
-
 CREATE TABLE Stazione(
-	Codice integer UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	Via varchar(30) NOT NULL
-)ENGINE=InnoDB;
+	Codice INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	Via VARCHAR(30) NOT NULL
+)ENGINE=INNODB;
 
-/*L'attributo Stato della Colonnina è rappresentabile con un booleano di nome Danneggiata; inoltre per identificare una colonnina occupata si usa la chiave esterna a Bicicletta ottenuta dalla relazione Posizione.*/
+/*L'attributo Stato della Colonnina è rappresentabile con un BOOLEANo di nome Danneggiata; inoltre per identificare una colonnina occupata si usa la chiave esterna a Bicicletta ottenuta dalla relazione Posizione.*/
 
 DROP TABLE IF EXISTS Colonnina;
-
 CREATE TABLE Colonnina(
-	Codice integer UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	Danneggiata boolean DEFAULT 0,
-	Bicicletta integer UNSIGNED UNIQUE,
-	Stazione integer NOT NULL,
+	Codice INTEGER UNSIGNED PRIMARY KEY,
+	Danneggiata BOOLEAN DEFAULT 0 NOT NULL,
+	Bicicletta INTEGER UNSIGNED UNIQUE,
+	Stazione INTEGER NOT NULL,
 	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(Codice) ON DELETE SET NULL,
 	FOREIGN KEY (Stazione) REFERENCES Stazione(Codice) ON DELETE CASCADE
-)ENGINE=InnoDB;
+)ENGINE=INNODB;
 
 /*Le specializzazioni di Operazione vengono rappresentate come un attributo che distingue Prelievo e Deposito.
 Se viene rimossa una colonnina nella tabella Operazione rimarrà comunque il codice di essa.
 */
 
 DROP TABLE IF EXISTS Operazione;
-
 CREATE TABLE Operazione(
-	Id integer UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	Orario datetime NOT NULL,
-	Colonnina integer UNSIGNED NOT NULL,
-	Trasporto boolean DEFAULT 0,
-	Tipo enum('Prelievo', 'Deposito') NOT NULL,
+	Id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	Orario DATETIME NOT NULL,
+	Colonnina INTEGER UNSIGNED NOT NULL,
+	Trasporto BOOLEAN DEFAULT 0 NOT NULL,
+	Tipo ENUM('Prelievo', 'Deposito') NOT NULL,
 	FOREIGN KEY (Colonnina) REFERENCES Colonnina(Codice) ON DELETE CASCADE,
 	UNIQUE(Orario,Colonnina)
-)ENGINE=InnoDB;
+)ENGINE=INNODB;
 
 /*Entità trasporto eliminata perchè diventa inutile rispetto ad avere un attributo in operazione per indicare il trasporto*/
 
 DROP TABLE IF EXISTS Manutenzione;
 
 CREATE TABLE Manutenzione(
-	Numero integer UNSIGNED,
-	Data date,
-	DescrizioneDanno varchar(100),
-	Colonnina integer UNSIGNED,
-	Bicicletta integer UNSIGNED,
+	Numero INTEGER UNSIGNED,
+	Data DATE,
+	DescrizioneDanno VARCHAR(100),
+	Colonnina INTEGER UNSIGNED,
+	Bicicletta INTEGER UNSIGNED,
 	PRIMARY KEY(Numero,Data),
 	FOREIGN KEY (Colonnina) REFERENCES Colonnina(Codice) ON DELETE CASCADE,
-	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(Codice) ON DELETE CASCADE
-)ENGINE=InnoDB;
+	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(Codice) ON DELETE CASCADE,
+	CONSTRAINT check_manutenzione CHECK (Colonnina IS NOT NULL OR Bicicletta IS NOT NULL)
+)ENGINE=INNODB;
 
 /*BISOGNA CREARE UN TRIGGER PER IL CONTROLLO CHE SOLO UNA DELLE DUE FOREIGN KEY VENGA USATA*/
 
 DROP TABLE IF EXISTS SegnalazioneRottura;
-
 CREATE TABLE SegnalazioneRottura(
-	Bicicletta boolean NOT NULL,
-	Colonnina integer UNSIGNED,
-	Tessera integer UNSIGNED,
+	Bicicletta BOOLEAN NOT NULL,
+	Colonnina INTEGER UNSIGNED,
+	Tessera INTEGER UNSIGNED,
 	PRIMARY KEY(Tessera,Colonnina),
 	FOREIGN KEY (Colonnina) REFERENCES Colonnina(Codice) ON DELETE CASCADE,
 	FOREIGN KEY (Tessera) REFERENCES Tessera(Codice) ON DELETE CASCADE
-)ENGINE=InnoDB;
+)ENGINE=INNODB;
 
 DROP TABLE IF EXISTS SegnalazioneMancanza;
-
 CREATE TABLE SegnalazioneMancanza(
-	Stazione integer UNSIGNED,
-	Tessera integer UNSIGNED,
+	Stazione INTEGER UNSIGNED,
+	Tessera INTEGER UNSIGNED,
 	PRIMARY KEY(Tessera,Stazione),
 	FOREIGN KEY (Stazione) REFERENCES Stazione(Codice) ON DELETE CASCADE,
 	FOREIGN KEY (Tessera) REFERENCES Tessera(Codice) ON DELETE CASCADE
-)ENGINE=InnoDB;
+)ENGINE=INNODB;
 
 SET FOREIGN_KEY_CHECKS=1;
 
 /*QUANDO LINKO UN'OPERAZIONE AD UN NOLEGGIO, DEVO AVERE IL BOOL TRASPORTO 0*/
 /*ATTENZIONE CREARE TRIGGER PER CONTROLLARE L'ELIMINAZIONE DI UNA STAZIONE/COLONNINA/OPERAZIONE SE C'E' UN NOLEGGIO IN CORSO*/
+
+/* trigger */
+
+DROP TRIGGER IF EXISTS update_scadenza_tessera; /*si può solo aggiundere tempo alla tessera, non tornare indietro*/
+CREATE TRIGGER update_scadenza_tessera BEFORE UPDATE ON Tessera FOR EACH ROW SET NEW.Codice = NULL WHEN NEW.DataScadenza <= OLD.DataScadenza;
+
+DROP TRIGGER IF EXISTS insert_noleggio; /*l'operazione usata nel noleggio deve essere un prelievo e non essere di trasporto*/
+CREATE TRIGGER insert-noleggio BEFORE INSERT ON Noleggio FOR EACH ROW BEGIN DECLARE num INTEGER; SELECT COUNT(*) INTO num FROM Operazione ON NEW.Prelievo = Operazione.Codice WHERE NEW.Prelievo = Operazione.Codice AND Operazione.Tipo = 'Prelievo' AND Operazione.Trasporto = 0; IF num ! 1 THEN SET NEW.Tessera = NULL; SIGNAL SQLSTATE 'qualcosaXDXD'; /*SET MESSAGE_TEXT := 'altro';*/ ELSE /*bisogna andare su colonnina e deletare la presenza della bicicletta)*/ END IF; END;
+
+/*idem per deposito, sempre se funziona XD*/
+
+
+
+/* query */
+
+/*ritorna le stazioni*/
+SELECT Codice FROM Stazione;
+
+/*ritorna le colonnine di una stazione*/
+SELECT Codice,Danneggiata,Bicicletta FROM Colonnina WHERE Colonnina.Stazione = xxx;

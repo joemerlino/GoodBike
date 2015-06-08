@@ -1,0 +1,9 @@
+-pagina con lista segnalazione rottura e manutenzioni ==== utente bob aggiustatutto
+-pagina con lista segnalazioni mancanze e trasporti ==== utente trasportatore
+-pagina cliente noleggiante con lo stato delle colonnine e bottoni per fare prelevare e depositare biciclette e segnalare
+-pagina iniziale
+-pagina info personali utente
+
+
+MERLIN LAVORA CAZZOOOOOOOOO
+
