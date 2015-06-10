@@ -80,14 +80,14 @@ CREATE TABLE Colonnina(
 /*Le specializzazioni di Operazione vengono rappresentate come un attributo che distingue Prelievo e Deposito.
 Se viene rimossa una colonnina nella tabella Operazione rimarrà comunque il codice di essa.
 */
-DROP TABLE IF EXISTS Operazione; /*trigger se trasporto allora TipologiaTrasporto not null*/
+DROP TABLE IF EXISTS Operazione; /*trigger se trasporto allora TipologiaTrasporto not null altrimenti IdTessera NOT NULL*/
 CREATE TABLE Operazione(
 	IdOperazione INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	Orario DATETIME NOT NULL,
 	Colonnina INTEGER UNSIGNED NOT NULL,
 	Tipo ENUM('Prelievo', 'Deposito','Trasporto') NOT NULL,
 	TipologiaTrasporto ENUM('Aggiunta','Rimozione'),
-	IdTessera INTEGER UNSIGNED NOT NULL,
+	IdTessera INTEGER UNSIGNED,
 	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale) ON DELETE CASCADE,
 	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE,
 	UNIQUE(Orario,Colonnina)
