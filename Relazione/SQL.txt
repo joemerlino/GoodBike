@@ -4,6 +4,8 @@
  
 - i dbms ignorano il CHECK .... quindi anche se lo metto non fanno controlli in teoria ..... dioooooo trigger allora
 
+ERRORE GRAVE : ORA COME ORA IL CODICEMATERIALE NON FA IL SUO LAVORO , FORSE SI AGGIUSTA CON UNA PROCEDURA
+
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,7 +38,7 @@ CREATE TABLE Utente(
 	IoStudio BOOLEAN,
 	IdTessera INTEGER UNSIGNED PRIMARY KEY,
 	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE,
-	CONSTRAINT check_Studente CHECK (Tipo='Studente' AND CodiceStudente IS NOT NULL AND IoStudio IS NOT NULL)
+	/*CONSTRAINT check_Studente CHECK (Tipo='Studente' AND CodiceStudente IS NOT NULL AND IoStudio IS NOT NULL)*/
 )ENGINE=INNODB;
 
 /* MATERIALE */
@@ -85,7 +87,8 @@ CREATE TABLE Operazione(
 	IdOperazione INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	Orario DATETIME NOT NULL,
 	Colonnina INTEGER UNSIGNED NOT NULL,
-	Tipo ENUM('Prelievo', 'Deposito','Trasporto') NOT NULL,
+	Tipo ENUM('PerNoleggio','Trasporto') NOT NULL,
+	TipologiaPerNoleggio ENUM('Prelievo','Deposito'),
 	TipologiaTrasporto ENUM('Aggiunta','Rimozione'),
 	IdTessera INTEGER UNSIGNED,
 	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale) ON DELETE CASCADE,
@@ -132,10 +135,21 @@ SET FOREIGN_KEY_CHECKS=1;
 /*QUANDO LINKO UN'OPERAZIONE AD UN NOLEGGIO, DEVO AVERE IL BOOL TRASPORTO 0*/
 /*ATTENZIONE CREARE TRIGGER PER CONTROLLARE L'ELIMINAZIONE DI UNA STAZIONE/COLONNINA/OPERAZIONE SE C'E' UN NOLEGGIO IN CORSO*/
 
-/* trigger */
+/* TRIGGER */
 
-DROP TRIGGER IF EXISTS update_scadenza_tessera; /*si può solo aggiundere tempo alla tessera, non tornare indietro*/
+/*si può solo aggiundere tempo alla tessera, non tornare indietro*/
+DROP TRIGGER IF EXISTS update_scadenza_tessera; 
 CREATE TRIGGER update_scadenza_tessera BEFORE UPDATE ON Tessera FOR EACH ROW SET NEW.Codice = NULL WHEN NEW.DataScadenza <= OLD.DataScadenza;
+
+/*un utente deve sempre rispettare regole di tipo : se studente allora IoStudio e CodiceStudente not null, se utente o turista null*/
+DROP TRIGGER IF EXISTS insert_new_studente; 
+CREATE TRIGGER insert_new_studente BEFORE INSERT ON Utente FOR EACH ROW BEGIN IF (NEW.Tipo == 'Studente' AND NEW.CodiceStudente IS NULL) OR (NEW.Tipo == 'Studente' AND NEW.IoStudio IS NULL) THEN SET NEW.IdTessera = NULL; ELSE SET NEW.CodiceStudente = NULL; NEW.IoStudio = NULL; ENDIF; END;
+
+DROP TRIGGER IF EXISTS update_new_studente; 
+CREATE TRIGGER update_new_studente BEFORE INSERT ON Utente FOR EACH ROW BEGIN IF OLD.Tipo != NEW.Tipo OR OLD.CodiceStudente != NEW.CodiceStudente OR OLD.IoStudio != NEW.IoStudio THEN IF (NEW.Tipo == 'Studente' AND NEW.CodiceStudente IS NULL) OR (NEW.Tipo == 'Studente' AND NEW.IoStudio IS NULL) THEN SET NEW.IdTessera = NULL; ELSE SET NEW.CodiceStudente = NULL; NEW.IoStudio = NULL; ENDIF; ENDIF; END;
+
+/*una bicicletta deve avere codicemateriale */
+
 
 /*
  *DROP TRIGGER IF EXISTS insert_noleggio; 
@@ -146,4 +160,7 @@ CREATE TRIGGER insert-noleggio BEFORE INSERT ON Noleggio FOR EACH ROW BEGIN DECL
 
 
 
-/* query */
+/* QUERY */
+
+/*per il controllo della password e il riperimento delle info personali (se ritorna qualcosa il login è valido, il qualcosa è per le info profilo)*/
+SELECT * FROM Utente JOIN Tessera WHERE Utente.IdTessera = 'xIdTessera' AND Utente.Email = 'xEmail';

@@ -1,4 +1,0 @@
--sulla segnalazione di mancanza, quando la vede un operatore, ci saranno le querry che mostrano quando e' stata fatta (se piu' vecchia di 2 giorni viene eliminata)
-- entrambe le segnalazioni stilano una classifica in ordine temporale e di quantita' mettendo ai primi posti le segnalazioni + vecchie(se c'e' l'orario) e con + utenti
--possibilità di inserire un bool su tessera (noleggioincorso?) che mi identifica se sto avendo un noleggio, per velocizzare la ricerca e togliere i join sulle query
--quindi il noleggio diventa astratto XD il centro del db è astratto HAHA
