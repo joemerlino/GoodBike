@@ -1,5 +1,3 @@
-% PROGETTO BASI DI DATI 2015 , MERLINO GIUSEPPE is CEO and VIOLETTO MIKI is SGUATTERO
-%
 % stato della relazione :
 %
 % abstract da rileggere e forse modificare
@@ -20,9 +18,9 @@
 \usepackage[colorlinks=true,linkcolor=black,urlcolor=blue]{hyperref} % ancore delle varie sezioni sul menu
 \usepackage{float}
 
-%\graphicspath{Immagini/} %non va ... bho
+%\graphicspath{Immagini/} non funziona
 
-\author{Giuseppe Merlino,Miki Violetto}
+\author{Giuseppe Merlino, Miki Violetto}
 \title{Relazione progetto BiciRent}
 \date{\today}
 
@@ -38,7 +36,6 @@
 %  link utili
 %  http://www.goodbikepadova.it/Default.aspx : GoodBike, dove prendiamo spunto per il progetto
 %  www.lucidchart.com : programma per fare i grafici dei schemi concettuale e logico
-%
 
 \section{Abstract}
 BiciRent è un servizio di bike sharing ispirato a Goodbike presente qui a Padova.\newline
@@ -247,10 +244,8 @@ Per prima cosa non sembrano esserci attributi che possono venire rimossi perché
 
 \paragraph{Efficienza della richiesta dello stato delle colonnine di una stazione}
 L'operazione in questione , allo stato attuale del database, consisterebbe nel chiedere alle 20 colonnine della stazione se sono occupate o libere o danneggiate, e ritornare i numeri di quelle occupate, di quelle rotte e di quelle danneggiate (magari no perché non èuna buona pubblicità XD).\newline
-Secondo i dati di utilizzo questa richiesta verrebbe eseguita 30000*20 volte al giorno (più i tipi delle biciclette disponibili); una proprosta potrebbe essere quella di inserire degli attributi nella stazione per ovviare a questo controllo continuo delle stazioni.\newline
-L'introduzione di attributi (2 o 3 ) ridurrebbe di molto il carico di lavoro, ma questi attributi verrebbero modificati 1700*2 volte al giorni dai noleggi, 200*x volte al giorno per mancanza ( il trasporto può essere di più biciclette)
-
-Non so fare i `conti` ma mi sa che è meglio introdurre gli attributi XD hahahah
+Secondo i dati di utilizzo questa richiesta verrebbe eseguita 30000*20 volte al giorno (più i tipi delle biciclette disponibili); una proposta potrebbe essere quella di inserire degli attributi nella stazione per ovviare a questo controllo continuo delle stazioni.\newline
+L'introduzione di attributi (2 o 3 ) ridurrebbe di molto il carico di lavoro, ma questi attributi verrebbero modificati 1700*2 volte al giorni dai noleggi, 200*x volte al giorno per mancanza (il trasporto può essere di più biciclette).
 
 \paragraph{Analisi tra Tessera e Utente}
 Essendo tessera e utente collegati con una relazione 1 a 1 sarebbe possibile unire le entità per risparmiare spazio ma risulterebbe controproducente dal lato computazionale poiché quasi la totalità delle operazioni non necessita dei dati personali relativi all'utente. \newline
@@ -266,6 +261,22 @@ Visto che le entità non sono necessarie per la rappresentazione della realtà m
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{Immagini-Grafici/Logico02.png}
+	\caption{Riorganizzazione entità Tessera}
+\end{figure}
+
+\paragraph{Ristrutturazione chiave primaria di Noleggio}
+Poiché ad ogni Noleggio creato viene effettuata un'operazione in Prelievo con un id univoco è possibile utilizzare tale chiave primaria per identificare anche il noleggio. \newline
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{Immagini-Grafici/Logico03.png}
+	\caption{Riorganizzazione entità Tessera}
+\end{figure}
+
+\paragraph{Rimozione Trasporto}
+L'entità Trasporto viene eliminata poiché diventa inutile rispetto ad avere un semplice attributo in Operazione che lo identifichi. \newline
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{Immagini-Grafici/Logico04.png}
 	\caption{Riorganizzazione entità Tessera}
 \end{figure}
 
