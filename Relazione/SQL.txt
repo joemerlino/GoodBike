@@ -1,16 +1,9 @@
 
- NB: provo a fare dei trigger , non so se vanno bene cmq ....
+NB: provo a fare dei trigger , non so se vanno bene cmq ....
  
 - i dbms ignorano il CHECK .... quindi anche se lo metto non fanno controlli in teoria ..... dioooooo trigger allora
 
 ERRORE GRAVE : ORA COME ORA IL CODICEMATERIALE NON FA IL SUO LAVORO , FORSE SI AGGIUSTA CON UNA PROCEDURA
-<<<<<<< Updated upstream
-
-*/
-
-SET FOREIGN_KEY_CHECKS=0;
-=======
->>>>>>> Stashed changes
 
 TESSERA
  NoleggioInCorso : x velocizzare
@@ -20,139 +13,6 @@ Le specializzazioni di Utente (Studente, Turista) vengono implementate nell'enti
 L'attributo Tipo identifica la tipologia di utente (base, studente, turista) tramite un CHAR(1).
 Nel caso specifico dello studente vengono utilizzati due attributi CHAR(10) per la matricola dell'Università di Padova e per la carta IoStudio.
 Poichè questi due attributi sono esclusivi tra loro anzichè utilizzare due campi CHAR(10) di cui uno dei due rimarrebbe sempre vuoto, si utilizza un attributo univoco CodiceStudente e un attributo BOOLEANo IoStudio per identificare se CodiceStudente appartiene ad una carta IoStudio (TRUE) o ad una matricola universitaria (FALSE).
-<<<<<<< Updated upstream
-*/
-DROP TABLE IF EXISTS Utente;
-CREATE TABLE Utente(
-	Nome VARCHAR(20) NOT NULL,
-	Cognome VARCHAR(20) NOT NULL,
-	DataNascita DATE NOT NULL,
-	LuogoNascita VARCHAR(20) NOT NULL,
-	Residenza VARCHAR(20) NOT NULL,
-	Indirizzo VARCHAR(30) NOT NULL,
-	Email VARCHAR(30) UNIQUE NOT NULL,
-	Tipo ENUM('Utente','Turista','Studente') DEFAULT 'Utente' NOT NULL,
-	CodiceStudente CHAR(10),
-	IoStudio BOOLEAN,
-	IdTessera INTEGER UNSIGNED PRIMARY KEY,
-	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE,
-	/*CONSTRAINT check_Studente CHECK (Tipo='Studente' AND CodiceStudente IS NOT NULL AND IoStudio IS NOT NULL)*/
-)ENGINE=INNODB;
-
-/* MATERIALE */
-DROP TABLE IF EXISTS Materiale;
-CREATE TABLE Materiale(
-	CodiceMateriale INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	Tipo ENUM('Bicicletta','Colonnina') NOT NULL/*x velocizzare alcune query, forse*/
-	Danneggiato BOOLEAN DEFAULT 0 NOT NULL,
-)ENGINE=INNODB;
-
-/*BICICLETTA*/
-/*Le specializzazioni di Bicicletta possono venire rappresentate con un singolo attributo (Stato) */
-DROP TABLE IF EXISTS Bicicletta; /*trigger insert check Materiale.Tipo=='Bicicletta'*/
-CREATE TABLE Bicicletta(
-	CodiceMateriale INTEGER UNSIGNED PRIMARY KEY,
-	Elettrica BOOLEAN DEFAULT 0 NOT NULL,
-	Stato ENUM('InServizio','InMagazzino') DEFAULT 'InMagazzino' NOT NULL,
-	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale) ON DELETE CASCADE
-)ENGINE=INNODB;
-
-/*STAZIONE*/
-DROP TABLE IF EXISTS Stazione;
-CREATE TABLE Stazione(
-	NomeStazione VARCHAR(20) PRIMARY KEY,
-	Via VARCHAR(30) NOT NULL
-)ENGINE=INNODB;
-
-/*COLONNINA*/
-/*L'attributo Stato della Colonnina è rappresentabile con un BOOLEANo di nome Danneggiata; inoltre per identificare una colonnina occupata si usa la chiave esterna a Bicicletta ottenuta dalla relazione Posizione.*/
-DROP TABLE IF EXISTS Colonnina;
-CREATE TABLE Colonnina(
-	CodiceMateriale INTEGER UNSIGNED PRIMARY KEY,
-	Bicicletta INTEGER UNSIGNED UNIQUE,
-	NomeStazione VARCHAR(20) NOT NULL,
-	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale) ON DELETE CASCADE,
-	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale) ON DELETE SET NULL,
-	FOREIGN KEY (NomeStazione) REFERENCES Stazione(Nome) ON DELETE CASCADE
-)ENGINE=INNODB;
-
-/*OPERAZIONE*/
-/*Le specializzazioni di Operazione vengono rappresentate come un attributo che distingue Prelievo e Deposito.
-Se viene rimossa una colonnina nella tabella Operazione rimarrà comunque il codice di essa.
-*/
-DROP TABLE IF EXISTS Operazione; /*trigger se trasporto allora TipologiaTrasporto not null altrimenti IdTessera NOT NULL*/
-CREATE TABLE Operazione(
-	IdOperazione INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	Orario DATETIME NOT NULL,
-	Colonnina INTEGER UNSIGNED NOT NULL,
-	Tipo ENUM('PerNoleggio','Trasporto') NOT NULL,
-	TipologiaPerNoleggio ENUM('Prelievo','Deposito'),
-	TipologiaTrasporto ENUM('Aggiunta','Rimozione'),
-	IdTessera INTEGER UNSIGNED,
-	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale) ON DELETE CASCADE,
-	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE,
-	UNIQUE(Orario,Colonnina)
-)ENGINE=INNODB;
-
-/* MANUTENZIONE */
-/*Entità trasporto eliminata perchè diventa inutile rispetto ad avere un attributo in operazione per indicare il trasporto*/
-DROP TABLE IF EXISTS Manutenzione;
-CREATE TABLE Manutenzione(
-	Numero INTEGER UNSIGNED,
-	Data DATE,
-	DescrizioneDanno VARCHAR(100),
-	CodiceMateriale INTEGER UNSIGNED NOT NULL,
-	PRIMARY KEY(Numero,Data),
-	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale) ON DELETE CASCADE
-)ENGINE=INNODB;
-
-/* SEGNALAZIONEROTTURA */
-DROP TABLE IF EXISTS SegnalazioneRottura;
-CREATE TABLE SegnalazioneRottura(
-	Colonnina INTEGER UNSIGNED,
-	IdTessera INTEGER UNSIGNED,
-	Bicicletta BOOLEAN NOT NULL,
-	PRIMARY KEY(Tessera,Colonnina),
-	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale) ON DELETE CASCADE,
-	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
-)ENGINE=INNODB;
-
-/* SEGNALAZIONEMANCANZA */
-DROP TABLE IF EXISTS SegnalazioneMancanza;
-CREATE TABLE SegnalazioneMancanza(
-	NomeStazione VARCHAR(20),
-	IdTessera INTEGER UNSIGNED,
-	Data DATE NOT NULL,
-	PRIMARY KEY(Tessera,Stazione),
-	FOREIGN KEY (NomeStazione) REFERENCES Stazione(NomeStazione) ON DELETE CASCADE,
-	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
-)ENGINE=INNODB;
-
-SET FOREIGN_KEY_CHECKS=1;
-
-/*QUANDO LINKO UN'OPERAZIONE AD UN NOLEGGIO, DEVO AVERE IL BOOL TRASPORTO 0*/
-/*ATTENZIONE CREARE TRIGGER PER CONTROLLARE L'ELIMINAZIONE DI UNA STAZIONE/COLONNINA/OPERAZIONE SE C'E' UN NOLEGGIO IN CORSO*/
-
-/* TRIGGER */
-
-/*si può solo aggiundere tempo alla tessera, non tornare indietro*/
-DROP TRIGGER IF EXISTS update_scadenza_tessera; 
-CREATE TRIGGER update_scadenza_tessera BEFORE UPDATE ON Tessera FOR EACH ROW SET NEW.Codice = NULL WHEN NEW.DataScadenza <= OLD.DataScadenza;
-
-/*un utente deve sempre rispettare regole di tipo : se studente allora IoStudio e CodiceStudente not null, se utente o turista null*/
-DROP TRIGGER IF EXISTS insert_new_studente; 
-CREATE TRIGGER insert_new_studente BEFORE INSERT ON Utente FOR EACH ROW BEGIN IF (NEW.Tipo == 'Studente' AND NEW.CodiceStudente IS NULL) OR (NEW.Tipo == 'Studente' AND NEW.IoStudio IS NULL) THEN SET NEW.IdTessera = NULL; ELSE SET NEW.CodiceStudente = NULL; NEW.IoStudio = NULL; ENDIF; END;
-
-DROP TRIGGER IF EXISTS update_new_studente; 
-CREATE TRIGGER update_new_studente BEFORE INSERT ON Utente FOR EACH ROW BEGIN IF OLD.Tipo != NEW.Tipo OR OLD.CodiceStudente != NEW.CodiceStudente OR OLD.IoStudio != NEW.IoStudio THEN IF (NEW.Tipo == 'Studente' AND NEW.CodiceStudente IS NULL) OR (NEW.Tipo == 'Studente' AND NEW.IoStudio IS NULL) THEN SET NEW.IdTessera = NULL; ELSE SET NEW.CodiceStudente = NULL; NEW.IoStudio = NULL; ENDIF; ENDIF; END;
-
-/*una bicicletta deve avere codicemateriale */
-
-
-/*
- *DROP TRIGGER IF EXISTS insert_noleggio; 
-CREATE TRIGGER insert-noleggio BEFORE INSERT ON Noleggio FOR EACH ROW BEGIN DECLARE num INTEGER; SELECT COUNT(*) INTO num FROM Operazione ON NEW.Prelievo = Operazione.Codice WHERE NEW.Prelievo = Operazione.Codice AND Operazione.Tipo = 'Prelievo' AND Operazione.Trasporto = 0; IF num ! 1 THEN SET NEW.Tessera = NULL; SIGNAL SQLSTATE 'qualcosaXDXD'; ELSE bisogna andare su colonnina e deletare la presenza della bicicletta) END IF; END;
-=======
 CONSTRAINT check_Studente CHECK (Tipo='Studente' AND CodiceStudente IS NOT NULL AND IoStudio IS NOT NULL)
 
 MATERIALE
@@ -176,35 +36,3 @@ Entità trasporto eliminata perchè diventa inutile rispetto ad avere un attribu
 
 QUANDO LINKO UN'OPERAZIONE AD UN NOLEGGIO, DEVO AVERE IL BOOL TRASPORTO 0
 ATTENZIONE CREARE TRIGGER PER CONTROLLARE L'ELIMINAZIONE DI UNA STAZIONE/COLONNINA/OPERAZIONE SE C'E' UN NOLEGGIO IN CORSO
-
-TRIGGER 
-
-si può solo aggiundere tempo alla tessera, non tornare indietro
-DROP TRIGGER IF EXISTS update_scadenza_tessera; 
-CREATE TRIGGER update_scadenza_tessera BEFORE UPDATE ON Tessera FOR EACH ROW SET NEW.Codice = NULL WHEN NEW.DataScadenza <= OLD.DataScadenza;
-
-un utente deve sempre rispettare regole di tipo : se studente allora IoStudio e CodiceStudente not null, se utente o turista null
-DROP TRIGGER IF EXISTS insert_new_studente; 
-CREATE TRIGGER insert_new_studente BEFORE INSERT ON Utente FOR EACH ROW BEGIN IF (NEW.Tipo == 'Studente' AND NEW.CodiceStudente IS NULL) OR (NEW.Tipo == 'Studente' AND NEW.IoStudio IS NULL) THEN SET NEW.IdTessera = NULL; ELSE SET NEW.CodiceStudente = NULL; NEW.IoStudio = NULL; ENDIF; END;
->>>>>>> Stashed changes
-
-DROP TRIGGER IF EXISTS update_new_studente; 
-CREATE TRIGGER update_new_studente BEFORE INSERT ON Utente FOR EACH ROW BEGIN IF OLD.Tipo != NEW.Tipo OR OLD.CodiceStudente != NEW.CodiceStudente OR OLD.IoStudio != NEW.IoStudio THEN IF (NEW.Tipo == 'Studente' AND NEW.CodiceStudente IS NULL) OR (NEW.Tipo == 'Studente' AND NEW.IoStudio IS NULL) THEN SET NEW.IdTessera = NULL; ELSE SET NEW.CodiceStudente = NULL; NEW.IoStudio = NULL; ENDIF; ENDIF; END;
-
-una bicicletta deve avere codicemateriale
-
-DROP TRIGGER IF EXISTS insert_noleggio; 
-CREATE TRIGGER insert-noleggio BEFORE INSERT ON Noleggio FOR EACH ROW BEGIN DECLARE num INTEGER; SELECT COUNT(*) INTO num FROM Operazione ON NEW.Prelievo = Operazione.Codice WHERE NEW.Prelievo = Operazione.Codice AND Operazione.Tipo = 'Prelievo' AND Operazione.Trasporto = 0; IF num ! 1 THEN SET NEW.Tessera = NULL; SIGNAL SQLSTATE 'qualcosaXDXD'; ELSE bisogna andare su colonnina e deletare la presenza della bicicletta) END IF; END;
-
-*idem per deposito, sempre se funziona XD
-
-QUERY
-
-<<<<<<< Updated upstream
-/* QUERY */
-
-/*per il controllo della password e il riperimento delle info personali (se ritorna qualcosa il login è valido, il qualcosa è per le info profilo)*/
-=======
-per il controllo della password e il riperimento delle info personali (se ritorna qualcosa il login è valido, il qualcosa è per le info profilo)
->>>>>>> Stashed changes
-SELECT * FROM Utente JOIN Tessera WHERE Utente.IdTessera = 'xIdTessera' AND Utente.Email = 'xEmail';
