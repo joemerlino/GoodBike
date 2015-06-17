@@ -19,3 +19,5 @@
 **/*.lof
 **/*.tex.backup
 **/*.synctex.gz
+
+**/connect.php

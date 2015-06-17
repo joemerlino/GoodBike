@@ -30,19 +30,4 @@ function page_foot() {
   echo "<div class='foot'><p>Giuseppe Merlino, Miki Violetto</p></div>";
 };
 
-// Si connette e seleziona il database
-function dbConnect() {  // da sostituire 'login', 'password'
-  $server = "basidati";
-  $username = "login";
-  $password = "password";
-  $dbname = "login-PR";
-  
-  $conn = mysql_connect($server,$username,$password)
-    or die("Impossibile connettersi!");
-    
-  mysql_select_db($dbname,$conn);
-  
-  return $conn;
-}
-
 ?>
