@@ -3,6 +3,8 @@
 /.project
 **/.directory
 
+**/vivi
+
 # textfile
 **/~*
 **/..*.kate-swp
