@@ -9,7 +9,7 @@ function connectDbServer() {
 //select database
 function selectDatabase($connect) {
   $dbname = "mviolett-PR";
-  return mysql_select_db($dbname,$conn);
+  return mysql_select_db($dbname,$connect);
 }
 
 // inizio html
@@ -26,7 +26,8 @@ function page_start($title) {
 <meta name="language" content="italian it"/>
 <link href="$urlcss" rel="stylesheet" type="text/css" media="all">
 </head>
-<body >
+<body>
+<h1>BiciRent</h1>
 START;
 //<meta http-equiv="refresh" content="3; url=$prev_page">
 //<meta name="title" content="Login"/>
