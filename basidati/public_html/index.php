@@ -7,15 +7,20 @@ page_start("Home - BiciRent");
 if($tessera)
   echo "Benvenuto nel sistema $tessera";
 else {
-  if(check_post_login()) {
-    $loggato = login_session();
-    if($loggato) {
-      echo "Benvenuto nel sistema ".$_SESSION['id_tessera'];
+  if($_POST and $_POST["submit"] = "Entra") {
+    $conn=connectDbServer();
+    $connect=selectDatabase($conn);
+    $utente=mysql_query(query_sel_utente($_POST["idtes"],$conn));
+    if(mysql_num_rows($utente) == 1) {
+      $row = mysql_fetch_assoc($utente);
+      $tessera = $row["IdTessera"];
+      $_SESSION["id_tessera"] = $tessera;
+      echo "Benvenuto nel sistema $tessera";
     }
     else {
       echo "<p>Errore, IdTessera errato, inserisci l'id esatto della tua tessera per iniziare</p>";
       echo "<form action='index.php' method='POST'>";
-      echo "<p>Inserisci IdTessera: <input type='text' name='idtes' value='".$_POST['idtes']."/></p>";
+      echo "<p>Inserisci IdTessera: <input type='text' name='idtes' value='".$_POST['idtes']."'/></p>";
       echo "<p><input type='submit' value='Entra'></p></form>";
     }
   }
@@ -29,5 +34,8 @@ else {
 ENDFORM;
   }
 }
+
+echo "<div><p>pulsante admin</p></div>";
+
 page_end();
 ?>
