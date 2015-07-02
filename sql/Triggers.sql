@@ -1,9 +1,35 @@
 /* Triggers.sql */
 
+/*vanno */
+DROP TRIGGER IF EXISTS insert_utente;
+
+DELIMITER |
+CREATE TRIGGER insert_bicicletta 
+AFTER INSERT ON Bicicletta 
+FOR EACH ROW BEGIN
+DECLARE codice INTEGER;
+SELECT MAX(CodiceMateriale) INTO codice FROM Materiale GROUP BY CodiceMateriale;
+codice = codice + 1;
+INSERT INTO Materiale (CodiceMateriale, Elettrica, Stato) VALUES (codice,"Bicicletta",0)
+UPDATE Bicicletta SET NEW.CodiceMateriale = codice;
+END|
+DELIMITER;
 
 
 
+/* non vanno */
+DROP TRIGGER IF EXISTS insert_bicicletta;
 
+DELIMITER |
+CREATE TRIGGER insert_bicicletta 
+AFTER INSERT ON Bicicletta 
+FOR EACH ROW BEGIN
+INSERT INTO Materiale (Tipo, Danneggiato) VALUES ('Bicicletta',0);
+DECLARE codice INTEGER UNSIGNED;
+SELECT MAX(CodiceMateriale) INTO codice FROM Materiale GROUP BY CodiceMateriale;
+UPDATE Bicicletta SET NEW.CodiceMateriale = codice;
+END|
+DELIMITER;
 
 /*
 ////////////////////////////////////

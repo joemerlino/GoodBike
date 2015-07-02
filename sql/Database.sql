@@ -72,7 +72,7 @@ CREATE TABLE Colonnina(
 	UNIQUE(Bicicletta),
 	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale) ON DELETE CASCADE,
 	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale) ON DELETE SET NULL,
-	FOREIGN KEY (NomeStazione) REFERENCES Stazione(NomeStazione) ON DELETE CASCADE
+	FOREIGN KEY (NomeStazione) REFERENCES Stazione(NomeStazione) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=INNODB;
 
 /*OPERAZIONE*/
