@@ -24,7 +24,7 @@ function page_start($title) {
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="author" content="Giuseppe Merlino, Miki Violetto"/>
 <meta name="language" content="italian it"/>
-<link href="$urlcss" rel="stylesheet" type="text/css" media="all">
+<link href="stylesheet/$urlcss" rel="stylesheet" type="text/css" media="all">
 </head>
 <body>
 <h1>BiciRent</h1>

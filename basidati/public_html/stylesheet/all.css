@@ -1,0 +1,247 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+body{
+  background-color: #C0C0C0;
+  font-size: 12pt;
+}
+
+table{
+  margin: 20px auto 0 auto;
+  width: 900px;
+  border: 3px solid black;
+}
+
+td{
+  text-align: center;
+  border: 1px double black;
+}
+
+th{
+  background-color: orange;
+  border: 1px double black;
+}
+
+form{
+  margin:10px 20px 0px;
+}
+
+fieldset {
+  width:350px;
+  margin:10px 0px;
+  border:1px;
+  border-style: solid;
+  border-color: gray;
+}
+
+input{
+  margin:3px 0px 7px 0px;
+}
+
+#submit{
+  margin-top:10px;
+}
+
+p{
+  margin: 15px 0px;
+}
+
+label{
+  margin: 15px;
+  padding-left:5px;
+}
+
+span{
+  margin-right:20px;
+}
+
+#tot{
+  margin-right: 0px;
+  margin-left: 50px;
+}
+
+#content {
+  background-color: white;
+  padding: 30px;
+  width: 1100px;
+  margin: 0 auto;
+  margin-top: 20px;
+  box-shadow: 20px 20px 20px gray;
+  border-radius:5px;
+}
+
+#navbar {
+  width:auto;
+  height: 70px;  
+}
+
+#body {
+  clear: both;
+  margin: 40px 40px 15px 40px;
+}
+
+#logo {
+  float: left;
+  height: 150px;
+  width: 170px;
+  background: url("../imgs/logo.png");
+  background-repeat: no-repeat;
+}
+
+#menu {
+  padding-top:25px;
+}
+
+#path {
+  font-size: 17px;
+  margin-top: 30px;
+  margin-left: 225px;
+}
+
+#menu li {
+  margin-left:55px;
+  font-size: 20px;
+  display: inline;
+}
+
+.contentFooter {
+  padding-top: 1em;
+  font-size: small;
+}
+
+#footer {
+  margin: 15px 10px;
+  text-align: center;
+  font-size: small;
+}
+
+.livello_a{
+  display:inline-table;
+  height: 200px;
+  width: 200px;
+  margin: 0px 75px;
+  text-align:center;
+}
+
+#image{
+  width: 410px;
+  margin-top: 30px;
+  box-shadow: 20px 20px 20px gray;
+  border-radius:5px;
+  display: table-cell;
+  vertical-align:middle;
+  text-align:center;
+}
+
+#image img{
+  margin:auto;
+  max-height: 450px;
+  min-height: 300px;
+  max-width: 400px;
+}
+
+.img{
+  text-align: center;
+}
+
+#scheda{
+  display: table-cell;
+  padding-left: 100px;
+  width:430px;
+  vertical-align:middle;
+}
+
+.item{
+  width:auto;
+  height:80px;
+  margin:20px 0px;
+}
+
+.img{
+  width: 150px;
+  display:table-cell;
+}
+
+.dettagli{
+  display:table-cell;
+  vertical-align: top;
+}
+
+.item_row{
+  display:table-cell;
+  width:850px;
+}
+
+.item_row img{
+  max-height:74px;
+  max-width:74px;
+}
+
+.prezzo{
+  display:table-cell;
+  vertical-align:middle;
+  width:70px;
+}
+
+.link{
+  display:table-cell;
+  vertical-align:middle;
+}
+
+.delete {
+  display:inline-block;
+  margin-left:30px;
+  height:30px;
+  width:30px;
+}
+
+#totale{
+  float:right;
+  margin-right: 135px;
+  margin-top: 30px;
+  text-align: right;
+}
+
+#scontato{
+  margin-right: 0px;
+}
+
+#login{
+  padding-left: 100px;
+  display:table-cell;
+  vertical-align: middle;
+  margin: auto;
+}
+
+#register{
+  padding-left: 100px;
+  display:table-cell;
+  vertical-align: middle;
+  margin: auto;
+}
+
+#disponibilita{
+  margin-top:50px;
+}
+
+#taglia_numero{
+  display:table-cell;
+  padding-left:200px;
+  vertical-align: middle;
+}
+
+#taglia_numero table{
+  width:200px;
+}
+
+#sesso{
+  display:table-cell;
+  padding-left:200px;
+  vertical-align: middle;
+}
+
+#sesso table{
+  width:200px;
+}
