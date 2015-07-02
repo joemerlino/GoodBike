@@ -1,6 +1,6 @@
  
 <?php
-require("Library.php");
+require("library.php");
 
 page_start("Home");
 session_start();  

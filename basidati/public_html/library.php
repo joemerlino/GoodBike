@@ -58,4 +58,64 @@ function page_foot() {
 FOOT;
 };
 
+//controlla se sono loggato
+function check_session() {
+  session_start();
+  if(isset($_SESSION['id_tessera'])
+    return true;
+  else
+    return false;
+}
+
+//fa il controllo e ritorna id_tessera
+function get_id_tessera() {
+  if(check_session())
+    return $_SESSION['id_tessera'];
+  return false;
+}
+
+//fa il logout
+function logout() {
+  session_start();
+  if(isset($_SESSION['id_tessera']) {
+    unset($_SESSION['id_tessera']);
+    session_destroy();
+  }
+}
+
+//controlla se esiste quel login
+function check_login($conn,$id_tessera) {
+  $utente=mysql_query(query_sel_utente($id_tessera),$connect) or die("Query fallita" . mysql_error($conn));
+  if(!mysql_num_rows($utente))
+    return false;
+  return $utente;
+}
+
+//fa il login
+function login($conn,$id_tessera) {
+  $utente = check_login($conn,$id_tessera);
+  if(!$utente)
+    return false; //non esiste quell'utente
+  return mysql_fetch_assoc($utente)["Id_Tessera"];
+}
+function login_session($conn) {
+  if($_POST and $_POST["submit"] = "Entra" and $_POST["idtes"]) {
+    $tessera = login($conn,$_POST["idtes"]);
+    if(!$tessera)
+      return false;
+    $_SESSION["id_tessera"] = $tessera;
+    return true;
+  }
+  return false;
+}
+
+
+
+
+//stringhe query
+function query_sel_utente($id_tessera) {
+  return "SELECT * FROM TESSERA WHERE IdTessera = \"$id_tessera\"";
+}
+
+
 ?>
