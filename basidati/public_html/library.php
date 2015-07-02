@@ -27,15 +27,18 @@ function page_start($title) {
 <link href="stylesheet/$urlcss" rel="stylesheet" type="text/css" media="all">
 </head>
 <body>
-<h1>BiciRent</h1>
 START;
-//<meta http-equiv="refresh" content="3; url=$prev_page">
 //<meta name="title" content="Login"/>
 //<meta name="viewport" content="width=device-width, user-scalable=no"/>
 //<meta http-equiv="Content-Script-Type" content="text/javascript"/>
 //<link rel="icon" href="imgs/favicon.png" type="image/ico"/>
 //<link href="stylesheet/style.css" rel="stylesheet" type="text/css" media="screen"/>
 };
+
+//fa redirect a dove
+function redirect($dove,$secondi) {
+header("location: $dove");
+}
 
 // fine html
 function page_end() {
@@ -58,64 +61,60 @@ function page_foot() {
 FOOT;
 };
 
-//controlla se sono loggato
+//controlla se sono loggato e nel caso ritorna id_tessera
 function check_session() {
   session_start();
-  if(isset($_SESSION['id_tessera'])
-    return true;
-  else
-    return false;
-}
-
-//fa il controllo e ritorna id_tessera
-function get_id_tessera() {
-  if(check_session())
-    return $_SESSION['id_tessera'];
-  return false;
+  if(isset($_SESSION['id_tessera']))
+    return $_SESSION['id_tessera'];;
+  return FALSE;
 }
 
 //fa il logout
-function logout() {
-  session_start();
-  if(isset($_SESSION['id_tessera']) {
+function logout() { //devo avere già controllato session
+  if(isset($_SESSION['id_tessera'])) {
     unset($_SESSION['id_tessera']);
     session_destroy();
   }
 }
 
 //controlla se esiste quel login
-function check_login($conn,$id_tessera) {
-  $utente=mysql_query(query_sel_utente($id_tessera),$connect) or die("Query fallita" . mysql_error($conn));
+function check_login($id_tessera) {
+  $connect=connectDbServer();
+  $db=selectDatabase($connect);
+  $utente=mysql_query(query_sel_utente($id_tessera),$connect) or die("Query fallita" . mysql_error($connect));
   if(!mysql_num_rows($utente))
-    return false;
+    return FALSE;
   return $utente;
 }
 
 //fa il login
-function login($conn,$id_tessera) {
-  $utente = check_login($conn,$id_tessera);
+function login($id_tessera) {
+  $utente = check_login($id_tessera);
   if(!$utente)
-    return false; //non esiste quell'utente
-  return mysql_fetch_assoc($utente)["Id_Tessera"];
+    return FALSE; //non esiste quell'utente
+  $row = mysql_fetch_assoc($utente);
+  return $row["IdTessera"];
 }
-function login_session($conn) {
-  if($_POST and $_POST["submit"] = "Entra" and $_POST["idtes"]) {
-    $tessera = login($conn,$_POST["idtes"]);
-    if(!$tessera)
-      return false;
-    $_SESSION["id_tessera"] = $tessera;
+
+//controlla se sto arrivando con la post del login
+function check_post_login() {
+  if($_POST and $_POST["submit"] = "Entra" and $_POST["idtes"])
     return true;
-  }
   return false;
 }
 
-
-
+//fa il login e setta la sessione
+function login_session() {
+  $tessera = login($_POST["idtes"]);
+  if(!$tessera)
+    return FALSE;
+  $_SESSION["id_tessera"] = $tessera;
+  return TRUE;
+}
 
 //stringhe query
 function query_sel_utente($id_tessera) {
-  return "SELECT * FROM TESSERA WHERE IdTessera = \"$id_tessera\"";
+  return "SELECT * FROM Tessera WHERE IdTessera = \"$id_tessera\"";
 }
-
 
 ?>
