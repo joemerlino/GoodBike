@@ -77,41 +77,6 @@ function logout() { //devo avere già controllato session
   }
 }
 
-//controlla se esiste quel login
-function check_login($id_tessera) {
-  $connect=connectDbServer();
-  $db=selectDatabase($connect);
-  $utente=mysql_query(query_sel_utente($id_tessera),$connect) or die("Query fallita" . mysql_error($connect));
-  if(!mysql_num_rows($utente))
-    return FALSE;
-  return $utente;
-}
-
-//fa il login
-function login($id_tessera) {
-  $utente = check_login($id_tessera);
-  if(!$utente)
-    return FALSE; //non esiste quell'utente
-  $row = mysql_fetch_assoc($utente);
-  return $row["IdTessera"];
-}
-
-//controlla se sto arrivando con la post del login
-function check_post_login() {
-  if($_POST and $_POST["submit"] = "Entra" and $_POST["idtes"])
-    return true;
-  return false;
-}
-
-//fa il login e setta la sessione
-function login_session() {
-  $tessera = login($_POST["idtes"]);
-  if(!$tessera)
-    return FALSE;
-  $_SESSION["id_tessera"] = $tessera;
-  return TRUE;
-}
-
 //stringhe query
 function query_sel_utente($id_tessera) {
   return "SELECT * FROM Tessera WHERE IdTessera = \"$id_tessera\"";
