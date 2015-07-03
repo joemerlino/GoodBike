@@ -1,1 +1,5 @@
 anche se non sicuro per siti che necessitano di alta sicurezza, per le finalità del rogetto usiamo session del php, che in modo semplice ci fornisce i strumenti per salvare delle informazioni tra una pacina e l'altra.
+
+
+
+fare controllo scadenza piano tessera all'accesso dell'utente
