@@ -96,7 +96,6 @@ CREATE TABLE Manutenzione(
 CREATE TABLE SegnalazioneRottura(
 	Colonnina INTEGER UNSIGNED,
 	IdTessera INTEGER UNSIGNED,
-	Bicicletta BOOLEAN NOT NULL,
 	PRIMARY KEY(IdTessera,Colonnina),
 	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale) ON DELETE CASCADE,
 	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
@@ -118,6 +117,9 @@ DROP TRIGGER IF EXISTS update_tessera;
 DROP TRIGGER IF EXISTS insert_bicicletta;
 DROP TRIGGER IF EXISTS insert_colonnina;
 DROP TRIGGER IF EXISTS insert_operazione;
+DROP TRIGGER IF EXISTS insert_manutenzione;
+DROP TRIGGER IF EXISTS insert_segnalazione_rottura;
+DROP TRIGGER IF EXISTS insert_segnalazione_mancanza;
 
 DELIMITER |
 CREATE TRIGGER insert_utente
@@ -156,7 +158,7 @@ BEFORE INSERT ON Colonnina
 FOR EACH ROW BEGIN
 DECLARE num INTEGER UNSIGNED;
 SELECT Bicicletta.CodiceMateriale INTO num FROM Bicicletta LEFT JOIN Materiale ON Bicicletta.CodiceMateriale = Materiale.CodiceMateriale WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta LIMIT 1;
-IF num <> NEW.Bicicletta THEN SET NEW.CodiceMateriale = NULL;
+IF num <> NEW.Bicicletta /*su Bicicletta ho un CodiceMateriale che non é una bicicletta*/ THEN SET NEW.CodiceMateriale = NULL;
 ELSE INSERT INTO Materiale(Danneggiato) VALUES (0);
 SELECT Materiale.CodiceMateriale INTO num FROM Materiale ORDER BY Materiale.CodiceMateriale DESC LIMIT 1;
 SET NEW.CodiceMateriale = num;
@@ -168,20 +170,66 @@ DELIMITER |
 CREATE TRIGGER insert_operazione
 BEFORE INSERT ON Operazione
 FOR EACH ROW BEGIN
-/* motivazione*/
+DECLARE nol BOOLEAN;
 IF NEW.Motivazione = 'Prelievo' OR NEW.Motivazione = 'Deposito' THEN
 IF NEW.IdTessera IS NULL THEN SET NEW.IdOperazione = NULL;
 END IF;
-ELSE SET NEW.IdTessera = NULL;
-/*cambio di stato della bicicletta*/
-IF NEW.Motivazione = 'Aggiunta' THEN UPDATE Bicicletta SET Stato = 'InServizio' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
-ELSE /*NEW.Motivazione = 'Rimozione'*/ UPDATE Bicicletta SET Stato = 'InMagazzino' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
+SELECT NoleggioInCorso INTO nol FROM Tessera WHERE Tessera.IdTessera = NEW.IdTessera;
+IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN SET NEW.IdOperazione = NULL;
+ELSE UPDATE Tessera SET NoleggioInCorso = TRUE WHERE Tessera.IdTessera = NEW.IdTessera;
+END IF;
+END IF;
+IF NEW.Motivazione = 'Deposito' THEN IF nol = FALSE THEN SET NEW.IdOperazione = NULL;
+ELSE UPDATE Tessera SET NoleggioInCorso = FALSE WHERE Tessera.IdTessera = NEW.IdTessera;
+END IF;
+END IF;
+ELSE
+IF NEW.Motivazione = 'Aggiunta' THEN
+IF NEW.IdTessera IS NOT NULL  THEN SET NEW.IdTessera = NULL;
+END IF;
+UPDATE Bicicletta SET Stato = 'InServizio' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
+END IF;
+IF NEW.Motivazione = 'Rimozione' THEN
+IF NEW.IdTessera IS NOT NULL  THEN SET NEW.IdTessera = NULL;
+END IF;
+UPDATE Bicicletta SET Stato = 'InMagazzino' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
 END IF;
 END IF;
 END |
 DELIMITER ;
 
-/*mancano altri trigger*/
+DELIMITER |
+CREATE TRIGGER insert_manutenzione
+BEFORE INSERT ON Manutenzione
+FOR EACH ROW BEGIN
+DELETE FROM SegnalazioneRottura WHERE NEW.CodiceMateriale = Manutenzione.Colonnina;
+UPDATE CodiceMateriale SET CodiceMateriale.danneggiata = FALSE WHERE NEW.CodiceMateriale = Materiale.CodiceMateriale;
+END |
+DELIMITER ;
+
+DELIMITER |
+CREATE TRIGGER insert_segnalazione_rottura
+BEFORE INSERT ON SegnalazioneRottura
+FOR EACH ROW BEGIN
+UPDATE Materiale SET Materiale.danneggiata = TRUE WHERE NEW.Colonnina = Materiale.CodiceMateriale;
+UPDATE Materiale JOIN Colonnina ON Materiale.CodiceMateriale = Colonnina.Bicicletta SET Materiale.danneggiata = TRUE WHERE NEW.Colonnina = Colonnina.CodiceMateriale;
+END |
+DELIMITER ;
+
+DELIMITER |
+CREATE TRIGGER insert_segnalazione_mancanza
+BEFORE INSERT ON SegnalazioneMancanza
+FOR EACH ROW BEGIN
+DECLARE num INTEGER;
+DECLARE vuo INTEGER;
+SELECT COUNT(CodiceMateriale) INTO num FROM Colonnina WHERE Colonnina.NomeStazione = NEW.NomeStazione;
+SELECT COUNT(CodiceMateriale) INTO vuo FROM Colonnina WHERE Colonnina.NomeStazione = NEW.NomeStazione AND Colonnina.Bicicletta IS NULL;
+IF vou = 0 OR num = vuo THEN SET NEW.IdTessera = NULL;
+END IF;
+END |
+DELIMITER ;
+
+/* non so se mancano altri trigger */
 
 /*Insert*/
 
