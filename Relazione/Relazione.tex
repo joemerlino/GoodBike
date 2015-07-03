@@ -1,10 +1,6 @@
 % stato della relazione :
 %
-% abstract da rileggere e forse modificare
-% analisi dei requisiti da cambiare un bel pò, aspetterei di farlo dopo aver fatto la progettazione concettuale, almeno l'inizio
-% progettazione concettuale rimodellata, da rileggiere da capo, molte frasi da migliorare che sicuramente ho scritto cazzate
-% immagini da controllare e posizionare meglio, tipo la grandezza 
-
+%AMMERDAAAAAAAA
 %
 \documentclass[a4paper,twoside]{article}
 
@@ -33,255 +29,370 @@
 \listoffigures
 \newpage
 
-%  link utili
-%  http://www.goodbikepadova.it/Default.aspx : GoodBike, dove prendiamo spunto per il progetto
-%  www.lucidchart.com : programma per fare i grafici dei schemi concettuale e logico
-
 \section{Abstract}
 BiciRent è un servizio di bike sharing ispirato a Goodbike presente qui a Padova.\newline
-Permette grazie ad una tessera personale di noleggiare in qualsiasi momento una delle bici presenti in apposite stazioni collocate in diverse aree della città ed utilizzarla per muoversi, lasciandola poi in un'altra stazione dove sia presente un posto libero.\newline
-La tessera ha validità specifica a seconda del piano che si sottoscrive, e sono previsti sconti per studenti e turisti.\newline
-Le biciclette noleggiabili sono di due tipi, quella classica munita di un passeggino oppure quella a pedalata assistita.\newline
-Le stazioni sono presenti in molti aree della città e sono munite di sicure automatiche antifurto. Saranno sempre presenti biciclette da noleggiare e posti per lasciare la bici noleggiata grazie ad un servizio di trasporto e le biciclette rotte verranno sostituite da nuove.\newline
-Il servizio tende ad essere automatizzato e permette all'abbonato di controllare facilmente se in una data stazione siano presenti biciclette o ci siano posti vuoti per depositare la bici noleggiata. Può segnalare la presenza di guasti delle biciclette.\newline
-
+Permette il noleggio di biciclette da utilizzare per girare per la città grazie a delle tessere personali e grazie a molte stazioni dislocate su varie aree della città è possibile prelevare e depositare la bicicletta con comodità.\newline
+Il progetto si focalizza sulla gestione dei noleggi e delle operazioni di routine eseguibili dall'utenza e dai tecnici di BiciRent, virtualizzando su un sito le operazioni che verrebbero normalmente svolte su vari dipositivi come le colonnine, un'applicazione per gli utenti o una per i tecnici.
 \section{Descrizione testuale dei requisiti e operazioni tipiche}
-%Alias analisi dei requisiti XD
-Si vuole realizzare una base di dati e una semplice applicazione web che contenga e gestisca le informazioni relative al bike sharing, simulando inoltre le operazioni che è possibile eseguire tramite la colonnina.
-
 \subsection{Descrizione testuale}
-Sono necessarie le informazioni personali degli utenti per permettergli di registrarsi e comprare una tessera; saranno quindi obbligatori nome e cognome, la data e il luogo di nascita, le informazioni sulla residenza (via, numero civico, città, C.A.P.) e un indirizzo email, l'utente può inserire il suo numero telefonico (campo facoltativo) per ricevere ulteriori informazioni.\newline
-Per poter poi usufruire di convenzioni rilasciate solo a studenti, sarà necessario il codice di matricola in caso di universitari o l'id della carta Io Studio, e le agevolazioni verranno fornite solo per abbonamenti da mensili in su.\newline
-Nel caso di turisti non è necessaria nessuna informazione aggiuntiva, ma l'agevolazione verrà fornita solo ai piani giornalieri, weekend o settimanali.\newline
-La tessera personale, che verrà utilizzata per identificare l'utente in tutte le operazioni che effettuerà, avrà una validità data dal piano associato ad essa (giornaliera, per un singolo fine settimana, oppure essere collegata ad un abbonamento di varie taglie: settimanale, mensile, trimestrale, semestrale o annuale) e non potrà mai rimanere senza piano.\newline 
-Un utente con piano ancora valido (attivo) potrà usufruire di tutti i servizi, mentre un utente con una tessera non più valida (piano scaduto) potrà solo comprare un nuovo piano ad un prezzo prefissato, da cui verrà tolto il 15\% per i turisti che usufruiscono dell'agevolazione e del 10\% per gli studenti.\newline
-Le biciclette, identificate da un id univoco, possono essere a pedalata assistita (elettriche) oppure con un seggiolino (la maggior parte), mentre in base al loro stato sono suddivise tra biciclette in servizio (ferme alla colonnina o noleggiate), in deposito o biciclette danneggiate; lo stato di una bicicletta non sempre corrisponde alla propria posizione, infatti una bici danneggiata può  essere presente in magazzino o presso una colonnina.\newline
-La  colonnina, identificata da un codice numerico e dalla stazione di cui fa parte, presenta uno stato: libera, occupata (a seconda della presenza o meno di una bicicletta) o danneggiata se la colonnina è guasta.\newline
-Una stazione é formata da 20 colonnine e si utilizza anche in questo caso un id per l'identificazione; avrà un attributo contenente l'indirizzo di ubicazione, per facilitare la ricerca nelle mappe. L'utente interagirà con la stazione per conoscere gli stati delle varie colonnine (ma non si interesserà del singolo stato di ogni colonnina).\newline
-Si prospettano circa 1700 noleggi giornalieri e una media di 200 richieste d'intervento al giorno (mancanza di bici e rotture); inoltre viene richiesta la composizione dei posti di una singola stazione (presenza biciclette, tipi disponibili e posti liberi) almeno 30000 volte ogni giorno (ogni volta che viene visualizzato il sito), ma con punte di quasi 900 richieste in una singola mezz'ora (ad esempio nelle ore di punta).
-
-\subsection{Operazioni tipiche}
-Operazioni tipiche eseguite dall'utente :
-\paragraph{Prelievo di una bicicletta} Il noleggio interessa una bici in servizio che sta attualmente occupando una colonnina. Prendendo la bici in comodato, lo stato della colonnina cambia in "libera" e ciò genera un noleggio di tipo pendente, dove vengono memorizzati i dati della bicicletta noleggiata, la colonnina di prelievo e l'orario di prelievo. Un utente può avere un singolo noleggio attivo alla volta.
-\paragraph{Deposito di una bicicletta} Il deposito interessa sempre una bicicletta in servizio, l'operazione modifica un noleggio pendente in uno di tipo terminato, salvando quindi la colonnina in cui viene depositata la bici e l'orario di deposito; questo porta la colonnina, che prima era libera, nello stato di occupata.
-\paragraph{Controllo dello stato di una stazione} Controlla lo stato di ogni singola colonnina della stazione, e ritorna quanti spazi liberi e quante biciclette per tipo sono presenti.
-\paragraph{Segnalazione mancanza di biciclette o spazi vuoti} Una segnalazione di tipo mancanza viene aperta dall'utente tramite il sito o effettuando una telefonata e comporterà uno o più trasporti per assolvere la segnalazione.
-\paragraph{Segnalazione di rottura} L'utente può effettuare la segnalazione da una singola colonnina o dal sito, ciò comporterà un ordine di manutenzione che potrà interessare la colonnina o bicicletta.
-\par Operazioni tipiche non effettuate dall'utente :
-\paragraph{Trasporto di una bicicletta} Il trasporto può avvenire perché segnalato da un utente oppure per esigenze interne, e comporta il movimento di una bicicletta in tre modi diversi: tra due colonnine di diverse stazioni, dal magazzino ad una colonnina o viceversa. Il trasporto di una bicicletta cambia sicuramente lo stato della colonnina interessata, e forse cambia anche lo stato della bicicletta.
-\paragraph{Manutenzione di una colonnina o di una bicicletta} La manutenzione avviene in seguito ad una segnalazione oppure può essere richiesta dall'azienda e prevede un controllo della bicicletta o colonnina, che verrà riassunto in una descrizione dei danni presenti che sono stati riparati e dall'orario di fine manutenzione. Si nota che la manutenzione di una bicicletta interessa la colonnina in cui è stata presente, e che per semplicità ed efficienza viene sempre controllata sia la colonnina che la bicicletta se presente. Un'operazione di manutenzione comporterà per la colonnina e la bicicletta un cambio di stato (erano danneggiate, ora non lo sono più).
-\par Operazioni dell'area amministrativa :
-\paragraph{resoconto dei lavori di manutenzione} E' visibile un resoconto dei lavori di manutenzione alle biciclette e colonnine dello scorso mese. Con riportati le date e gli orari.
-\paragraph{storico di una bicicletta} Può venire richiesto dall'area amministrativa le manutenzioni di una bicicletta, come gli utenti che l'hanno noleggiata e il tempo in cui è stata noleggiata.
-\paragraph{lista dei mezzi danneggiati} Può essere richiesta una lista delle biciclette danneggiate, con la stazione e l'area in cui sono presenti.
-
-\subsection{Nuovi requisiti}
-Dopo un'esposizione e un ragionamento sulle operazioni da eseguire, si possono delineare delle prime modifiche da effettuare alla descrizione testuale :
-\paragraph{Operazioni di diverso spessore} Si nota che operazioni quali noleggio-deposito, segnalazione, trasporto e manutenzione non sono semplici operazioni unitarie, ma coinvolgono molteplici operazioni.
-\paragraph{modifica dello stato della bicicletta} Lo stato di una bicicletta non può venire rappresentato solo con "in servizio", "in magazzino" o" danneggiata"; Si decide di utilizzare 2 caratteristiche : lo stato della bicicletta (operativa o danneggiata) e la sua posizione (magazzino o in servizio); Ciò comporta una miglior rappresentazione dello stato della bicicletta.
-\paragraph{Realtà su due livelli} Si potrebbe dividere la realtà rappresentandola in due parti: una parte si occupa dello stato attuale del sistema, quindi di dove attualmente sono le bici, della presenza di colonnine vuote o piene, etc mentre un'altra si occupa dello storico di queste informazioni, quindi dei noleggi terminati, dei trasporti effettuati, delle manutenzioni, etc.
-
+Al momento dell'iscrizione di un utente verranno richiesti tutti i dati personali necessari a registrarlo e rilasciarli la tessera, quali nome, cognome, data e luogo di nascita, infomazioni sulla residenza, e un'email quale recapito per essere contattato; grazie a queste informazioni gli verrà rilasciata una tessera personale con la quale utilizzare tutti i servizi, e avente una validità definita dal piano  che è stato scelto.\newline
+A seconda del piano ci sono varie agevolazioni per i turisti e gli studenti, i quali però dovranno dimostrare di esserlo con la matricola universitaria o la carta IoStudio; il sito non si preoccupa di permettere l'acquisto o l'aggiornamento di questi piani, ma svolge solo un'azione di deposito dei dati, e controllando se l'utente utilizza una tessera con un piano scaduto.\newline
+Un utente potrà quindi prelevare una bicicletta da una colonnina di una stazione e poi depositarla su una qualsiasi colonnina libera: queste operazioni, chiamate prelievo e deposito, dovranno venire registrate dal sito con in aggiunta l'orario in cui vengono effettuate.\newline
+Sia le biciclette che le colonnine sono dei beni identificati da un codice comune che identifica tutti i beni dell'azienda BiciRent, inoltre questi materiali possono essere danneggiati: un materiale danneggiato non permette alcuna operazione su di esso da parte dell'utente e deve venire riparato dai tecnici.\newline
+Deve venire registrata ogni riparazione eseguita dai tecnici, con in aggiunta una descrizione del danno riparato.\newline
+Le biciclette possono essere a pedalata assistita (elettriche) oppure a pedalata normale e possono essere in servizio (cioè ferme nelle colonnine oppure nolleggiate) o in magazzino; una bicicletta danneggiata può ovviamente essere sia in magazzino che in una colonnina.\newline
+Le colonnine sono presenti in gruppi su tutto il territorio, raggrupate in stazioni che vengono identificate dal loro indirizzo, e possono essere libere oppure occupate da una bicicletta. Una colonnina danneggiata rende la bicicletta (se presente) danneggiata anch'essa.\newline
+Ulteriori informazioni che devono essere registrate sono le segnalazioni da parte dell'utente e le informazioni relative ai trasporti eseguiti dai tecnici.\newline
+Un utente può segnalare una mancanza su una stazione, cioè se vuole eseguire un noleggio (o un deposito) e la stazione ha tutte le colonnine vuote (o occupate) può segnalare questo ai tecnici; allo stesso modo può segnalare una reottura su una colonnina ( e sulla bicicletta presente quindi).\newline
+I trasporti eseguiti dai tecnici sono del tutto simili alle operazioni eseguite dai clienti, solo che l'aggiunta o rimozione di una bicicletta può essere eseguita solo dai tecnici, mentre il noleggio e il deposito solo dai clienti muniti di tessera, ma non si vuole tener traccia del tecnico.\newline
+Il sito dovrà virtualizzare le operazioni che normalmente un cliente esegue su una colonnina, quindi un prelievo di una bicicletta passando la sua tessera, o un deposito, o una segnalazione di rottura (eseguita su una colonnina, per questo non si discrimina se è la bicicletta o la colonnina); dovrà inoltre prevedere un'area in cui è possibile per l'utente controllare i suoi noleggi, i suoi dati personali e lo stato delle stazioni ( nella realtà queste informazioni gli sono accessibili tramite un'applicazione per smartphone). Inoltre dovrà esserci un'area amministrativa in cui i tecnici possono registrare le manutenzioni che fanno e controllare le segnalazioni eseguite dagli utenti.\newline
+Alcune informazioni di traffico previsto: si prospettano circa 1700 noleggi giornalieri e una media di 200 richieste d'intervento al giorno (mancanza di bici e rotture); inoltre viene richiesta la composizione dei posti delle stazioni (presenza biciclette, tipi disponibili e posti liberi) almeno 10000 volte ogni giorno, ma con punte di quasi 900 richieste in una singola mezz'ora (ad esempio nelle ore di punta).
 \section{Progettazione concettuale}
-%top-down , bottom-up, inside-out , misto
-
-Per la modellazione concettuale si decide di partire dall'operazione principale del sistema che stiamo modellando, il noleggio.
-
-\subsection{Noleggio}
-Il noleggio è formato da due distinte operazioni, un prelievo che inizia il noleggio, e un deposito che lo termina; il deposito distingue inoltre il noleggio pendente, cioè non ancora terminato, con il noleggio terminato che fa parte di una specie di storico dei noleggi.
+Per la modellazione concettuale si decide di utilizzare un metodo misto e partire dal'operazione di noleggio.\newline
+Il noleggio è formato da due distinte operazioni, un prelievo che inizia il noleggio, e un deposito che lo termina; il deposito distingue inoltre il noleggio pendente, cioè non ancora terminato, con il noleggio terminato il quale è anche uno storico dei noleggi.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale01.png}
-\caption{Relazione noleggio}
+\caption{Relazione Noleggio}
 \end{figure}
-In un primo momento modelliamo il noleggio come una relazione che lega utenti e biciclette, ma questa relazione non ci soddisfa molto quindi decidiamo di eseguire subito il raffinamento e passare direttamente ad una entità noleggio.
+Le informazioni personali dell'utente vengono rappresentate con l'entità Utente; Studente e Turista sono specializzazioni parziali esclusive; l'utente viene identificato dalla tessera che possiede e utilizza nel sito.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale02.png}
-\caption{Entità noleggio}
+\caption{Entità utente}
 \end{figure}
-
-\subsection{Utente}
-Le informazioni personali dell'utente vengono rappresentate con l'entità Utente; Studente e Turista sono specializzazioni parziali esclusive.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale03.png}
-\caption{Reificazione di utente}
+\caption{Relazione Noleggio}
 \end{figure}
-
-\subsection{Tessera}
-La tessera personale dell'utente lo rappresenta in tutte le operazioni che esegue nel sito.
+La informazioni di tessera non possono essere rappresentate da un singolo attributo, quindi lo si reifica in un'entità.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale04.png}
-\caption{Reificazione di tessera}
+\caption{Entità Tessera}
 \end{figure}
-
-\subsection{Piano}
-Gli abbonamenti delle tessere corrispondono alla sottoscrizione di un piano che ha un costo e identifica la validità della tessera.
+Le informazioni della bicicletta vengono rappresentate dall'entità Bicicletta, identificata dal codice del materiale.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale05.png}
-\caption{Reificazione di piano}
+\caption{Entità Bicicletta}
 \end{figure}
-
-\subsection{Bicicletta}
-Le biciclette possono essere in servizio, ferme o danneggiate (specializzazioni globali esclusive).
+Sia prelievo che deposito sono un'operazione, che ha degli attributi propri.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale06.png}
-\caption{Reificazione di bicicletta}
+\caption{Entità Operazione}
 \end{figure}
-
-\subsection{Operazione}
-Sia prelievo che depositano presentano la data, l'orario e la colonnina interessata dall'operazione, quindi si introduce l'entità Operazione.
+Quindi la relazione noleggio scompare, essendo divisa in due relazioni che legano Tessera ad Operazione. Operazione inoltre contiene operazioni di trasporto.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale07.png}
-\caption{Reificazione di prelievo e deposito}
+\caption{Scomparsa della relazione Noleggio}
 \end{figure}
-
-\subsection{Colonnina}
-Le operazioni prelevano o depositano le biciclette su una colonnina, e un'operazione di deposito su una colonnina la fa diventare occupata, cioè vi è una bicicletta presente.
+La colonnina non può essere rappresentata da un solo attributo.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale08.png}
-\caption{Reificazione di colonnina}
+\caption{Entità Colonnina}
 \end{figure}
-
-\subsection{Stazione}
-Le colonnine sono raccolte tra loro in stazioni.
+Per rappresentare la posizione di una Bicicletta su una Colonnina si utilizza una relazione.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale09.png}
-\caption{Reificazione di stazione}
+\caption{Relazione Posizione}
 \end{figure}
-
-\subsection{Segnalazione di mancanza}
-Un utente può segnalare la mancanza di spazi liberi o di biciclette in una stazione.
+Quindi lo schema tra Operazione, Bicicletta e Colonnna è il seguente.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale10.png}
-\caption{Aggiunta delle segnalazioni di mancanza}
+\caption{Operazione, Bicicletta, Colonnina}
 \end{figure}
-
-\subsection{Segnalazione di rottura}
-Un utente può segnalare una rottura, indicando una colonnina rotta o la bicicletta presente (se presente).
+Le colonnine sono raggruppate in Stazioni.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale11.png}
-\caption{Aggiunta delle segnalazioni di rottura}
+\caption{Entità Stazione}
 \end{figure}
-
-\subsection{Manutenzione}
-Una bicicletta o colonnina possono subire un intervento di manutenzione (in seguito al quale verrà rimosso lo stato danneggiato).
+Come descritto dai requisiti, sia le Colonnine che le Biciclette sono dei materiali, quindi sono specializzazioni complete ed esclusive
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale12.png}
-\caption{Aggiunta delle manutenzioni}
+\caption{Entità Materiale}
 \end{figure}
-
-\subsection{Trasporto}
-Per rappresentare i trasporti mi accorgo che avrei già un modello simile: le operazioni di prelievo e deposito; i trasporti differiscono dalla presenza di queste due operazioni(solo prelievo,solo deposito o entrambe).
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale13.png}
-\caption{Aggiunta dei trasporti e quindi modifica della relazione tra operazione e noleggio}
+\caption{Stato dell'Entità Materiale}
 \end{figure}
-
-\subsection{Modello concettuale completo}
-Questo è il modello concettuale risultante.
+Le segnalazioni di mancanza e di rottura vengono realizzata tramite delle relazioni.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale14.png}
-\caption{Modello concettuale}
+\caption{Relazione Segnalazione di Mancanza}
 \end{figure}
-
-\subsection{Vincoli non rappresentati nel modello}
-Nel modello concettuale non si riesce a rappresentare tutti i vincoli logici che si sono individuati :
-\begin{itemize} %ne ho dimenticati in giro
- \item la matricola universitaria e il codice IoStudio della Studente sono unici, possono essere nulli e almeno uno dei due deve essere presente.
- \item Un noleggio può essere iniziato (prelevare la bicicletta) solo da una tessera che ha un piano non scaduto.
- \item Un noleggio può essere iniziato (prelevare la bicicletta) solo su una bicicletta in servizio, e lo stato della bicicletta non può venire cambiato finché non viene depositata su una colonnina.
- \item La segnalazione di mancanza riconosce cosa manca (bici o spazi) in base al conteggio delle colonnine che la compongono.
- \item Una segnalazione di rottura di una bicicletta ha come colonnina segnalata una colonnina occupata.
- \item in un trasporto dev'esserci almeno 1 relazione, non è possibile 0.
-\end{itemize}
-
-\subsection{Raffinamento del modello concettuale}
-Il modello creato deve venire raffinato ulteriormente per migliorarlo.\newline
-
-\subsubsection{Chiavi}
-Vengono identificate delle chiavi per le entità che non ne disponevano già:
-\begin{itemize}
- \item per il noleggio la chiave sono le relazioni con tessera e l'operazione di prelievo
- \item per operazione è la relazione con colonnina e l'attributo data e ora
- \item per la manutenzione si utilizza la data e si aggiunge un numero di manutenzione giornaliero
-\end{itemize}
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale15.png}
-\caption{Identificazione delle chiavi mancanti}
+\caption{Relazione Segnalazione di Rottura}
 \end{figure}
-
-\subsubsection{Modifica della relazione abbonamento}
-La relazione abbonamento non presenta alcun problema a rappresentare un singolo piano attivo su una scheda da una specifica data, ma in un'ottica di successive aggiunte di piani (non tutte alla scadenza del precedente) e soprattutto per una questione di storico dei piani attivati da un utente, si procede a modificare la relazione.
+Questo è il modello concettuale risultante.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale16.png}
-\caption{Modifica ad abbonamento}
+  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/ConcettualeFinale.png}
+\caption{Modello Concettuale Finale}
 \end{figure}
-Si decide di raffinare subito la relazione, creando l'entità Abbonamento per evitare la cardinalità N:N.
-\begin{figure}[H]
- \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale17.png}
-\caption{raffinamento di abbonamento}
-\end{figure}
-%%%%%%
-
 \section{Progettazione logica}
-Per la trasformazione del modello concettuale in logico bisogna controllare che le varie operazioni non vadano a diminuire le prestazioni del database.\newline
-Per prima cosa non sembrano esserci attributi che possono venire rimossi perché ricavabili da altri nè chiavi da cambiare.
-
-\paragraph{Efficienza della richiesta dello stato delle colonnine di una stazione}
-L'operazione in questione , allo stato attuale del database, consisterebbe nel chiedere alle 20 colonnine della stazione se sono occupate o libere o danneggiate, e ritornare i numeri di quelle occupate, di quelle rotte e di quelle danneggiate (magari no perché non èuna buona pubblicità XD).\newline
-Secondo i dati di utilizzo questa richiesta verrebbe eseguita 30000*20 volte al giorno (più i tipi delle biciclette disponibili); una proposta potrebbe essere quella di inserire degli attributi nella stazione per ovviare a questo controllo continuo delle stazioni.\newline
-L'introduzione di attributi (2 o 3 ) ridurrebbe di molto il carico di lavoro, ma questi attributi verrebbero modificati 1700*2 volte al giorni dai noleggi, 200*x volte al giorno per mancanza (il trasporto può essere di più biciclette).
-
-\paragraph{Analisi tra Tessera e Utente}
-Essendo tessera e utente collegati con una relazione 1 a 1 sarebbe possibile unire le entità per risparmiare spazio ma risulterebbe controproducente dal lato computazionale poiché quasi la totalità delle operazioni non necessita dei dati personali relativi all'utente. \newline
-La chiave primaria di Utente è composta dalla tessera che gli appartiene.
+Per la realizzazione di un modello logico a partire da uno concettuale si sevono controllare varie cose:\newline
+Per prima cosa si controllano le chiavi di ogni entità, e sono presenti tutte.\newline
+Osservando Utente e Tessera si nota che hanno la stessa chiave, quindi le due entità potrebbero essere unite in un'unica, ma si decide di non farlo in quanto le informazioni dell'utente non vengono quasi mai richiamate (solo se si deve mostrare il profilo) e quindi avere una grande entità coinvolta in tutte le relazioni di tessera rallenterebbe inutilmente il sistema,molto meglio eseguire un join quelle rare volte che servono le informazioni personali dell'utente.\newline
+Osservando poi una comune richiesta fatta al database, cioè se una tessera ha un noleggio in corso, si decide che è meglio aggiungere un attributo booleano a tessera che eseguire una query ogniqualvolta si vuole sapere se l'utente ha un noleggio in corso.
 \begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\textwidth]{Immagini-Grafici/Logico01.png}
-	\caption{Analisi tra Tessera e Utente}
+ \centering
+  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Logico01.png}
+\caption{Aggiunta di un attributo a Tessera}
 \end{figure}
-
-\paragraph{Rimozione Piano ed Abbonamento}
-Visto che le entità non sono necessarie per la rappresentazione della realtà modellata (non serve tenere traccia dei vari piani attivati con relativo prezzo) vengono rimosse delegando all'entità Tessera l'attributo "data scadenza" per poter, tramite interfaccia web, risalire alla durata e tipo dei piani collegati ad essa. \newline
+Osservando ora Operazione, ci si accorge come i sottoinsiemi prelievo e deposito siano molto simili, quindi si decide di unirli in un unico sottoinsieme, e distinguerli grazie ad un attributo.\newline
+Si osserva come Trasporto e Noleggio siano molto simili, ma al momento si preferisce aspettare all'implementazione su sql per decidere come comportarsi.
 \begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\textwidth]{Immagini-Grafici/Logico02.png}
-	\caption{Riorganizzazione entità Tessera}
+ \centering
+  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Logico02.png}
+\caption{Modifica a Operazione}
 \end{figure}
-
-\paragraph{Ristrutturazione chiave primaria di Noleggio}
-Poiché ad ogni Noleggio creato viene effettuata un'operazione in Prelievo con un id univoco è possibile utilizzare tale chiave primaria per identificare anche il noleggio. \newline
+Lo schema Logico risultate.
 \begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\textwidth]{Immagini-Grafici/Logico03.png}
-	\caption{Riorganizzazione entità Tessera}
+ \centering
+  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/LogicoFinale.png}
+\caption{Modello Logico Finale}
 \end{figure}
-
-\paragraph{Rimozione Trasporto}
-L'entità Trasporto viene eliminata poiché diventa inutile rispetto ad avere un semplice attributo in Operazione che lo identifichi. \newline
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\textwidth]{Immagini-Grafici/Logico04.png}
-	\caption{Riorganizzazione entità Tessera}
-\end{figure}
-
 \section{Implementazione dello schema logico}
-Implementando lo schema logico con mysql si modificano varie parti dello schema, quindi modifica mano a mano lo schema come è avvenuto per la modellazione concettuale
+\subsection{Conversione iniziale}
+Implementando lo schema logico con mysql si modificano varie parti dello schema Logico.\newline
+Una prima conversione risultante dall'eliminazione delle relazioni tra le entità, rapprentate con l'aggiunta delle chiavi esterne: Segnalazione di Mancanza e Segnalazione di Rottura diventano entità (in quanto relazioni N:N).\newline
+Inoltre si compiono varie scelte su come rappresentare i sottoinsiemi delle entità:
+\begin{itemize}
+ \item per Operazione, Bicicletta, Utente, e Colonnina si sceglie di compattare il tutto nell'entità e di aggiungere degli attributi di controllo, su cui sarà però necessario dei trigger o controlli aggiuntivi
+ \item per Materiale si sceglie invece di creare 2 entità aggiuntive, in quanto sarebbe sennò stato necessario una serie di controlli complicati e un rallentamento non indifferente del sistema.
+\end{itemize}
+\begin{figure}[H]
+ \centering
+  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/SQL.png}
+\caption{Trasformazione in sql}
+\end{figure}
+\subsection{Codice sql}
+Si decide di implementare i controlli sono sulle operazioni che verranno effettivamente eseguite (non ci si preoccupa ad esempio della modifica della chiave primaria di materiale, perchè non viene permesso di farlo).\newline
+Tessera
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TABLE Tessera(
+	IdTessera INTEGER UNSIGNED AUTO_INCREMENT,
+	DataScadenza DATE NOT NULL,
+	NoleggioInCorso BOOLEAN DEFAULT 0 NOT NULL,
+	PRIMARY KEY(IdTessera)
+)ENGINE=INNODB;
+\end{lstlisting}
+Utente
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TABLE Utente(
+	Nome VARCHAR(20) NOT NULL,
+	Cognome VARCHAR(20) NOT NULL,
+	DataNascita DATE NOT NULL,
+	LuogoNascita VARCHAR(20) NOT NULL,
+	Residenza VARCHAR(20) NOT NULL,
+	Indirizzo VARCHAR(30) NOT NULL,
+	Email VARCHAR(30) NOT NULL,
+	Tipo ENUM('Utente','Turista','Studente') DEFAULT 'Utente' NOT NULL,
+	CodiceStudente CHAR(10),
+	IoStudio BOOLEAN,
+	IdTessera INTEGER UNSIGNED,
+	PRIMARY KEY(IdTessera),
+	UNIQUE(Email),
+	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
+)ENGINE=INNODB;
+\end{lstlisting}
+Materiale
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TABLE Materiale(
+	CodiceMateriale INTEGER UNSIGNED AUTO_INCREMENT,
+	Danneggiato BOOLEAN DEFAULT 0 NOT NULL,
+	PRIMARY KEY(CodiceMateriale)
+)ENGINE=INNODB;
+\end{lstlisting}
+Bicicletta
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TABLE Bicicletta(
+	CodiceMateriale INTEGER UNSIGNED,
+	Elettrica BOOLEAN DEFAULT 0 NOT NULL,
+	Stato ENUM('InServizio','InMagazzino') DEFAULT 'InMagazzino' NOT NULL,
+	PRIMARY KEY(CodiceMateriale),
+	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale) ON DELETE CASCADE
+)ENGINE=INNODB;
+\end{lstlisting}
+Stazione
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TABLE Stazione(
+	NomeStazione VARCHAR(20),
+	Via VARCHAR(30) NOT NULL,
+	PRIMARY KEY(NomeStazione)
+)ENGINE=INNODB;
+\end{lstlisting}
+Colonnina
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TABLE Colonnina(
+	CodiceMateriale INTEGER UNSIGNED,
+	Bicicletta INTEGER UNSIGNED,
+	NomeStazione VARCHAR(20) NOT NULL,
+	PRIMARY KEY(CodiceMateriale),
+	UNIQUE(Bicicletta),
+	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale) ON DELETE CASCADE,
+	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale) ON DELETE SET NULL,
+	FOREIGN KEY (NomeStazione) REFERENCES Stazione(NomeStazione) ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE=INNODB;
+\end{lstlisting}
+Operazione
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TABLE Operazione(
+	IdOperazione INTEGER UNSIGNED AUTO_INCREMENT,
+	Orario DATETIME NOT NULL,
+	Colonnina INTEGER UNSIGNED NOT NULL,
+	Tipo ENUM('PerNoleggio','Trasporto') NOT NULL,
+	TipologiaPerNoleggio ENUM('Prelievo','Deposito'),
+	TipologiaTrasporto ENUM('Aggiunta','Rimozione'),
+	IdTessera INTEGER UNSIGNED,
+	PRIMARY KEY(IdOperazione),
+	UNIQUE(Orario,Colonnina),
+	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale) ON DELETE CASCADE,
+	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
+)ENGINE=INNODB;
+\end{lstlisting}
+Ora però si osserva come Tipo,TipologiaPerNoleggio e TipologiaTrasporto siamo una brutta rappresentazione di come un'operazione possa essere di tipo 'Prelievo', 'Deposito', 'Aggiunta' o 'Rimozione', quindi si sostituiscono con un unico Attributo.
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TABLE Operazione(
+	IdOperazione INTEGER UNSIGNED AUTO_INCREMENT,
+	Orario DATETIME NOT NULL,
+	Colonnina INTEGER UNSIGNED NOT NULL,
+	Bicicletta INTEGER UNSIGNED NOT NULL,
+	Motivazione ENUM('Prelievo','Deposito','Aggiunta','Rimozione') NOT NULL,
+	IdTessera INTEGER UNSIGNED,
+	PRIMARY KEY(IdOperazione),
+	UNIQUE(Orario,Colonnina),
+	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale) ON DELETE CASCADE,
+	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale) ON DELETE CASCADE,
+	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
+)ENGINE=INNODB;
+\end{lstlisting}
+Manutenzione
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TABLE Manutenzione(
+	Numero INTEGER UNSIGNED,
+	Data DATE,
+	DescrizioneDanno VARCHAR(100),
+	CodiceMateriale INTEGER UNSIGNED NOT NULL,
+	PRIMARY KEY(Numero,Data),
+	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale) ON DELETE CASCADE
+)ENGINE=INNODB;
+\end{lstlisting}
+Segnalazione Rottura
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TABLE SegnalazioneRottura(
+	Colonnina INTEGER UNSIGNED,
+	IdTessera INTEGER UNSIGNED,
+	Bicicletta BOOLEAN NOT NULL,
+	PRIMARY KEY(IdTessera,Colonnina),
+	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale) ON DELETE CASCADE,
+	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
+)ENGINE=INNODB;
+\end{lstlisting}
+Segnalazione Mancanza
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TABLE SegnalazioneMancanza(
+	NomeStazione VARCHAR(20),
+	IdTessera INTEGER UNSIGNED,
+	Data DATE NOT NULL,
+	PRIMARY KEY(IdTessera,NomeStazione),
+	FOREIGN KEY (NomeStazione) REFERENCES Stazione(NomeStazione) ON DELETE CASCADE,
+	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
+)ENGINE=INNODB;
+\end{lstlisting}
+
+
+
 
 \section{Query, procedure, trigger e funzioni}
 
