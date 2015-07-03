@@ -390,11 +390,179 @@ CREATE TABLE SegnalazioneMancanza(
 	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
-
-
-
-
-\section{Query, procedure, trigger e funzioni}
+\section{Query, procedure, trigger e funzioni} %le altre due bo
+\subsection{Query}
+\subsection{Trigger}
+Visto che MySql non permette due trigger con lo stesso comportamento sulla stessa tabella (cioè per esempio insert su Utente) ho scelto i nomi dei trigger in base al comportamento e al nome della tabella, questo anche perché molti di questi trigger non eseguono solo un'operazione.\newline
+Contrariamente alla possibilità di fare modifiche a molte tabelle, ho preferito fare lo stesso i trigger che controllano tali modifiche, per evidenziare come le scelte di implementazione siano state rispettate.
+\subsubsection{\texttt{insert\_utente}}
+Se un nuovo Utente ha come Tipo 'Studente' allora CodiceStudente e IoStudio non possono essere nulli, se non é 'Studente' allora devono essere nulli.
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TRIGGER insert_utente
+BEFORE INSERT ON Utente
+FOR EACH ROW BEGIN
+IF NEW.Tipo = 'Utente' OR NEW.Tipo = 'Turista' THEN SET NEW.CodiceStudente = NULL; SET NEW.IoStudio = NULL;
+ElSE IF NEW.CodiceStudente IS NULL OR NEW.IoStudio IS NULL THEN SET NEW.IdTessera = NULL;
+END IF;
+END IF;
+END;
+\end{lstlisting}
+\subsubsection{\texttt{update\_tessera}}
+Una tessera non può avere una data di scadenza inferiore a quella precedente.
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TRIGGER update_tessera
+BEFORE UPDATE ON Tessera
+FOR EACH ROW BEGIN
+IF NEW.DataScadenza < OLD.DataScadenza THEN SET NEW.DataScadenza = OLD.DataScadenza;
+END IF;
+END;
+\end{lstlisting}
+\subsubsection{\texttt{insert\_bicicletta}}
+All'inserimento di una bicicletta viene creato un materiale e usato quel materiale come chiave per la bicicletta
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TRIGGER insert_bicicletta
+BEFORE INSERT ON Bicicletta
+FOR EACH ROW BEGIN
+DECLARE num INTEGER UNSIGNED;
+INSERT INTO Materiale(Danneggiato) VALUES (0);
+SELECT Materiale.CodiceMateriale INTO num FROM Materiale ORDER BY Materiale.CodiceMateriale DESC LIMIT 1;
+SET NEW.CodiceMateriale = num;
+END;
+\end{lstlisting}
+\subsubsection{\texttt{insert\_colonnina}}
+Oltre a creare un nuovo materiale ed utilizzarlo come chiave per la colonnina, si controlla che il codice inserito in Bicicletta sia veramente una bicicletta.%credo non serva controllare bicicletta, in teoria lo fa già la chiave esterna
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TRIGGER insert_colonnina
+BEFORE INSERT ON Colonnina
+FOR EACH ROW BEGIN
+DECLARE num INTEGER UNSIGNED;
+SELECT Bicicletta.CodiceMateriale INTO num FROM Bicicletta LEFT JOIN Materiale ON Bicicletta.CodiceMateriale = Materiale.CodiceMateriale WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta LIMIT 1;
+IF num <> NEW.Bicicletta THEN SET NEW.CodiceMateriale = NULL;
+ELSE INSERT INTO Materiale(Danneggiato) VALUES (0);
+SELECT Materiale.CodiceMateriale INTO num FROM Materiale ORDER BY Materiale.CodiceMateriale DESC LIMIT 1;
+SET NEW.CodiceMateriale = num;
+END IF;
+END;
+\end{lstlisting}
+\texttt{insert\_operazione}
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TRIGGER insert_operazione
+BEFORE INSERT ON Operazione
+FOR EACH ROW BEGIN
+DECLARE nol BOOLEAN;
+IF NEW.Motivazione = 'Prelievo' OR NEW.Motivazione = 'Deposito' THEN
+IF NEW.IdTessera IS NULL THEN SET NEW.IdOperazione = NULL;
+END IF;
+SELECT NoleggioInCorso INTO nol FROM Tessera WHERE Tessera.IdTessera = NEW.IdTessera;
+IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN SET NEW.IdOperazione = NULL;
+ELSE UPDATE Tessera SET NoleggioInCorso = TRUE WHERE Tessera.IdTessera = NEW.IdTessera;
+END IF;
+END IF;
+IF NEW.Motivazione = 'Deposito' THEN IF nol = FALSE THEN SET NEW.IdOperazione = NULL;
+ELSE UPDATE Tessera SET NoleggioInCorso = FALSE WHERE Tessera.IdTessera = NEW.IdTessera;
+END IF;
+END IF;
+ELSE
+IF NEW.Motivazione = 'Aggiunta' THEN
+IF NEW.IdTessera IS NOT NULL  THEN SET NEW.IdTessera = NULL;
+END IF;
+UPDATE Bicicletta SET Stato = 'InServizio' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
+END IF;
+IF NEW.Motivazione = 'Rimozione' THEN
+IF NEW.IdTessera IS NOT NULL  THEN SET NEW.IdTessera = NULL;
+END IF;
+UPDATE Bicicletta SET Stato = 'InMagazzino' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
+END IF;
+END IF;
+END;
+\end{lstlisting}
+\texttt{insert\_manutenzione}
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TRIGGER insert_manutenzione
+BEFORE INSERT ON Manutenzione
+FOR EACH ROW BEGIN
+DELETE FROM SegnalazioneRottura WHERE NEW.CodiceMateriale = Manutenzione.Colonnina;
+UPDATE CodiceMateriale SET CodiceMateriale.danneggiata = FALSE WHERE NEW.CodiceMateriale = Materiale.CodiceMateriale;
+END;
+\end{lstlisting}
+\texttt{insert\_segnalazione\_rottura}
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TRIGGER insert_segnalazione_rottura
+BEFORE INSERT ON SegnalazioneRottura
+FOR EACH ROW BEGIN
+UPDATE Materiale SET Materiale.danneggiata = TRUE WHERE NEW.Colonnina = Materiale.CodiceMateriale;
+UPDATE Materiale JOIN Colonnina ON Materiale.CodiceMateriale = Colonnina.Bicicletta SET Materiale.danneggiata = TRUE WHERE NEW.Colonnina = Colonnina.CodiceMateriale;
+END;
+\end{lstlisting}
+\texttt{insert\_segnalazione\_mancanza}
+\begin{lstlisting}[
+           language=SQL,
+           showspaces=false,
+           basicstyle=\ttfamily,
+           numbers=none,
+           numberstyle=\tiny,
+           commentstyle=\color{gray}
+        ]
+CREATE TRIGGER insert_segnalazione_mancanza
+BEFORE INSERT ON SegnalazioneMancanza
+FOR EACH ROW BEGIN
+DECLARE num INTEGER;
+DECLARE vuo INTEGER;
+SELECT COUNT(CodiceMateriale) INTO num FROM Colonnina WHERE Colonnina.NomeStazione = NEW.NomeStazione;
+SELECT COUNT(CodiceMateriale) INTO vuo FROM Colonnina WHERE Colonnina.NomeStazione = NEW.NomeStazione AND Colonnina.Bicicletta IS NULL;
+IF vou = 0 OR num = vuo THEN SET NEW.IdTessera = NULL;
+END IF;
+END;
+\end{lstlisting}
 
 \section{Interfaccia web}
 

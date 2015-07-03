@@ -1,7 +1,5 @@
-/* Database.sql */
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-
 SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS SegnalazioneMancanza;
@@ -110,8 +108,6 @@ CREATE TABLE SegnalazioneMancanza(
 	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
 )ENGINE=INNODB;
 
-/* Trigger */
-
 DROP TRIGGER IF EXISTS insert_utente;
 DROP TRIGGER IF EXISTS update_tessera;
 DROP TRIGGER IF EXISTS insert_bicicletta;
@@ -158,7 +154,7 @@ BEFORE INSERT ON Colonnina
 FOR EACH ROW BEGIN
 DECLARE num INTEGER UNSIGNED;
 SELECT Bicicletta.CodiceMateriale INTO num FROM Bicicletta LEFT JOIN Materiale ON Bicicletta.CodiceMateriale = Materiale.CodiceMateriale WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta LIMIT 1;
-IF num <> NEW.Bicicletta /*su Bicicletta ho un CodiceMateriale che non é una bicicletta*/ THEN SET NEW.CodiceMateriale = NULL;
+IF num <> NEW.Bicicletta THEN SET NEW.CodiceMateriale = NULL;
 ELSE INSERT INTO Materiale(Danneggiato) VALUES (0);
 SELECT Materiale.CodiceMateriale INTO num FROM Materiale ORDER BY Materiale.CodiceMateriale DESC LIMIT 1;
 SET NEW.CodiceMateriale = num;
@@ -230,15 +226,6 @@ END |
 DELIMITER ;
 
 /* non so se mancano altri trigger */
-
-/*Insert*/
-
-TRUNCATE TABLE Tessera;
-TRUNCATE TABLE Utente;
-TRUNCATE TABLE Materiale;
-TRUNCATE TABLE Bicicletta;
-TRUNCATE TABLE Stazione;
-TRUNCATE TABLE Colonnina;
 
 INSERT INTO Tessera(DataScadenza, NoleggioInCorso) VALUES ('2015-06-30',0),('2015-09-14',0),('2015-08-22',0);
 
