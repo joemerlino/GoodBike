@@ -44,11 +44,25 @@ input{
 #submit{
   margin-top:10px;
 }
-
-p{
-  margin: 15px 0px;
+*/
+table{
+  margin-left: auto;
+  margin-right: auto;
 }
-
+td{
+  padding: 30px;
+  font-size: 18px;
+}
+#buttons{
+  text-align: center;
+}
+td.occ{
+  background-color: tomato;
+}
+td.free{
+  background-color: lightgreen;
+}
+/*
 label{
   margin: 15px;
   padding-left:5px;

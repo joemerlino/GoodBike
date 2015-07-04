@@ -16,7 +16,7 @@ else {
       $row = mysql_fetch_assoc($utente);
       $tessera = $row["IdTessera"];
       $_SESSION["id_tessera"] = $tessera;
-      echo "Benvenuto nel sistema $tessera";
+      redirect("utente.php",0);
     }
     else {
       echo "<p>Errore, IdTessera errato, inserisci l'id esatto della tua tessera per iniziare</p>";
