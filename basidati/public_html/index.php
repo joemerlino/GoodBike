@@ -8,9 +8,10 @@ if($tessera)
   echo "Benvenuto nel sistema $tessera";
 else {
   if($_POST and $_POST["submit"] = "Entra") {
-    $conn=connectDbServer();
-    $connect=selectDatabase($conn);
-    $utente=mysql_query(query_sel_utente($_POST["idtes"],$conn));
+    $conn = connectDbServer();
+    $connect = selectDatabase($conn);
+    $query = "SELECT * FROM Tessera WHERE IdTessera = '".$_POST['idtes']."'";
+    $utente = mysql_query($query,$conn));
     if(mysql_num_rows($utente) == 1) {
       $row = mysql_fetch_assoc($utente);
       $tessera = $row["IdTessera"];

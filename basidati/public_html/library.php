@@ -77,9 +77,4 @@ function logout() { //devo avere già controllato session
   }
 }
 
-//stringhe query
-function query_sel_utente($id_tessera) {
-  return "SELECT * FROM Tessera WHERE IdTessera = \"$id_tessera\"";
-}
-
 ?>

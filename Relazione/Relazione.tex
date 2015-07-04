@@ -52,94 +52,94 @@ Per la modellazione concettuale si decide di utilizzare un metodo misto e partir
 Il noleggio è formato da due distinte operazioni, un prelievo che inizia il noleggio, e un deposito che lo termina; il deposito distingue inoltre il noleggio pendente, cioè non ancora terminato, con il noleggio terminato il quale è anche uno storico dei noleggi.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale01.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale01.png}
 \caption{Relazione Noleggio}
 \end{figure}
 Le informazioni personali dell'utente vengono rappresentate con l'entità Utente; Studente e Turista sono specializzazioni parziali esclusive; l'utente viene identificato dalla tessera che possiede e utilizza nel sito.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale02.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale02.png}
 \caption{Entità utente}
 \end{figure}
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale03.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale03.png}
 \caption{Relazione Noleggio}
 \end{figure}
 La informazioni di tessera non possono essere rappresentate da un singolo attributo, quindi lo si reifica in un'entità.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale04.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale04.png}
 \caption{Entità Tessera}
 \end{figure}
 Le informazioni della bicicletta vengono rappresentate dall'entità Bicicletta, identificata dal codice del materiale.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale05.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale05.png}
 \caption{Entità Bicicletta}
 \end{figure}
 Sia prelievo che deposito sono un'operazione, che ha degli attributi propri.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale06.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale06.png}
 \caption{Entità Operazione}
 \end{figure}
 Quindi la relazione noleggio scompare, essendo divisa in due relazioni che legano Tessera ad Operazione. Operazione inoltre contiene operazioni di trasporto.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale07.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale07.png}
 \caption{Scomparsa della relazione Noleggio}
 \end{figure}
 La colonnina non può essere rappresentata da un solo attributo.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale08.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale08.png}
 \caption{Entità Colonnina}
 \end{figure}
 Per rappresentare la posizione di una Bicicletta su una Colonnina si utilizza una relazione.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale09.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale09.png}
 \caption{Relazione Posizione}
 \end{figure}
 Quindi lo schema tra Operazione, Bicicletta e Colonnna è il seguente.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale10.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale10.png}
 \caption{Operazione, Bicicletta, Colonnina}
 \end{figure}
 Le colonnine sono raggruppate in Stazioni.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale11.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale11.png}
 \caption{Entità Stazione}
 \end{figure}
 Come descritto dai requisiti, sia le Colonnine che le Biciclette sono dei materiali, quindi sono specializzazioni complete ed esclusive
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale12.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale12.png}
 \caption{Entità Materiale}
 \end{figure}
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale13.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale13.png}
 \caption{Stato dell'Entità Materiale}
 \end{figure}
 Le segnalazioni di mancanza e di rottura vengono realizzata tramite delle relazioni.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale14.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale14.png}
 \caption{Relazione Segnalazione di Mancanza}
 \end{figure}
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Concettuale15.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale15.png}
 \caption{Relazione Segnalazione di Rottura}
 \end{figure}
 Questo è il modello concettuale risultante.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/ConcettualeFinale.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/ConcettualeFinale.png}
 \caption{Modello Concettuale Finale}
 \end{figure}
 \section{Progettazione logica}
@@ -149,20 +149,20 @@ Osservando Utente e Tessera si nota che hanno la stessa chiave, quindi le due en
 Osservando poi una comune richiesta fatta al database, cioè se una tessera ha un noleggio in corso, si decide che è meglio aggiungere un attributo booleano a tessera che eseguire una query ogniqualvolta si vuole sapere se l'utente ha un noleggio in corso.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Logico01.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Logico01.png}
 \caption{Aggiunta di un attributo a Tessera}
 \end{figure}
 Osservando ora Operazione, ci si accorge come i sottoinsiemi prelievo e deposito siano molto simili, quindi si decide di unirli in un unico sottoinsieme, e distinguerli grazie ad un attributo.\newline
 Si osserva come Trasporto e Noleggio siano molto simili, ma al momento si preferisce aspettare all'implementazione su sql per decidere come comportarsi.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/Logico02.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Logico02.png}
 \caption{Modifica a Operazione}
 \end{figure}
 Lo schema Logico risultate.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/LogicoFinale.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/LogicoFinale.png}
 \caption{Modello Logico Finale}
 \end{figure}
 \section{Implementazione dello schema logico}
@@ -176,20 +176,13 @@ Inoltre si compiono varie scelte su come rappresentare i sottoinsiemi delle enti
 \end{itemize}
 \begin{figure}[H]
  \centering
-  \includegraphics[width=0.5\textwidth]{Immagini-Grafici/SQL.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/SQL.png}
 \caption{Trasformazione in sql}
 \end{figure}
 \subsection{Codice sql}
 Si decide di implementare i controlli sono sulle operazioni che verranno effettivamente eseguite (non ci si preoccupa ad esempio della modifica della chiave primaria di materiale, perchè non viene permesso di farlo).\newline
 Tessera
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Tessera(
 	IdTessera INTEGER UNSIGNED AUTO_INCREMENT,
 	DataScadenza DATE NOT NULL,
@@ -198,14 +191,7 @@ CREATE TABLE Tessera(
 )ENGINE=INNODB;
 \end{lstlisting}
 Utente
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Utente(
 	Nome VARCHAR(20) NOT NULL,
 	Cognome VARCHAR(20) NOT NULL,
@@ -220,18 +206,12 @@ CREATE TABLE Utente(
 	IdTessera INTEGER UNSIGNED,
 	PRIMARY KEY(IdTessera),
 	UNIQUE(Email),
-	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
+	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
+	  ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
 Materiale
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Materiale(
 	CodiceMateriale INTEGER UNSIGNED AUTO_INCREMENT,
 	Danneggiato BOOLEAN DEFAULT 0 NOT NULL,
@@ -239,31 +219,18 @@ CREATE TABLE Materiale(
 )ENGINE=INNODB;
 \end{lstlisting}
 Bicicletta
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Bicicletta(
 	CodiceMateriale INTEGER UNSIGNED,
 	Elettrica BOOLEAN DEFAULT 0 NOT NULL,
 	Stato ENUM('InServizio','InMagazzino') DEFAULT 'InMagazzino' NOT NULL,
 	PRIMARY KEY(CodiceMateriale),
-	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale) ON DELETE CASCADE
+	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale)
+	  ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
 Stazione
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Stazione(
 	NomeStazione VARCHAR(20),
 	Via VARCHAR(30) NOT NULL,
@@ -271,34 +238,23 @@ CREATE TABLE Stazione(
 )ENGINE=INNODB;
 \end{lstlisting}
 Colonnina
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Colonnina(
 	CodiceMateriale INTEGER UNSIGNED,
 	Bicicletta INTEGER UNSIGNED,
 	NomeStazione VARCHAR(20) NOT NULL,
 	PRIMARY KEY(CodiceMateriale),
 	UNIQUE(Bicicletta),
-	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale) ON DELETE CASCADE,
-	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale) ON DELETE SET NULL,
-	FOREIGN KEY (NomeStazione) REFERENCES Stazione(NomeStazione) ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale)
+	  ON DELETE CASCADE,
+	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale)
+	  ON DELETE SET NULL,
+	FOREIGN KEY (NomeStazione) REFERENCES Stazione(NomeStazione)
+	  ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
 Operazione
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Operazione(
 	IdOperazione INTEGER UNSIGNED AUTO_INCREMENT,
 	Orario DATETIME NOT NULL,
@@ -309,19 +265,14 @@ CREATE TABLE Operazione(
 	IdTessera INTEGER UNSIGNED,
 	PRIMARY KEY(IdOperazione),
 	UNIQUE(Orario,Colonnina),
-	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale) ON DELETE CASCADE,
-	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
+	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale)
+	  ON DELETE CASCADE,
+	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
+	  ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
 Ora però si osserva come Tipo,TipologiaPerNoleggio e TipologiaTrasporto siamo una brutta rappresentazione di come un'operazione possa essere di tipo 'Prelievo', 'Deposito', 'Aggiunta' o 'Rimozione', quindi si sostituiscono con un unico Attributo.
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Operazione(
 	IdOperazione INTEGER UNSIGNED AUTO_INCREMENT,
 	Orario DATETIME NOT NULL,
@@ -331,63 +282,49 @@ CREATE TABLE Operazione(
 	IdTessera INTEGER UNSIGNED,
 	PRIMARY KEY(IdOperazione),
 	UNIQUE(Orario,Colonnina),
-	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale) ON DELETE CASCADE,
-	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale) ON DELETE CASCADE,
-	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
+	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale)
+	  ON DELETE CASCADE,
+	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale)
+	  ON DELETE CASCADE,
+	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
+	  ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
 Manutenzione
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Manutenzione(
 	Numero INTEGER UNSIGNED,
-	Data DATE,
+	DataManutenzione DATE NOT NULL,
 	DescrizioneDanno VARCHAR(100),
 	CodiceMateriale INTEGER UNSIGNED NOT NULL,
-	PRIMARY KEY(Numero,Data),
-	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale) ON DELETE CASCADE
+	PRIMARY KEY(Numero,DataManutenzione),
+	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale)
+	  ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
 Segnalazione Rottura
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE SegnalazioneRottura(
 	Colonnina INTEGER UNSIGNED,
 	IdTessera INTEGER UNSIGNED,
-	Bicicletta BOOLEAN NOT NULL,
 	PRIMARY KEY(IdTessera,Colonnina),
-	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale) ON DELETE CASCADE,
-	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
+	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale)
+	  ON DELETE CASCADE,
+	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
+	  ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
 Segnalazione Mancanza
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE SegnalazioneMancanza(
 	NomeStazione VARCHAR(20),
 	IdTessera INTEGER UNSIGNED,
-	Data DATE NOT NULL,
+	DataSegnalazione DATE NOT NULL,
 	PRIMARY KEY(IdTessera,NomeStazione),
-	FOREIGN KEY (NomeStazione) REFERENCES Stazione(NomeStazione) ON DELETE CASCADE,
-	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
+	FOREIGN KEY (NomeStazione) REFERENCES Stazione(NomeStazione)
+	  ON DELETE CASCADE,
+	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
+	  ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
 \section{Query, procedure, trigger e funzioni} %le altre due bo
@@ -397,168 +334,135 @@ Visto che MySql non permette due trigger con lo stesso comportamento sulla stess
 Contrariamente alla possibilità di fare modifiche a molte tabelle, ho preferito fare lo stesso i trigger che controllano tali modifiche, per evidenziare come le scelte di implementazione siano state rispettate.
 \subsubsection{\texttt{insert\_utente}}
 Se un nuovo Utente ha come Tipo 'Studente' allora CodiceStudente e IoStudio non possono essere nulli, se non é 'Studente' allora devono essere nulli.
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_utente
 BEFORE INSERT ON Utente
 FOR EACH ROW BEGIN
-IF NEW.Tipo = 'Utente' OR NEW.Tipo = 'Turista' THEN SET NEW.CodiceStudente = NULL; SET NEW.IoStudio = NULL;
-ElSE IF NEW.CodiceStudente IS NULL OR NEW.IoStudio IS NULL THEN SET NEW.IdTessera = NULL;
-END IF;
-END IF;
+IF NEW.Tipo = 'Utente' OR NEW.Tipo = 'Turista' THEN
+SET NEW.CodiceStudente = NULL; SET NEW.IoStudio = NULL;
+ElSE IF NEW.CodiceStudente IS NULL OR NEW.IoStudio IS NULL THEN
+SET NEW.IdTessera = NULL;
+END IF; END IF;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{update\_tessera}}
 Una tessera non può avere una data di scadenza inferiore a quella precedente.
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER update_tessera
 BEFORE UPDATE ON Tessera
 FOR EACH ROW BEGIN
-IF NEW.DataScadenza < OLD.DataScadenza THEN SET NEW.DataScadenza = OLD.DataScadenza;
+IF NEW.DataScadenza < OLD.DataScadenza THEN
+SET NEW.DataScadenza = OLD.DataScadenza;
 END IF;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_bicicletta}}
 All'inserimento di una bicicletta viene creato un materiale e usato quel materiale come chiave per la bicicletta
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_bicicletta
 BEFORE INSERT ON Bicicletta
 FOR EACH ROW BEGIN
 DECLARE num INTEGER UNSIGNED;
 INSERT INTO Materiale(Danneggiato) VALUES (0);
-SELECT Materiale.CodiceMateriale INTO num FROM Materiale ORDER BY Materiale.CodiceMateriale DESC LIMIT 1;
+SELECT Materiale.CodiceMateriale INTO num FROM Materiale
+ORDER BY Materiale.CodiceMateriale DESC LIMIT 1;
 SET NEW.CodiceMateriale = num;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_colonnina}}
-Oltre a creare un nuovo materiale ed utilizzarlo come chiave per la colonnina, si controlla che il codice inserito in Bicicletta sia veramente una bicicletta.%credo non serva controllare bicicletta, in teoria lo fa già la chiave esterna
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+Oltre a creare un nuovo materiale ed utilizzarlo come chiave per la colonnina, si controlla che il codice inserito in Bicicletta sia veramente una bicicletta.
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_colonnina
 BEFORE INSERT ON Colonnina
 FOR EACH ROW BEGIN
 DECLARE num INTEGER UNSIGNED;
-SELECT Bicicletta.CodiceMateriale INTO num FROM Bicicletta LEFT JOIN Materiale ON Bicicletta.CodiceMateriale = Materiale.CodiceMateriale WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta LIMIT 1;
-IF num <> NEW.Bicicletta THEN SET NEW.CodiceMateriale = NULL;
-ELSE INSERT INTO Materiale(Danneggiato) VALUES (0);
-SELECT Materiale.CodiceMateriale INTO num FROM Materiale ORDER BY Materiale.CodiceMateriale DESC LIMIT 1;
+INSERT INTO Materiale(Danneggiato) VALUES (0);
+SELECT Materiale.CodiceMateriale INTO num FROM Materiale
+ORDER BY Materiale.CodiceMateriale DESC LIMIT 1;
 SET NEW.CodiceMateriale = num;
-END IF;
 END;
 \end{lstlisting}
-\texttt{insert\_operazione}
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\subsubsection{\texttt{insert\_operazione}}
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_operazione
 BEFORE INSERT ON Operazione
 FOR EACH ROW BEGIN
 DECLARE nol BOOLEAN;
+DECLARE dat DATETIME;
+SELECT NOW() INTO dat;
+SET NEW.Orario = dat;
 IF NEW.Motivazione = 'Prelievo' OR NEW.Motivazione = 'Deposito' THEN
 IF NEW.IdTessera IS NULL THEN SET NEW.IdOperazione = NULL;
 END IF;
-SELECT NoleggioInCorso INTO nol FROM Tessera WHERE Tessera.IdTessera = NEW.IdTessera;
-IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN SET NEW.IdOperazione = NULL;
-ELSE UPDATE Tessera SET NoleggioInCorso = TRUE WHERE Tessera.IdTessera = NEW.IdTessera;
-END IF;
-END IF;
-IF NEW.Motivazione = 'Deposito' THEN IF nol = FALSE THEN SET NEW.IdOperazione = NULL;
-ELSE UPDATE Tessera SET NoleggioInCorso = FALSE WHERE Tessera.IdTessera = NEW.IdTessera;
-END IF;
-END IF;
+SELECT NoleggioInCorso INTO nol FROM Tessera
+WHERE Tessera.IdTessera = NEW.IdTessera;
+IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN
+SET NEW.IdOperazione = NULL;
+ELSE UPDATE Tessera SET NoleggioInCorso = TRUE
+WHERE Tessera.IdTessera = NEW.IdTessera;
+END IF; END IF;
+IF NEW.Motivazione = 'Deposito' THEN IF nol = FALSE THEN
+SET NEW.IdOperazione = NULL;
+ELSE UPDATE Tessera SET NoleggioInCorso = FALSE
+WHERE Tessera.IdTessera = NEW.IdTessera;
+END IF; END IF;
 ELSE
 IF NEW.Motivazione = 'Aggiunta' THEN
 IF NEW.IdTessera IS NOT NULL  THEN SET NEW.IdTessera = NULL;
 END IF;
-UPDATE Bicicletta SET Stato = 'InServizio' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
+UPDATE Bicicletta SET Stato = 'InServizio'
+WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
 END IF;
 IF NEW.Motivazione = 'Rimozione' THEN
-IF NEW.IdTessera IS NOT NULL  THEN SET NEW.IdTessera = NULL;
-END IF;
-UPDATE Bicicletta SET Stato = 'InMagazzino' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
-END IF;
-END IF;
+IF NEW.IdTessera IS NOT NULL  THEN
+SET NEW.IdTessera = NULL; END IF;
+UPDATE Bicicletta SET Stato = 'InMagazzino'
+WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
+END IF; END IF;
 END;
 \end{lstlisting}
-\texttt{insert\_manutenzione}
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\subsubsection{\texttt{insert\_manutenzione}}
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_manutenzione
 BEFORE INSERT ON Manutenzione
 FOR EACH ROW BEGIN
-DELETE FROM SegnalazioneRottura WHERE NEW.CodiceMateriale = Manutenzione.Colonnina;
-UPDATE CodiceMateriale SET CodiceMateriale.danneggiata = FALSE WHERE NEW.CodiceMateriale = Materiale.CodiceMateriale;
+DECLARE dat DATE;
+SELECT CURDATE() INTO dat;
+SET NEW.DataManutenzione = dat;
+DELETE FROM SegnalazioneRottura
+WHERE NEW.CodiceMateriale = Manutenzione.Colonnina;
+UPDATE CodiceMateriale SET CodiceMateriale.danneggiata = FALSE
+WHERE NEW.CodiceMateriale = Materiale.CodiceMateriale;
 END;
 \end{lstlisting}
-\texttt{insert\_segnalazione\_rottura}
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\subsubsection{\texttt{insert\_segnalazione\_rottura}}
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_segnalazione_rottura
 BEFORE INSERT ON SegnalazioneRottura
 FOR EACH ROW BEGIN
-UPDATE Materiale SET Materiale.danneggiata = TRUE WHERE NEW.Colonnina = Materiale.CodiceMateriale;
-UPDATE Materiale JOIN Colonnina ON Materiale.CodiceMateriale = Colonnina.Bicicletta SET Materiale.danneggiata = TRUE WHERE NEW.Colonnina = Colonnina.CodiceMateriale;
+UPDATE Materiale SET Materiale.danneggiata = TRUE
+WHERE NEW.Colonnina = Materiale.CodiceMateriale;
+UPDATE Materiale JOIN Colonnina
+ON Materiale.CodiceMateriale = Colonnina.Bicicletta
+SET Materiale.danneggiata = TRUE
+WHERE NEW.Colonnina = Colonnina.CodiceMateriale;
 END;
 \end{lstlisting}
-\texttt{insert\_segnalazione\_mancanza}
-\begin{lstlisting}[
-           language=SQL,
-           showspaces=false,
-           basicstyle=\ttfamily,
-           numbers=none,
-           numberstyle=\tiny,
-           commentstyle=\color{gray}
-        ]
+\subsubsection{\texttt{insert\_segnalazione\_mancanza}}
+\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_segnalazione_mancanza
 BEFORE INSERT ON SegnalazioneMancanza
 FOR EACH ROW BEGIN
 DECLARE num INTEGER;
 DECLARE vuo INTEGER;
-SELECT COUNT(CodiceMateriale) INTO num FROM Colonnina WHERE Colonnina.NomeStazione = NEW.NomeStazione;
-SELECT COUNT(CodiceMateriale) INTO vuo FROM Colonnina WHERE Colonnina.NomeStazione = NEW.NomeStazione AND Colonnina.Bicicletta IS NULL;
+DECLARE dat DATE;
+SELECT CURDATE() INTO dat;
+SET NEW.DataSegnalazione = dat;
+SELECT COUNT(CodiceMateriale) INTO num FROM Colonnina
+WHERE Colonnina.NomeStazione = NEW.NomeStazione;
+SELECT COUNT(CodiceMateriale) INTO vuo FROM Colonnina
+WHERE Colonnina.NomeStazione = NEW.NomeStazione
+AND Colonnina.Bicicletta IS NULL;
 IF vou = 0 OR num = vuo THEN SET NEW.IdTessera = NULL;
 END IF;
 END;

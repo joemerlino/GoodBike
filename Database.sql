@@ -84,10 +84,10 @@ CREATE TABLE Operazione(
 
 CREATE TABLE Manutenzione(
 	Numero INTEGER UNSIGNED,
-	Data DATE,
+	DataManutenzione DATE NOT NULL,
 	DescrizioneDanno VARCHAR(100),
 	CodiceMateriale INTEGER UNSIGNED NOT NULL,
-	PRIMARY KEY(Numero,Data),
+	PRIMARY KEY(Numero,DataManutenzione),
 	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale) ON DELETE CASCADE
 )ENGINE=INNODB;
 
@@ -102,7 +102,7 @@ CREATE TABLE SegnalazioneRottura(
 CREATE TABLE SegnalazioneMancanza(
 	NomeStazione VARCHAR(20),
 	IdTessera INTEGER UNSIGNED,
-	Data DATE NOT NULL,
+	DataSegnalazione DATE NOT NULL,
 	PRIMARY KEY(IdTessera,NomeStazione),
 	FOREIGN KEY (NomeStazione) REFERENCES Stazione(NomeStazione) ON DELETE CASCADE,
 	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
@@ -153,12 +153,12 @@ CREATE TRIGGER insert_colonnina
 BEFORE INSERT ON Colonnina
 FOR EACH ROW BEGIN
 DECLARE num INTEGER UNSIGNED;
-SELECT Bicicletta.CodiceMateriale INTO num FROM Bicicletta LEFT JOIN Materiale ON Bicicletta.CodiceMateriale = Materiale.CodiceMateriale WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta LIMIT 1;
+/*SELECT Bicicletta.CodiceMateriale INTO num FROM Bicicletta LEFT JOIN Materiale ON Bicicletta.CodiceMateriale = Materiale.CodiceMateriale WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta LIMIT 1;
 IF num <> NEW.Bicicletta THEN SET NEW.CodiceMateriale = NULL;
-ELSE INSERT INTO Materiale(Danneggiato) VALUES (0);
+END IF;*/ /* non credo serva */
+INSERT INTO Materiale(Danneggiato) VALUES (0);
 SELECT Materiale.CodiceMateriale INTO num FROM Materiale ORDER BY Materiale.CodiceMateriale DESC LIMIT 1;
 SET NEW.CodiceMateriale = num;
-END IF;
 END |
 DELIMITER ;
 
@@ -167,6 +167,9 @@ CREATE TRIGGER insert_operazione
 BEFORE INSERT ON Operazione
 FOR EACH ROW BEGIN
 DECLARE nol BOOLEAN;
+DECLARE dat DATETIME;
+SELECT NOW() INTO dat;
+SET NEW.Orario = dat;
 IF NEW.Motivazione = 'Prelievo' OR NEW.Motivazione = 'Deposito' THEN
 IF NEW.IdTessera IS NULL THEN SET NEW.IdOperazione = NULL;
 END IF;
@@ -198,6 +201,9 @@ DELIMITER |
 CREATE TRIGGER insert_manutenzione
 BEFORE INSERT ON Manutenzione
 FOR EACH ROW BEGIN
+DECLARE dat DATE;
+SELECT CURDATE() INTO dat;
+SET NEW.DataManutenzione = dat;
 DELETE FROM SegnalazioneRottura WHERE NEW.CodiceMateriale = Manutenzione.Colonnina;
 UPDATE CodiceMateriale SET CodiceMateriale.danneggiata = FALSE WHERE NEW.CodiceMateriale = Materiale.CodiceMateriale;
 END |
@@ -218,6 +224,9 @@ BEFORE INSERT ON SegnalazioneMancanza
 FOR EACH ROW BEGIN
 DECLARE num INTEGER;
 DECLARE vuo INTEGER;
+DECLARE dat DATE;
+SELECT CURDATE() INTO dat;
+SET NEW.DataSegnalazione = dat;
 SELECT COUNT(CodiceMateriale) INTO num FROM Colonnina WHERE Colonnina.NomeStazione = NEW.NomeStazione;
 SELECT COUNT(CodiceMateriale) INTO vuo FROM Colonnina WHERE Colonnina.NomeStazione = NEW.NomeStazione AND Colonnina.Bicicletta IS NULL;
 IF vou = 0 OR num = vuo THEN SET NEW.IdTessera = NULL;
