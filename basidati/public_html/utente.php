@@ -46,7 +46,7 @@ while($row=mysql_fetch_row($query)){
 echo "</select></form>";
 if($_POST and $_POST['staz']){
 	$query=mysql_query("SELECT CodiceMateriale,Bicicletta FROM Colonnina WHERE NomeStazione='$selectOption'",$connect);
-	echo "<form><table>";
+	echo "<form action='checkout.php' method='POST'><table>";
 	$conta=0;
 	$occ=0;
 	$free=0;
@@ -55,11 +55,11 @@ if($_POST and $_POST['staz']){
 			echo "<tr>";
 		$conta++;
 		if($row[1]!=NULL){
-			echo "<td class='occ' name='$row[0]'>$row[0]<input type='radio' name='col' onclick='setButtons(true)'></td>";
+			echo "<td class='occ' name='$row[0]'>$row[0]<input type='radio' name='col' value='$row[0]' onclick='setButtons(true)'></td>";
 			$occ++;
 		}
 		else{	
-			echo "<td class='free' name='$row[0]'>$row[0]<input type='radio' name='col' onclick='setButtons(false)'></td>";
+			echo "<td class='free' name='$row[0]'>$row[0]<input type='radio' name='col' value='$row[0]' onclick='setButtons(false)'></td>";
 			$free++;
 		}
 		if($conta%5==0){
@@ -75,25 +75,25 @@ if($_POST and $_POST['staz']){
 		echo "<script>status=true;</script>";
 		echo "Ora seleziona la colonnina per il noleggio o la segnalazione.<br>";
 		if($free==$conta){
-			echo "<button type='submit'>Segnalazione Mancanza</button>";
+			echo "<input type='submit' name='mancanza' value='Segnalazione Mancanza'>";
 		}
 		else{
-			echo "<button type='submit' disabled>Segnalazione Mancanza</button>";
+			echo "<input type='submit' name='mancanza' disabled value='Segnalazione Mancanza'>";
 		}
-		echo "<input type='submit' id='noleggia' value='Noleggia' disabled>";
+		echo "<input type='submit' name='noleggia' id='noleggia' value='Noleggia' disabled>";
 	}
 	else{
 		echo "<script>status=false;</script>";
 		echo "Ora seleziona la colonnina per il deposito o la segnalazione.<br>";
 		if($occ==$conta){
-			echo "<button type='submit'>Segnalazione Mancanza</button>";
+			echo "<input type='submit' name='mancanza' disabled value='Segnalazione Mancanza'>";
 		}
 		else{
-			echo "<button type='submit' disabled>Segnalazione Mancanza</button>";
+			echo "<input type='submit' name='mancanza' disabled value='Segnalazione Mancanza>";
 		}
-		echo "<input type='submit' id='deposita' value='Deposita' disabled>";
+		echo "<input type='submit' name='deposita' id='deposita' value='Deposita' disabled>";
 	}
-	echo "<input type='submit' id='segnala' value='Segnala rottura' disabled>";
+	echo "<input type='submit' name='segnala' id='segnala' value='Segnala rottura' disabled>";
 	echo "</div></form>";
 }
 page_end();

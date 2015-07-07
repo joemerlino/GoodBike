@@ -65,7 +65,7 @@ FOOT;
 function check_session() {
   session_start();
   if(isset($_SESSION['id_tessera']))
-    return $_SESSION['id_tessera'];;
+    return $_SESSION['id_tessera'];
   return FALSE;
 }
 
