@@ -146,17 +146,11 @@ Questo è il modello concettuale risultante.
 Per la realizzazione di un modello logico a partire da uno concettuale si sevono controllare varie cose:\newline
 Per prima cosa si controllano le chiavi di ogni entità, e sono presenti tutte.\newline
 Osservando Utente e Tessera si nota che hanno la stessa chiave, quindi le due entità potrebbero essere unite in un'unica, ma si decide di non farlo in quanto le informazioni dell'utente non vengono quasi mai richiamate (solo se si deve mostrare il profilo) e quindi avere una grande entità coinvolta in tutte le relazioni di tessera rallenterebbe inutilmente il sistema,molto meglio eseguire un join quelle rare volte che servono le informazioni personali dell'utente.\newline
-Osservando poi una comune richiesta fatta al database, cioè se una tessera ha un noleggio in corso, si decide che è meglio aggiungere un attributo booleano a tessera che eseguire una query ogniqualvolta si vuole sapere se l'utente ha un noleggio in corso.
-\begin{figure}[H]
- \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Logico01.png}
-\caption{Aggiunta di un attributo a Tessera}
-\end{figure}
 Osservando ora Operazione, ci si accorge come i sottoinsiemi prelievo e deposito siano molto simili, quindi si decide di unirli in un unico sottoinsieme, e distinguerli grazie ad un attributo.\newline
 Si osserva come Trasporto e Noleggio siano molto simili, ma al momento si preferisce aspettare all'implementazione su sql per decidere come comportarsi.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Logico02.png}
+  \includegraphics[width=1\textwidth]{Immagini-Grafici/Logico01.png}
 \caption{Modifica a Operazione}
 \end{figure}
 Lo schema Logico risultate.
@@ -186,7 +180,6 @@ Tessera
 CREATE TABLE Tessera(
 	IdTessera INTEGER UNSIGNED AUTO_INCREMENT,
 	DataScadenza DATE NOT NULL,
-	NoleggioInCorso BOOLEAN DEFAULT 0 NOT NULL,
 	PRIMARY KEY(IdTessera)
 )ENGINE=INNODB;
 \end{lstlisting}
@@ -388,34 +381,41 @@ CREATE TRIGGER insert_operazione
 BEFORE INSERT ON Operazione
 FOR EACH ROW BEGIN
 DECLARE nol BOOLEAN;
+DECLARE tes INTEGER UNSIGNED;
 DECLARE dat DATETIME;
+SET nol = FALSE;
 SELECT NOW() INTO dat;
 SET NEW.Orario = dat;
 IF NEW.Motivazione = 'Prelievo' OR NEW.Motivazione = 'Deposito' THEN
 IF NEW.IdTessera IS NULL THEN SET NEW.IdOperazione = NULL;
 END IF;
-SELECT NoleggioInCorso INTO nol FROM Tessera
-WHERE Tessera.IdTessera = NEW.IdTessera;
-IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN
-SET NEW.IdOperazione = NULL;
+SELECT IdTessera INTO tes FROM Tessera JOIN Operazione
+ON Tessera.IdTessera = Operazione.IdTessera
+WHERE Tessera.IdTessera = NEW.IdTessera AND Operazione.Motivazone = 'Prelievo'
+AND Operazione.IdOperazione <> NEW.IdOperazione
+ORDER BY Operazione.Orario DESC LIMIT 1;
+IF tes IS NOT NULL THEN SET nol = TRUE; END IF;
+IF NEW.Motivazione = 'Prelievo' THEN
+IF nol = TRUE THEN SET NEW.IdOperazione = NULL;
 ELSE UPDATE Tessera SET NoleggioInCorso = TRUE
 WHERE Tessera.IdTessera = NEW.IdTessera;
 END IF; END IF;
-IF NEW.Motivazione = 'Deposito' THEN IF nol = FALSE THEN
-SET NEW.IdOperazione = NULL;
+IF NEW.Motivazione = 'Deposito' THEN
+IF nol = FALSE THEN SET NEW.IdOperazione = NULL;
 ELSE UPDATE Tessera SET NoleggioInCorso = FALSE
 WHERE Tessera.IdTessera = NEW.IdTessera;
-END IF; END IF;
-ELSE
+END IF; END IF; ELSE
 IF NEW.Motivazione = 'Aggiunta' THEN
-IF NEW.IdTessera IS NOT NULL  THEN SET NEW.IdTessera = NULL;
+IF NEW.IdTessera IS NOT NULL THEN
+SET NEW.IdTessera = NULL;
 END IF;
 UPDATE Bicicletta SET Stato = 'InServizio'
 WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
 END IF;
 IF NEW.Motivazione = 'Rimozione' THEN
-IF NEW.IdTessera IS NOT NULL  THEN
-SET NEW.IdTessera = NULL; END IF;
+IF NEW.IdTessera IS NOT NULL THEN
+SET NEW.IdTessera = NULL;
+END IF;
 UPDATE Bicicletta SET Stato = 'InMagazzino'
 WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
 END IF; END IF;
