@@ -22,7 +22,6 @@ else {
       $noleggioInCorso = fetch_singolo(mysql_query($query2,$conn));
       if($noleggioInCorso and $noleggioInCorso == '0') $_SESSION["noleggioInCorso"] = TRUE;
 	else $_SESSION["noleggioInCorso"] = FALSE;
-      }
       redirect("utente.php",0);
     }
     else {
