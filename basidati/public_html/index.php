@@ -16,8 +16,13 @@ else {
     $utente = mysql_query($query,$conn);
     if(mysql_num_rows($utente) == 1) {
       $row = mysql_fetch_assoc($utente);
-      $tessera = $row["IdTessera"];
-      $_SESSION["id_tessera"] = $tessera;
+      $_SESSION["id_tessera"] = $row["IdTessera"];
+      
+      $query2 = "SELECT IdTessera FROM Tessera JOIN Operazione ON Tessera.IdTessera = Operazione.IdTessera WHERE Tessera.IdTessera = '$tessera' AND Operazione.Motivazone = 'Prelievo' ORDER BY Operazione.Orario DESC LIMIT 1;";
+      $noleggioInCorso = mysql_query($query2,$conn);
+      if($noleggioInCorso == $tessera) $_SESSION["noleggioInCorso"] = true;
+      else $_SESSION["noleggioInCorso"] = false;
+      
       redirect("utente.php",0);
     }
     else {
