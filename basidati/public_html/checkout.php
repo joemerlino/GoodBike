@@ -12,6 +12,8 @@ if($_POST){
 	  else {
 	    addOperazione('Prelievo',$_POST['col'],'0',$tessera);
 	    $_SESSION["noleggioInCorso"] = true;
+	    $queryBic = "SELECT Operazione.Bicicletta FROM Operazione WHERE Operazione.IdTessera = '$tessera' ORDER BY Operazione.Orario DESC LIMIT 1";
+	    $_SESSION["Bicicletta"] = mysql_query($queryBic,$conn);
 	    echo "operazione di noleggio riuscita";
 	    }
 	}
