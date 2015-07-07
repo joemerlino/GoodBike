@@ -8,13 +8,19 @@ if(!$tessera){
 page_start("Checkout - BiciRent");
 if($_POST){
 	if(isset($_POST['noleggia'])){
-		echo "NOLEGGIO ".$_POST['col'];
+	  if($_SESSION["noleggioInCorso"]) echo "errore, noleggio già in corso";
+	  else {
+	    echo "NOLEGGIO ".$_POST['col'];
+	    }
 	}
 	else if(isset($_POST['segnala'])){
 		echo "SEGNALA ROTTURA ".$_POST['col'];
 	}
 	else if(isset($_POST['deposita'])){
+	  if($_SESSION["noleggioInCorso"]){
 		echo "DEPOSITA ".$_POST['col'];
+		}
+	  else echo "errore, noleggio già in corso";
 	}
 	else{
 		echo "SEGNALA MANCANZA";
