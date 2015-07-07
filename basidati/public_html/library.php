@@ -73,26 +73,24 @@ function logout() { //devo avere già controllato session
 }
 
 //inserisco un'operazione : nel caso di deposito o aggiunta ho la bici, nel caso di prelievo o rimozione non ho la bici e me la ricavo dalla colonnina
-function addOperazione($motivazione,$colonnina,$bicicletta,$tessera) {
+function add_operazione($motivazione,$colonnina,$bicicletta,$tessera) {
   $conn = connectDbServer();
   $connect = selectDatabase($conn);
   if($bicicletta == '0') {
     $queryBic = "SELECT Colonnina.Bicicletta FROM Colonnina WHERE Colonnina.CodiceMateriale = '$colonnina'";
-    $bicicletta = mysql_query($queryBic,$conn);
-    $row = mysql_fetch_assoc($bicicletta);
-    $bicicletta = $row('Bicicletta');
+    $bicicletta = fetch_singolo(mysql_query($queryBic,$conn));
   }
   $queryOp = "INSERT INTO Operazione(Colonnina,Bicicletta,Motivazione,IdTessera) VALUES ('$colonnina','$bicicletta','$motivazione','$tessera')";
   return mysql_query($queryOp,$conn); 
 }
 
 //addOperazione per i tecnici
-function addOperazioneAdmin($motivazione,$colonnina,$bicicletta) {
+function add_operazione_admin($motivazione,$colonnina,$bicicletta) {
   return addOperazione($motivazione,$colonnina,$bicicletta,'NULL');
 }
 
 //inserisco una manutenzione
-function addManutenzione($materiale,$descrizione) {
+function add_manutenzione($materiale,$descrizione) {
   $conn = connectDbServer();
   $connect = selectDatabase($conn);
   $queryOp = "INSERT INTO Manutenzione(DescrizioneDanno, CodiceMateriale) VALUES ('$descrizione','$materiale')";
@@ -100,7 +98,7 @@ function addManutenzione($materiale,$descrizione) {
 }
 
 //inserisco una SegnalazioneRottura
-function addRottura($tessera,$colonnina) {
+function add_rottura($tessera,$colonnina) {
   $conn = connectDbServer();
   $connect = selectDatabase($conn);
   $queryRo = "INSERT INTO SegnalazioneRottura (Colonnina, IdTessera) VALUES ('$colonnina','$tessera')";
@@ -108,11 +106,17 @@ function addRottura($tessera,$colonnina) {
 }
 
 //inserisco una SegnalazioneMancanza
-function addMancanza($tessera,$stazione) {
+function add_mancanza($tessera,$stazione) {
   $conn = connectDbServer();
   $connect = selectDatabase($conn);
   $queryRo = "INSERT INTO SegnalazioneMancanza (NomeStazione, IdTessera) VALUES ('$stazione','$tessera')";
   return mysql_query($queryRo,$conn); 
+}
+
+//funzione che fa il fetch della risorsa e ritorna il primo elemento della prima riga
+function fetch_singolo($risorsa) {
+  $row = mysql_fetch_array($risorsa);
+  return $row[0];
 }
 
 ?>

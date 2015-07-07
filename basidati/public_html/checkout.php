@@ -15,9 +15,7 @@ if($_POST){
 	    if(addOperazione('Prelievo',$_POST['col'],'0',$tessera)) {
 	      $_SESSION["noleggioInCorso"] = TRUE;
 	      $queryBic = "SELECT Operazione.Bicicletta FROM Operazione WHERE Operazione.IdTessera = '$tessera' ORDER BY Operazione.Orario DESC LIMIT 1";
-	      $bicicletta = mysql_query($queryBic,$conn);
-	      $row = mysql_fetch_assoc($bicicletta);
-	      $_SESSION["Bicicletta"] = $row['Bicicletta'];
+	      $_SESSION["Bicicletta"] = fetch_singolo(mysql_query($queryBic,$conn));
 	      echo "inserimento operazione di noleggio riuscita";
 	    }
 	    else echo "inserimento operazione di noleggio non riuscita";
