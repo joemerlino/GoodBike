@@ -21,6 +21,7 @@ if($_POST){
 	      echo "inserimento operazione di noleggio riuscita";
 	    }
 	    else echo "inserimento operazione di noleggio non riuscita";
+	  }
 	}
 	else if(isset($_POST['segnala'])){
 	  if(addRottura($tessera,$_POST['col'])) echo "aggiunta segnalazione rottura";
