@@ -249,13 +249,13 @@ INSERT INTO Stazione (NomeStazione, Via) VALUES ('Paolotti','Via Paolotti'),('Pr
 INSERT INTO Colonnina (Bicicletta, NomeStazione) VALUES (1,'Paolotti'),(22,'Paolotti'),(23,'Paolotti'),(21,'Paolotti'),(NULL,'Paolotti'),(20,'Paolotti'),(NULL,'Paolotti'),(NULL,'Paolotti'),(24,'Paolotti'),(NULL,'Paolotti'),(NULL,'Paolotti'),(2,'Paolotti'),(3,'Paolotti'),(NULL,'Paolotti'),(NULL,'Paolotti'),(NULL,'Paolotti'),(19,'Paolotti'),(NULL,'Paolotti'),(25,'Paolotti'),(NULL,'Paolotti'),(4,'Prato'),(NULL,'Prato'),(26,'Prato'),(NULL,'Prato'),(5,'Prato'),(NULL,'Prato'),(27,'Prato'),(NULL,'Prato'),(6,'Prato'),(NULL,'Prato'),(NULL,'Prato'),(7,'Prato'),(NULL,'Prato'),(18,'Prato'),(NULL,'Prato'),(28,'Prato'),(NULL,'Prato'),(NULL,'Prato'),(8,'Prato'),(NULL,'Prato'),(13,'Stazione'),(NULL,'Stazione'),(NULL,'Stazione'),(12,'Stazione'),(NULL,'Stazione'),(NULL,'Stazione'),(30,'Stazione'),(NULL,'Stazione'),(NULL,'Stazione'),(9,'Stazione'),(16,'Stazione'),(NULL,'Stazione'),(10,'Stazione'),(NULL,'Stazione'),(NULL,'Stazione'),(NULL,'Stazione'),(NULL,'Stazione'),(11,'Stazione'),(NULL,'Stazione'),(NULL,'Stazione');
 
 /*
-INSERT INTO Operazione(Orario,Colonnina,Bicicletta,Motivazione,IdTessera) VALUES (),();
+INSERT INTO Operazione(Colonnina,Bicicletta,Motivazione,IdTessera) VALUES (),();
 
 INSERT INTO Manutenzione(Numero, Data, DescrizioneDanno, CodiceMateriale) VALUES (),();
 
 INSERT INTO SegnalazioneRottura (Colonnina, IdTessera) VALUES (),();
 
-INSERT INTO SegnalazioneMancanza (NomeStazione, IdTessera, Data) VALUES (),();
+INSERT INTO SegnalazioneMancanza (NomeStazione, IdTessera) VALUES (),();
 */
 
 SET FOREIGN_KEY_CHECKS=1;

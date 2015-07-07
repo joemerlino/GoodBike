@@ -72,4 +72,21 @@ function logout() { //devo avere già controllato session
   }
 }
 
+//inserisco un'operazione : nel caso di deposito o aggiunta ho la bici, nel caso di prelievo o rimozione non ho la bici e me la ricavo dalla colonnina
+function addOperazione($motivazione,$colonnina,$bicicletta,$tessera) {
+  $conn = connectDbServer();
+  $connect = selectDatabase($conn);
+  if($bicicletta == '0') {
+    $queryBic = "SELECT Colonnina.Bicicletta FROM Colonnina WHERE Colonnina.CodiceMateriale = '$colonnina'";
+    $bicicletta = mysql_query($queryBic,$conn);
+  }
+  $queryOp = "INSERT INTO Operazione(Colonnina,Bicicletta,Motivazione,IdTessera) VALUES ('$colonnina','$bicicletta','$motivazione',$tessera)";
+  mysql_query($queryOp,$conn) or echo "impossibile creare l'operazione $motivazione"; 
+}
+
+//addOperazione per i tecnici
+function addOperazioneAdmin($motivazione,$colonnina,$bicicletta) {
+  addOperazione($motivazione,$colonnina,$bicicletta,'NULL');
+}
+
 ?>

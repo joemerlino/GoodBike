@@ -10,7 +10,9 @@ if($_POST){
 	if(isset($_POST['noleggia'])){
 	  if($_SESSION["noleggioInCorso"]) echo "errore, noleggio già in corso";
 	  else {
-	    echo "NOLEGGIO ".$_POST['col'];
+	    addOperazione('Prelievo',$colonnina,'0',$tessera);
+	    $_SESSION["noleggioInCorso"] = true;
+	    echo "operazione di noleggio riuscita";
 	    }
 	}
 	else if(isset($_POST['segnala'])){
@@ -18,7 +20,9 @@ if($_POST){
 	}
 	else if(isset($_POST['deposita'])){
 	  if($_SESSION["noleggioInCorso"]){
-		echo "DEPOSITA ".$_POST['col'];
+	      addOperazione('Deposito',$colonnina,$_SESSION["Bicicletta"],$tessera);
+	      $_SESSION["noleggioInCorso"] = false;
+	      echo "operazione di deposito riuscita";
 		}
 	  else echo "errore, noleggio già in corso";
 	}
