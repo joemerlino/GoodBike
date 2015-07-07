@@ -350,7 +350,7 @@ END IF;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_bicicletta}}
-All'inserimento di una bicicletta viene creato un materiale e usato quel materiale come chiave per la bicicletta
+All'inserimento di una bicicletta viene creato un materiale e usato quel materiale come chiave per la bicicletta.
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_bicicletta
 BEFORE INSERT ON Bicicletta
@@ -363,7 +363,7 @@ SET NEW.CodiceMateriale = num;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_colonnina}}
-Oltre a creare un nuovo materiale ed utilizzarlo come chiave per la colonnina, si controlla che il codice inserito in Bicicletta sia veramente una bicicletta.
+Come per Bicicletta viene creato anche qui un nuovo materiale corrispondente alla bicicletta.
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_colonnina
 BEFORE INSERT ON Colonnina
@@ -376,6 +376,12 @@ SET NEW.CodiceMateriale = num;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_operazione}}
+Su operazione si fanno molti controlli in base al tipo di operazione (la motivazione):
+\begin{itemize}
+ \item per un prelievo o un deposito si controlla che IdTessera non sia nullo, poi si controlla che quell'operazione non sia successiva ad un'operazione analoga (prelievo con prelievo o deposito con deposito), essendo possibbile solo un noleggio alla volta
+ \item per una aggiunta o una rimozione si mette a null la tessera e si modifica lo stato di servizio della bicicletta tra in servio e in magazzino
+\end{itemize}
+In ogni caso il trigger si preoccupa di inserire la data.
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_operazione
 BEFORE INSERT ON Operazione
@@ -389,17 +395,16 @@ SET NEW.Orario = dat;
 IF NEW.Motivazione = 'Prelievo' OR NEW.Motivazione = 'Deposito' THEN
 IF NEW.IdTessera IS NULL THEN SET NEW.IdOperazione = NULL;
 END IF;
-SELECT Operazione.Motivazione INTO mot FROM Operazione WHERE Operazione.IdTessera = NEW.IdTessera AND Operazione.Motivazone = 'Prelievo' AND Operazione.IdOperazione <> NEW.IdOperazione ORDER BY Operazione.Orario DESC LIMIT 1;
+SELECT Operazione.Motivazione INTO mot FROM Operazione
+WHERE Operazione.IdTessera = NEW.IdTessera AND Operazione.Motivazione = 'Prelievo'
+AND Operazione.IdOperazione <> NEW.IdOperazione ORDER BY Operazione.Orario DESC LIMIT 1;
 IF mot = 'Prelievo' THEN SET nol = TRUE; END IF;
-IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN SET NEW.IdOperazione = NULL;
-ELSE UPDATE Tessera SET NoleggioInCorso = TRUE WHERE Tessera.IdTessera = NEW.IdTessera;
-END IF;
-END IF;
-IF NEW.Motivazione = 'Deposito' THEN IF nol = FALSE THEN SET NEW.IdOperazione = NULL;
-ELSE UPDATE Tessera SET NoleggioInCorso = FALSE WHERE Tessera.IdTessera = NEW.IdTessera;
-END IF;
-END IF;
-ELSE
+IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN
+SET NEW.IdOperazione = NULL;
+END IF; END IF;
+IF NEW.Motivazione = 'Deposito' THEN IF nol = FALSE THEN
+SET NEW.IdOperazione = NULL;
+END IF; END IF; ELSE
 IF NEW.Motivazione = 'Aggiunta' THEN
 IF NEW.IdTessera IS NOT NULL  THEN SET NEW.IdTessera = NULL;
 END IF;
@@ -409,11 +414,11 @@ IF NEW.Motivazione = 'Rimozione' THEN
 IF NEW.IdTessera IS NOT NULL  THEN SET NEW.IdTessera = NULL;
 END IF;
 UPDATE Bicicletta SET Stato = 'InMagazzino' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
-END IF;
-END IF;
+END IF; END IF;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_manutenzione}}
+All'inserimento di una manutenzione vengono cancellate tutte le segnalazioni di quella colonnina (se è una colonnina) e viene aggiornato il materiale rimuovendo la danneggiato; viene anche inserita la data esatta.
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_manutenzione
 BEFORE INSERT ON Manutenzione
@@ -428,6 +433,7 @@ WHERE NEW.CodiceMateriale = Materiale.CodiceMateriale;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_segnalazione\_rottura}}
+La segnalazione di rottura aggiorna lo stato della colonnina e della bici se presente, mettendole come materiale danneggiato.
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_segnalazione_rottura
 BEFORE INSERT ON SegnalazioneRottura
@@ -441,6 +447,7 @@ WHERE NEW.Colonnina = Colonnina.CodiceMateriale;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_segnalazione\_mancanza}}
+La segnalazione di mancanza inserisce la data corretta, poi controlla se si è veramente con una stazione comletamente piena o completamente vuota; solo in questi casi si può fare una segnalazione.
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_segnalazione_mancanza
 BEFORE INSERT ON SegnalazioneMancanza
