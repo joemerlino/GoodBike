@@ -8,10 +8,10 @@ if(!$tessera){
 page_start("Noleggio - BiciRent");
 echo "<script>
 var status;
-function setButtons(occupato){
+function setButtons(occupato,danneggiato){
 	document.getElementById('segnala').disabled = false;
 	if(status=='true'){
-		if(occupato){
+		if(occupato && !danneggiato){
 			document.getElementById('noleggia').disabled = false;
 		}
 		else{
@@ -19,7 +19,7 @@ function setButtons(occupato){
 		}
 	}
 	else{
-		if(occupato){
+		if(occupato || danneggiato){
 			document.getElementById('deposita').disabled = true;
 		}
 		else{
@@ -45,7 +45,7 @@ while($row=mysql_fetch_row($query)){
 };
 echo "</select></form>";
 if($_POST and $_POST['staz']){
-	$query=mysql_query("SELECT CodiceMateriale,Bicicletta FROM Colonnina WHERE NomeStazione='$selectOption'",$connect);
+	$query=mysql_query("SELECT Colonnina.CodiceMateriale,Bicicletta,Danneggiato FROM Colonnina JOIN Materiale ON Colonnina.CodiceMateriale=Materiale.CodiceMateriale WHERE NomeStazione='$selectOption'",$connect);
 	echo "<form action='checkout.php' method='POST'><input type='hidden' name='stazione' value='".$_POST['staz']."'><table>";
 	$conta=0;
 	$occ=0;
@@ -54,12 +54,17 @@ if($_POST and $_POST['staz']){
 		if($conta%5==0)
 			echo "<tr>";
 		$conta++;
-		if($row[1]!=NULL){
-			echo "<td class='occ' name='$row[0]'>$row[0]<input type='radio' name='col' value='$row[0]' onclick='setButtons(true)'></td>";
+		if($row[2]==true){
+			echo "<td class='dis' name='$row[0]'>$row[0]<input type='radio' name='col' value='$row[0]' onclick='setButtons(true,$row[2])'></td>";
+			if($row[1]!=NULL) $free++;
+			else $occ++;
+		}
+		else if($row[1]!=NULL){
+			echo "<td class='occ' name='$row[0]'>$row[0]<input type='radio' name='col' value='$row[0]' onclick='setButtons(true,$row[2])'></td>";
 			$occ++;
 		}
 		else{	
-			echo "<td class='free' name='$row[0]'>$row[0]<input type='radio' name='col' value='$row[0]' onclick='setButtons(false)'></td>";
+			echo "<td class='free' name='$row[0]'>$row[0]<input type='radio' name='col' value='$row[0]' onclick='setButtons(false,$row[2])'></td>";
 			$free++;
 		}
 		if($conta%5==0){

@@ -18,7 +18,7 @@ if($_POST){
 	    }
 	}
 	else if(isset($_POST['segnala'])){
-	  addRottura($tessera,$_POST['col'])
+	  addRottura($tessera,$_POST['col']);
 	  echo "aggiunta segnalazione rottura";
 	}
 	else if(isset($_POST['deposita'])){

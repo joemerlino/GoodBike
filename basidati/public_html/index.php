@@ -18,13 +18,12 @@ else {
       $row = mysql_fetch_assoc($utente);
       $_SESSION["id_tessera"] = $row["IdTessera"];
       
-      $query2 = "SELECT Operazione.Motivazone FROM Operazione WHERE Operazione.IdTessera = '$tessera' ORDER BY Operazione.Orario DESC LIMIT 1;";
-      $noleggioInCorso = mysql_query($query2,$conn);
-      if($noleggioInCorso and $noleggioInCorso == '0'){
-	$_SESSION["noleggioInCorso"] = true;
-	$query3 = "SELECT Operazione.Bicicletta FROM Operazione WHERE Operazione.IdTessera = '$tessera' ORDER BY Operazione.Orario DESC LIMIT 1;";
-	$_SESSION["Bicicletta"] = mysql_query($query3,$conn);
-	}
+      $queryOp = "SELECT IdOperazione FROM Operazione WHERE Operazione.IdTessera = '$tessera' LIMIT 1;";
+      if(mysql_query($queryOp,$conn)) {
+            $query2 = "SELECT Operazione.Motivazone FROM Tessera JOIN Operazione ON Tessera.IdTessera = Operazione.IdTessera WHERE Tessera.IdTessera = '$tessera' ORDER BY Operazione.Orario DESC LIMIT 1;";
+      if(mysql_query($query2,$conn) == '0') $_SESSION["noleggioInCorso"] = true;
+      else $_SESSION["noleggioInCorso"] = false;
+      }
       else $_SESSION["noleggioInCorso"] = false;
       
       redirect("utente.php",0);

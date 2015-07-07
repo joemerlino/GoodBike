@@ -41,20 +41,31 @@ input{
   margin:3px 0px 7px 0px;
 }
 
-#submit{
+submit{
   margin-top:10px;
 }
 */
+input[type="radio"]{
+  display: block;
+}
+body{
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
 table{
   margin-left: auto;
   margin-right: auto;
 }
+
 td{
+  text-align: center;
   padding: 30px;
   font-size: 18px;
 }
 #buttons{
   text-align: center;
+}
+td.dis{
+  background-color: whitesmoke;
 }
 td.occ{
   background-color: tomato;
