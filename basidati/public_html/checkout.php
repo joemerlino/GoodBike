@@ -7,6 +7,8 @@ if(!$tessera){
 }
 page_start("Checkout - BiciRent");
 if($_POST){
+  $conn = connectDbServer();
+  $connect = selectDatabase($conn);
 	if(isset($_POST['noleggia'])){
 	  if($_SESSION["noleggioInCorso"]) echo "errore, noleggio già in corso";
 	  else {
