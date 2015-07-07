@@ -67,18 +67,17 @@ if($_POST and $_POST['staz']){
 		}	
 	};
 	echo "</table>";
-	$query=mysql_query("SELECT NoleggioInCorso FROM Tessera WHERE IdTessera='$tessera'",$connect);
-	$row=mysql_fetch_assoc($query);
 	echo "<div id='buttons'>";
+	
 	//se non ha noleggi in corso il bottone si attiva se tutto libero mentre se ha noleggi si attiva se tutto occupato
-	if(!$row["NoleggioInCorso"]){
+	if(!$_SESSION["noleggioInCorso"]){
 		echo "<script>status=true;</script>";
 		echo "Ora seleziona la colonnina per il noleggio o la segnalazione.<br>";
 		if($free==$conta){
 			echo "<input type='submit' name='mancanza' value='Segnalazione Mancanza'>";
 		}
 		else{
-			echo "<input type='submit' name='mancanza' disabled value='Segnalazione Mancanza'>";
+			echo "<input type='submit' name='mancanza' value='Segnalazione Mancanza' disabled>";
 		}
 		echo "<input type='submit' name='noleggia' id='noleggia' value='Noleggia' disabled>";
 	}
@@ -86,10 +85,10 @@ if($_POST and $_POST['staz']){
 		echo "<script>status=false;</script>";
 		echo "Ora seleziona la colonnina per il deposito o la segnalazione.<br>";
 		if($occ==$conta){
-			echo "<input type='submit' name='mancanza' disabled value='Segnalazione Mancanza'>";
+			echo "<input type='submit' name='mancanza' value='Segnalazione Mancanza' disabled>";
 		}
 		else{
-			echo "<input type='submit' name='mancanza' disabled value='Segnalazione Mancanza>";
+			echo "<input type='submit' name='mancanza' value='Segnalazione Mancanza' disabled>";
 		}
 		echo "<input type='submit' name='deposita' id='deposita' value='Deposita' disabled>";
 	}
