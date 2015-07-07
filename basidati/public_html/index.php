@@ -4,14 +4,16 @@ require("library.php");
 $tessera = check_session();
 
 page_start("Home - BiciRent");
-if($tessera)
-  echo "Benvenuto nel sistema $tessera";
+if($tessera){
+  redirect("utente.php",0);
+  exit;
+}
 else {
   if($_POST and $_POST["submit"] = "Entra") {
     $conn = connectDbServer();
     $connect = selectDatabase($conn);
     $query = "SELECT * FROM Tessera WHERE IdTessera = '".$_POST['idtes']."'";
-    $utente = mysql_query($query,$conn));
+    $utente = mysql_query($query,$conn);
     if(mysql_num_rows($utente) == 1) {
       $row = mysql_fetch_assoc($utente);
       $tessera = $row["IdTessera"];
@@ -35,8 +37,5 @@ else {
 ENDFORM;
   }
 }
-
-echo "<div><p>pulsante admin</p></div>";
-
 page_end();
 ?>
