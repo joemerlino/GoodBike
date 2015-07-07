@@ -381,7 +381,7 @@ CREATE TRIGGER insert_operazione
 BEFORE INSERT ON Operazione
 FOR EACH ROW BEGIN
 DECLARE nol BOOLEAN;
-DECLARE tes INTEGER UNSIGNED;
+DECLARE mot ENUM('Prelievo','Deposito','Aggiunta','Rimozione');
 DECLARE dat DATETIME;
 SET nol = FALSE;
 SELECT NOW() INTO dat;
@@ -389,19 +389,19 @@ SET NEW.Orario = dat;
 IF NEW.Motivazione = 'Prelievo' OR NEW.Motivazione = 'Deposito' THEN
 IF NEW.IdTessera IS NULL THEN SET NEW.IdOperazione = NULL;
 END IF;
-SELECT IdTessera INTO tes FROM Tessera JOIN Operazione
+SELECT Operazione.Motivazione INTO mot FROM Tessera JOIN Operazione
 ON Tessera.IdTessera = Operazione.IdTessera
 WHERE Tessera.IdTessera = NEW.IdTessera AND Operazione.Motivazone = 'Prelievo'
 AND Operazione.IdOperazione <> NEW.IdOperazione
 ORDER BY Operazione.Orario DESC LIMIT 1;
-IF tes IS NOT NULL THEN SET nol = TRUE; END IF;
-IF NEW.Motivazione = 'Prelievo' THEN
-IF nol = TRUE THEN SET NEW.IdOperazione = NULL;
+IF mot = 'Prelievo' THEN SET nol = TRUE; END IF;
+IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN
+SET NEW.IdOperazione = NULL;
 ELSE UPDATE Tessera SET NoleggioInCorso = TRUE
 WHERE Tessera.IdTessera = NEW.IdTessera;
 END IF; END IF;
-IF NEW.Motivazione = 'Deposito' THEN
-IF nol = FALSE THEN SET NEW.IdOperazione = NULL;
+IF NEW.Motivazione = 'Deposito' THEN IF nol = FALSE THEN
+SET NEW.IdOperazione = NULL;
 ELSE UPDATE Tessera SET NoleggioInCorso = FALSE
 WHERE Tessera.IdTessera = NEW.IdTessera;
 END IF; END IF; ELSE
