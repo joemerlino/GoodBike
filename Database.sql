@@ -16,7 +16,6 @@ DROP TABLE IF EXISTS Tessera;
 CREATE TABLE Tessera(
 	IdTessera INTEGER UNSIGNED AUTO_INCREMENT,
 	DataScadenza DATE NOT NULL,
-	NoleggioInCorso BOOLEAN DEFAULT 0 NOT NULL,
 	PRIMARY KEY(IdTessera)
 )ENGINE=INNODB;
 
@@ -167,13 +166,16 @@ CREATE TRIGGER insert_operazione
 BEFORE INSERT ON Operazione
 FOR EACH ROW BEGIN
 DECLARE nol BOOLEAN;
+DECLARE tes INTEGER UNSIGNED;
 DECLARE dat DATETIME;
+SET nol = FALSE;
 SELECT NOW() INTO dat;
 SET NEW.Orario = dat;
 IF NEW.Motivazione = 'Prelievo' OR NEW.Motivazione = 'Deposito' THEN
 IF NEW.IdTessera IS NULL THEN SET NEW.IdOperazione = NULL;
 END IF;
-SELECT NoleggioInCorso INTO nol FROM Tessera WHERE Tessera.IdTessera = NEW.IdTessera;
+SELECT IdTessera INTO tes FROM Tessera JOIN Operazione ON Tessera.IdTessera = Operazione.IdTessera WHERE Tessera.IdTessera = NEW.IdTessera AND Operazione.Motivazone = 'Prelievo' AND Operazione.IdOperazione <> NEW.IdOperazione ORDER BY Operazione.Orario DESC LIMIT 1;
+IF tes IS NOT NULL THEN SET nol = TRUE; END IF;
 IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN SET NEW.IdOperazione = NULL;
 ELSE UPDATE Tessera SET NoleggioInCorso = TRUE WHERE Tessera.IdTessera = NEW.IdTessera;
 END IF;
@@ -236,7 +238,7 @@ DELIMITER ;
 
 /* non so se mancano altri trigger */
 
-INSERT INTO Tessera(DataScadenza, NoleggioInCorso) VALUES ('2015-06-30',0),('2015-09-14',0),('2015-08-22',0);
+INSERT INTO Tessera(DataScadenza) VALUES ('2015-06-30'),('2015-09-14'),('2015-08-22');
 
 INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio, IdTessera) VALUES ('Giovanni','Rossi','1990-08-23','Padova','Vigonza','Via Pascoli, 8','giovannirossi@email.it','Utente',NULL,NULL,1),('Paolo','Gironi','1980-10-10','Venezia','Padova','Via Montegrappa, 10','paolo@email.it','Turista',NULL,NULL,2),('Davide','Ceron','1992-10-12','Montebelluna','Montebelluna','Via salice, 7','cerondavid@gmail.com','Studente','287654',0,3);
 
