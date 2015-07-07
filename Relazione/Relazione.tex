@@ -286,11 +286,11 @@ CREATE TABLE Operazione(
 Manutenzione
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Manutenzione(
-	Numero INTEGER UNSIGNED,
+	Numero INTEGER UNSIGNED AUTO_INCREMENT,
 	DataManutenzione DATE NOT NULL,
 	DescrizioneDanno VARCHAR(100),
 	CodiceMateriale INTEGER UNSIGNED NOT NULL,
-	PRIMARY KEY(Numero,DataManutenzione),
+	PRIMARY KEY(Numero),
 	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale)
 	  ON DELETE CASCADE
 )ENGINE=INNODB;
@@ -389,36 +389,28 @@ SET NEW.Orario = dat;
 IF NEW.Motivazione = 'Prelievo' OR NEW.Motivazione = 'Deposito' THEN
 IF NEW.IdTessera IS NULL THEN SET NEW.IdOperazione = NULL;
 END IF;
-SELECT Operazione.Motivazione INTO mot FROM Tessera JOIN Operazione
-ON Tessera.IdTessera = Operazione.IdTessera
-WHERE Tessera.IdTessera = NEW.IdTessera AND Operazione.Motivazone = 'Prelievo'
-AND Operazione.IdOperazione <> NEW.IdOperazione
-ORDER BY Operazione.Orario DESC LIMIT 1;
+SELECT Operazione.Motivazione INTO mot FROM Operazione WHERE Operazione.IdTessera = NEW.IdTessera AND Operazione.Motivazone = 'Prelievo' AND Operazione.IdOperazione <> NEW.IdOperazione ORDER BY Operazione.Orario DESC LIMIT 1;
 IF mot = 'Prelievo' THEN SET nol = TRUE; END IF;
-IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN
-SET NEW.IdOperazione = NULL;
-ELSE UPDATE Tessera SET NoleggioInCorso = TRUE
-WHERE Tessera.IdTessera = NEW.IdTessera;
-END IF; END IF;
-IF NEW.Motivazione = 'Deposito' THEN IF nol = FALSE THEN
-SET NEW.IdOperazione = NULL;
-ELSE UPDATE Tessera SET NoleggioInCorso = FALSE
-WHERE Tessera.IdTessera = NEW.IdTessera;
-END IF; END IF; ELSE
-IF NEW.Motivazione = 'Aggiunta' THEN
-IF NEW.IdTessera IS NOT NULL THEN
-SET NEW.IdTessera = NULL;
+IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN SET NEW.IdOperazione = NULL;
+ELSE UPDATE Tessera SET NoleggioInCorso = TRUE WHERE Tessera.IdTessera = NEW.IdTessera;
 END IF;
-UPDATE Bicicletta SET Stato = 'InServizio'
-WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
+END IF;
+IF NEW.Motivazione = 'Deposito' THEN IF nol = FALSE THEN SET NEW.IdOperazione = NULL;
+ELSE UPDATE Tessera SET NoleggioInCorso = FALSE WHERE Tessera.IdTessera = NEW.IdTessera;
+END IF;
+END IF;
+ELSE
+IF NEW.Motivazione = 'Aggiunta' THEN
+IF NEW.IdTessera IS NOT NULL  THEN SET NEW.IdTessera = NULL;
+END IF;
+UPDATE Bicicletta SET Stato = 'InServizio' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
 END IF;
 IF NEW.Motivazione = 'Rimozione' THEN
-IF NEW.IdTessera IS NOT NULL THEN
-SET NEW.IdTessera = NULL;
+IF NEW.IdTessera IS NOT NULL  THEN SET NEW.IdTessera = NULL;
 END IF;
-UPDATE Bicicletta SET Stato = 'InMagazzino'
-WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
-END IF; END IF;
+UPDATE Bicicletta SET Stato = 'InMagazzino' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
+END IF;
+END IF;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_manutenzione}}

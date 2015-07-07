@@ -82,11 +82,11 @@ CREATE TABLE Operazione(
 )ENGINE=INNODB;
 
 CREATE TABLE Manutenzione(
-	Numero INTEGER UNSIGNED,
+	NumeroManutenzione INTEGER UNSIGNED AUTO_INCREMENT,
 	DataManutenzione DATE NOT NULL,
 	DescrizioneDanno VARCHAR(100),
 	CodiceMateriale INTEGER UNSIGNED NOT NULL,
-	PRIMARY KEY(Numero,DataManutenzione),
+	PRIMARY KEY(NumeroManutenzione),
 	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale) ON DELETE CASCADE
 )ENGINE=INNODB;
 
@@ -174,7 +174,7 @@ SET NEW.Orario = dat;
 IF NEW.Motivazione = 'Prelievo' OR NEW.Motivazione = 'Deposito' THEN
 IF NEW.IdTessera IS NULL THEN SET NEW.IdOperazione = NULL;
 END IF;
-SELECT Operazione.Motivazione INTO mot FROM Tessera JOIN Operazione ON Tessera.IdTessera = Operazione.IdTessera WHERE Tessera.IdTessera = NEW.IdTessera AND Operazione.Motivazone = 'Prelievo' AND Operazione.IdOperazione <> NEW.IdOperazione ORDER BY Operazione.Orario DESC LIMIT 1;
+SELECT Operazione.Motivazione INTO mot FROM Operazione WHERE Operazione.IdTessera = NEW.IdTessera AND Operazione.Motivazone = 'Prelievo' AND Operazione.IdOperazione <> NEW.IdOperazione ORDER BY Operazione.Orario DESC LIMIT 1;
 IF mot = 'Prelievo' THEN SET nol = TRUE; END IF;
 IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN SET NEW.IdOperazione = NULL;
 ELSE UPDATE Tessera SET NoleggioInCorso = TRUE WHERE Tessera.IdTessera = NEW.IdTessera;
@@ -251,7 +251,7 @@ INSERT INTO Colonnina (Bicicletta, NomeStazione) VALUES (1,'Paolotti'),(22,'Paol
 /*
 INSERT INTO Operazione(Colonnina,Bicicletta,Motivazione,IdTessera) VALUES (),();
 
-INSERT INTO Manutenzione(Numero, Data, DescrizioneDanno, CodiceMateriale) VALUES (),();
+INSERT INTO Manutenzione(DescrizioneDanno, CodiceMateriale) VALUES (),();
 
 INSERT INTO SegnalazioneRottura (Colonnina, IdTessera) VALUES (),();
 

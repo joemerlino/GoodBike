@@ -10,24 +10,26 @@ if($_POST){
 	if(isset($_POST['noleggia'])){
 	  if($_SESSION["noleggioInCorso"]) echo "errore, noleggio già in corso";
 	  else {
-	    addOperazione('Prelievo',$colonnina,'0',$tessera);
+	    addOperazione('Prelievo',$_POST['col'],'0',$tessera);
 	    $_SESSION["noleggioInCorso"] = true;
 	    echo "operazione di noleggio riuscita";
 	    }
 	}
 	else if(isset($_POST['segnala'])){
-		echo "SEGNALA ROTTURA ".$_POST['col'];
+	  addRottura($tessera,$_POST['col'])
+	  echo "aggiunta segnalazione rottura";
 	}
 	else if(isset($_POST['deposita'])){
 	  if($_SESSION["noleggioInCorso"]){
-	      addOperazione('Deposito',$colonnina,$_SESSION["Bicicletta"],$tessera);
+	      addOperazione('Deposito',$_POST['col'],$_SESSION["Bicicletta"],$tessera);
 	      $_SESSION["noleggioInCorso"] = false;
 	      echo "operazione di deposito riuscita";
 		}
 	  else echo "errore, noleggio già in corso";
 	}
 	else{
-		echo "SEGNALA MANCANZA ".$_POST['stazione'];
+	  addMancanza($tessera,$_POST['staz']);
+	  echo "aggiunta segnalazione mancanza";
 	}
 }
 else{
