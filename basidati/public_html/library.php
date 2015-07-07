@@ -81,7 +81,7 @@ function addOperazione($motivazione,$colonnina,$bicicletta,$tessera) {
     $bicicletta = mysql_query($queryBic,$conn);
   }
   $queryOp = "INSERT INTO Operazione(Colonnina,Bicicletta,Motivazione,IdTessera) VALUES ('$colonnina','$bicicletta','$motivazione','$tessera')";
-  mysql_query($queryOp,$conn) or echo "impossibile creare l'operazione $motivazione"; 
+  mysql_query($queryOp,$conn); 
 }
 
 //addOperazione per i tecnici
