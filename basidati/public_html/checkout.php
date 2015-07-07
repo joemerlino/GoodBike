@@ -34,6 +34,7 @@ if($_POST){
 		echo "operazione di deposito riuscita";
 	      }
 	      else echo "operazione di deposito non riuscita";
+	  }
 	  else echo "errore, noleggio già in corso";
 	}
 	else{
