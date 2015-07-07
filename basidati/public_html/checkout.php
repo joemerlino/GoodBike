@@ -23,7 +23,7 @@ if($_POST){
 	  else echo "errore, noleggio già in corso";
 	}
 	else{
-		echo "SEGNALA MANCANZA";
+		echo "SEGNALA MANCANZA ".$_POST['stazione'];
 	}
 }
 else{

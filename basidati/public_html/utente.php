@@ -46,7 +46,7 @@ while($row=mysql_fetch_row($query)){
 echo "</select></form>";
 if($_POST and $_POST['staz']){
 	$query=mysql_query("SELECT CodiceMateriale,Bicicletta FROM Colonnina WHERE NomeStazione='$selectOption'",$connect);
-	echo "<form action='checkout.php' method='POST'><table>";
+	echo "<form action='checkout.php' method='POST'><input type='hidden' name='stazione' value='".$_POST['staz']."'><table>";
 	$conta=0;
 	$occ=0;
 	$free=0;
