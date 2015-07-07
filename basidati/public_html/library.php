@@ -79,14 +79,16 @@ function addOperazione($motivazione,$colonnina,$bicicletta,$tessera) {
   if($bicicletta == '0') {
     $queryBic = "SELECT Colonnina.Bicicletta FROM Colonnina WHERE Colonnina.CodiceMateriale = '$colonnina'";
     $bicicletta = mysql_query($queryBic,$conn);
+    $row = mysql_fetch_assoc($bicicletta);
+    $bicicletta = $row('Bicicletta');
   }
   $queryOp = "INSERT INTO Operazione(Colonnina,Bicicletta,Motivazione,IdTessera) VALUES ('$colonnina','$bicicletta','$motivazione','$tessera')";
-  mysql_query($queryOp,$conn); 
+  return mysql_query($queryOp,$conn); 
 }
 
 //addOperazione per i tecnici
 function addOperazioneAdmin($motivazione,$colonnina,$bicicletta) {
-  addOperazione($motivazione,$colonnina,$bicicletta,'NULL');
+  return addOperazione($motivazione,$colonnina,$bicicletta,'NULL');
 }
 
 //inserisco una manutenzione
@@ -94,7 +96,7 @@ function addManutenzione($materiale,$descrizione) {
   $conn = connectDbServer();
   $connect = selectDatabase($conn);
   $queryOp = "INSERT INTO Manutenzione(DescrizioneDanno, CodiceMateriale) VALUES ('$descrizione','$materiale')";
-  mysql_query($queryOp,$conn); 
+  return mysql_query($queryOp,$conn); 
 }
 
 //inserisco una SegnalazioneRottura
@@ -102,7 +104,7 @@ function addRottura($tessera,$colonnina) {
   $conn = connectDbServer();
   $connect = selectDatabase($conn);
   $queryRo = "INSERT INTO SegnalazioneRottura (Colonnina, IdTessera) VALUES ('$colonnina','$tessera')";
-  mysql_query($queryRo,$conn); 
+  return mysql_query($queryRo,$conn); 
 }
 
 //inserisco una SegnalazioneMancanza
@@ -110,7 +112,7 @@ function addMancanza($tessera,$stazione) {
   $conn = connectDbServer();
   $connect = selectDatabase($conn);
   $queryRo = "INSERT INTO SegnalazioneMancanza (NomeStazione, IdTessera) VALUES ('$stazione','$tessera')";
-  mysql_query($queryRo,$conn); 
+  return mysql_query($queryRo,$conn); 
 }
 
 ?>
