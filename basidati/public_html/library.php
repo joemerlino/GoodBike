@@ -48,17 +48,12 @@ function page_end() {
 
 // link html
 function page_link($descr, $url) {
-  return "<a href=\"$url\">$descr   </a>";
+  return "<a href=\"$url\">$descr</a>";
 };
 
 // foot html
 function page_foot() {
-  echo<<<FOOT
-<div id="foot">
-<p>Copyright &#xA9; 2014 - All Rights Reserved.</p>
-<p>Giuseppe Merlino, Miki Violetto</p>
-</div>
-FOOT;
+  echo "<div id='foot'>Copyright &#xA9; 2014 - All Rights Reserved. Giuseppe Merlino, Miki Violetto - ".page_link("Amministrazione", "admin.php")."</div>";
 };
 
 //controlla se sono loggato e nel caso ritorna id_tessera
