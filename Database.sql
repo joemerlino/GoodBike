@@ -58,7 +58,7 @@ CREATE TABLE Stazione(
 
 CREATE TABLE Colonnina(
 	CodiceMateriale INTEGER UNSIGNED,
-	Bicicletta INTEGER UNSIGNED,
+	Bicicletta INTEGER UNSIGNED DEFAULT NULL,
 	NomeStazione VARCHAR(20) NOT NULL,
 	PRIMARY KEY(CodiceMateriale),
 	UNIQUE(Bicicletta),
@@ -107,10 +107,15 @@ CREATE TABLE SegnalazioneMancanza(
 	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
 )ENGINE=INNODB;
 
+/* trigger */
+
 DROP TRIGGER IF EXISTS insert_utente;
 DROP TRIGGER IF EXISTS update_tessera;
+DROP TRIGGER IF EXISTS delete_tessera;
 DROP TRIGGER IF EXISTS insert_bicicletta;
+DROP TRIGGER IF EXISTS delete_bicicletta;
 DROP TRIGGER IF EXISTS insert_colonnina;
+DROP TRIGGER IF EXISTS delete_colonnina;
 DROP TRIGGER IF EXISTS insert_operazione;
 DROP TRIGGER IF EXISTS insert_manutenzione;
 DROP TRIGGER IF EXISTS insert_segnalazione_rottura;
@@ -120,6 +125,12 @@ DELIMITER |
 CREATE TRIGGER insert_utente
 BEFORE INSERT ON Utente
 FOR EACH ROW BEGIN
+DECLARE idT INTEGER UNSIGNED;
+DECLARE dat DATE;
+SELECT CURDATE() INTO dat;
+INSERT INTO Tessera(DataScadenza) VALUES (dat);
+SELECT Tessera.IdTessera INTO idT FROM Tessera ORDER BY Tessera.IdTessera DESC LIMIT 1;
+SET NEW.IdTessera = idT;
 IF NEW.Tipo = 'Utente' OR NEW.Tipo = 'Turista' THEN SET NEW.CodiceStudente = NULL; SET NEW.IoStudio = NULL;
 ElSE IF NEW.CodiceStudente IS NULL OR NEW.IoStudio IS NULL THEN SET NEW.IdTessera = NULL;
 END IF;
@@ -137,6 +148,17 @@ END |
 DELIMITER ;
 
 DELIMITER |
+CREATE TRIGGER delete_tessera
+AFTER DELETE ON Tessera
+FOR EACH ROW BEGIN
+DECLARE mot ENUM('Prelievo','Deposito','Aggiunta','Rimozione');
+SELECT Operazione.Motivazione INTO mot FROM Operazione WHERE Operazione.IdTessera = OLD.IdTessera ORDER BY Operazione.Orario DESC LIMIT 1;
+IF mot = 'Prelievo' THEN INSERT INTO Tessera(IdTessera) VALUES (NULL);
+END IF;
+END |
+DELIMITER ;
+
+DELIMITER |
 CREATE TRIGGER insert_bicicletta
 BEFORE INSERT ON Bicicletta
 FOR EACH ROW BEGIN
@@ -148,16 +170,33 @@ END |
 DELIMITER ;
 
 DELIMITER |
+CREATE TRIGGER delete_bicicletta
+AFTER DELETE ON Bicicletta
+FOR EACH ROW BEGIN
+DECLARE mot ENUM('Prelievo','Deposito','Aggiunta','Rimozione');
+SELECT Operazione.Motivazione INTO mot FROM Operazione WHERE Operazione.Bicicletta = OLD.CodiceMateriale ORDER BY Operazione.Orario DESC LIMIT 1;
+IF mot = 'Prelievo' THEN INSERT INTO Materiale(CodiceMateriale) VALUES (NULL);
+END IF;
+END |
+DELIMITER ;
+
+DELIMITER |
 CREATE TRIGGER insert_colonnina
 BEFORE INSERT ON Colonnina
 FOR EACH ROW BEGIN
 DECLARE num INTEGER UNSIGNED;
-/*SELECT Bicicletta.CodiceMateriale INTO num FROM Bicicletta LEFT JOIN Materiale ON Bicicletta.CodiceMateriale = Materiale.CodiceMateriale WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta LIMIT 1;
-IF num <> NEW.Bicicletta THEN SET NEW.CodiceMateriale = NULL;
-END IF;*/ /* non credo serva */
 INSERT INTO Materiale(Danneggiato) VALUES (0);
 SELECT Materiale.CodiceMateriale INTO num FROM Materiale ORDER BY Materiale.CodiceMateriale DESC LIMIT 1;
 SET NEW.CodiceMateriale = num;
+END |
+DELIMITER ;
+
+DELIMITER |
+CREATE TRIGGER delete_colonnina
+AFTER DELETE ON Colonnina
+FOR EACH ROW BEGIN
+IF OLD.Bicicletta IS NOT NULL THEN UPDATE Bicicletta SET Stato = 'InMagazzino' WHERE Bicicletta.CodiceMateriale = OLD.Bicicletta;
+END IF;
 END |
 DELIMITER ;
 
@@ -214,7 +253,7 @@ CREATE TRIGGER insert_segnalazione_rottura
 BEFORE INSERT ON SegnalazioneRottura
 FOR EACH ROW BEGIN
 UPDATE Materiale SET Materiale.Danneggiato = TRUE WHERE NEW.Colonnina = Materiale.CodiceMateriale;
-UPDATE Materiale JOIN Colonnina ON Materiale.CodiceMateriale = Colonnina.Bicicletta SET Materiale.Danneggiato = TRUE WHERE NEW.Colonnina = Colonnina.CodiceMateriale;
+UPDATE Materiale JOIN Colonnina ON Materiale.CodiceMateriale = Colonnina.Bicicletta AND NEW.Colonnina = Colonnina.CodiceMateriale SET Materiale.Danneggiato = TRUE WHERE NEW.Colonnina = Colonnina.CodiceMateriale;
 END |
 DELIMITER ;
 
@@ -236,19 +275,28 @@ DELIMITER ;
 
 /* non so se mancano altri trigger */
 
-INSERT INTO Tessera(DataScadenza) VALUES ('2015-06-30'),('2015-09-14'),('2015-08-22');
+SET FOREIGN_KEY_CHECKS=1;
 
-INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio, IdTessera) VALUES ('Giovanni','Rossi','1990-08-23','Padova','Vigonza','Via Pascoli, 8','giovannirossi@email.it','Utente',NULL,NULL,1),('Paolo','Gironi','1980-10-10','Venezia','Padova','Via Montegrappa, 10','paolo@email.it','Turista',NULL,NULL,2),('Davide','Ceron','1992-10-12','Montebelluna','Montebelluna','Via salice, 7','cerondavid@gmail.com','Studente','287654',0,3);
+/* insert */
+
+INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio) VALUES ('Giovanni','Rossi','1990-08-23','Padova','Vigonza','Via Pascoli, 8','giovannirossi@email.it','Utente',NULL,NULL),('Paolo','Gironi','1980-10-10','Venezia','Padova','Via Montegrappa, 10','paolo@email.it','Turista',NULL,NULL),('Davide','Ceron','1992-10-12','Montebelluna','Montebelluna','Via salice, 7','cerondavid@gmail.com','Studente','287654',0);
+
+UPDATE Tessera SET Tessera.DataScadenza = '2015-06-30' WHERE Tessera.IdTessera = '1';
+UPDATE Tessera SET Tessera.DataScadenza = '2015-09-14' WHERE Tessera.IdTessera = '2';
+UPDATE Tessera SET Tessera.DataScadenza = '2015-08-22' WHERE Tessera.IdTessera = '3';
 
 INSERT INTO Bicicletta (Elettrica) VALUES (0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(1),(0),(0),(1),(0),(0),(0),(0),(0),(0),(0),(0),(0),(1),(0),(0),(0),(0),(0);
 
 INSERT INTO Stazione (NomeStazione, Via) VALUES ('Paolotti','Via Paolotti'),('Prato','Via del Santo'),('Stazione','Pizzale Stazione');
 
-INSERT INTO Colonnina (Bicicletta, NomeStazione) VALUES (1,'Paolotti'),(22,'Paolotti'),(23,'Paolotti'),(21,'Paolotti'),(NULL,'Paolotti'),(20,'Paolotti'),(NULL,'Paolotti'),(NULL,'Paolotti'),(24,'Paolotti'),(NULL,'Paolotti'),(NULL,'Paolotti'),(2,'Paolotti'),(3,'Paolotti'),(NULL,'Paolotti'),(NULL,'Paolotti'),(NULL,'Paolotti'),(19,'Paolotti'),(NULL,'Paolotti'),(25,'Paolotti'),(NULL,'Paolotti'),(4,'Prato'),(NULL,'Prato'),(26,'Prato'),(NULL,'Prato'),(5,'Prato'),(NULL,'Prato'),(27,'Prato'),(NULL,'Prato'),(6,'Prato'),(NULL,'Prato'),(NULL,'Prato'),(7,'Prato'),(NULL,'Prato'),(18,'Prato'),(NULL,'Prato'),(28,'Prato'),(NULL,'Prato'),(NULL,'Prato'),(8,'Prato'),(NULL,'Prato'),(13,'Stazione'),(NULL,'Stazione'),(NULL,'Stazione'),(12,'Stazione'),(NULL,'Stazione'),(NULL,'Stazione'),(30,'Stazione'),(NULL,'Stazione'),(NULL,'Stazione'),(9,'Stazione'),(16,'Stazione'),(NULL,'Stazione'),(10,'Stazione'),(NULL,'Stazione'),(NULL,'Stazione'),(NULL,'Stazione'),(NULL,'Stazione'),(11,'Stazione'),(NULL,'Stazione'),(NULL,'Stazione');
+INSERT INTO Colonnina (NomeStazione) VALUES ('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione');
+
+INSERT INTO Operazione(Colonnina,Bicicletta,Motivazione,IdTessera) VALUES (31,02,'Prelievo',1),(51,02,'Deposito',1);
+
+UPDATE Operazione SET Operazione.Orario = '2015-07-15 08:45:47' WHERE Operazione.IdOperazione = '1';
+UPDATE Operazione SET Operazione.Orario = '2015-07-15 17:37:29' WHERE Operazione.IdOperazione = '2';
 
 /*
-INSERT INTO Operazione(Colonnina,Bicicletta,Motivazione,IdTessera) VALUES (),();
-
 INSERT INTO Manutenzione(DescrizioneDanno, CodiceMateriale) VALUES (),();
 
 INSERT INTO SegnalazioneRottura (Colonnina, IdTessera) VALUES (),();
@@ -256,4 +304,34 @@ INSERT INTO SegnalazioneRottura (Colonnina, IdTessera) VALUES (),();
 INSERT INTO SegnalazioneMancanza (NomeStazione, IdTessera) VALUES (),();
 */
 
-SET FOREIGN_KEY_CHECKS=1;
+
+
+
+
+/*operazioni eseguibili:
+inserimento utente (inserimento tessera in automatico)
+aggiornamento di alcuni dati dell'utente ............ forse
+eliminazione di una tessera (elimina utente in automatico)
+inserimento di una stazione
+eliminazione di una stazione
+inserimento di una bicicletta o di una colonnina(inserimento materiale in automatico)
+eliminatione di un materiale
+inserimento di una operazione
+inserimento di una segnalazione di rottura
+inserimento di una segnalazione di mancanza
+
+
+
+*/
+
+
+/* query
+SELECT * FROM Materiale LEFT JOIN Bicicletta ON Materiale.CodiceMateriale = Bicicletta.CodiceMateriale LEFT JOIN Colonnina ON Materiale.CodiceMateriale = Colonnina.CodiceMateriale
+
+
+
+
+
+
+
+*/
