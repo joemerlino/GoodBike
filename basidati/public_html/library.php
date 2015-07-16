@@ -27,6 +27,7 @@ function page_start($title) {
 <link href="stylesheet/$urlcss" rel="stylesheet" type="text/css" media="all">
 </head>
 <body>
+<p><h1>BiciRent</h1></p>
 START;
 //<meta name="title" content="Login"/>
 //<meta name="viewport" content="width=device-width, user-scalable=no"/>
@@ -51,9 +52,14 @@ function page_link($descr, $url) {
   return "<a href=\"$url\">$descr</a>";
 };
 
+// link html aperto su una nuova pagina
+function new_page_link($descr,$url) {
+  return '<a href="'.$url.'" target="_blank">'.$descr.'</a>';
+};
+
 // foot html
 function page_foot() {
-  echo "<div id='foot'>Copyright &#xA9; 2014 - All Rights Reserved. Giuseppe Merlino, Miki Violetto - ".page_link("Amministrazione", "admin.php")."</div>";
+  echo "<div id='foot'>Copyright &#xA9; 2014 - All Rights Reserved. Giuseppe Merlino, Miki Violetto</div>";
 };
 
 //controlla se sono loggato e nel caso ritorna id_tessera
@@ -85,7 +91,7 @@ function add_operazione($motivazione,$colonnina,$bicicletta,$tessera) {
 }
 
 //addOperazione per i tecnici
-function add_operazione_admin($motivazione,$colonnina,$bicicletta) {
+function add_operazione_tecnico($motivazione,$colonnina,$bicicletta) {
   return addOperazione($motivazione,$colonnina,$bicicletta,'NULL');
 }
 
