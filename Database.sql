@@ -223,12 +223,12 @@ END IF;
 END IF;
 ELSE
 IF NEW.Motivazione = 'Aggiunta' THEN
-IF NEW.IdTessera IS NOT NULL  THEN SET NEW.IdTessera = NULL;
+IF NEW.IdTessera IS NOT NULL THEN SET NEW.IdTessera = NULL;
 END IF;
 UPDATE Bicicletta SET Stato = 'InServizio' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
 END IF;
 IF NEW.Motivazione = 'Rimozione' THEN
-IF NEW.IdTessera IS NOT NULL  THEN SET NEW.IdTessera = NULL;
+IF NEW.IdTessera IS NOT NULL THEN SET NEW.IdTessera = NULL;
 END IF;
 UPDATE Bicicletta SET Stato = 'InMagazzino' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
 END IF;
@@ -305,9 +305,6 @@ INSERT INTO SegnalazioneMancanza (NomeStazione, IdTessera) VALUES (),();
 */
 
 
-
-
-
 /*operazioni eseguibili:
 inserimento utente (inserimento tessera in automatico)
 aggiornamento di alcuni dati dell'utente ............ forse
@@ -317,9 +314,10 @@ eliminazione di una stazione
 inserimento di una bicicletta o di una colonnina(inserimento materiale in automatico)
 eliminatione di un materiale
 inserimento di una operazione
-inserimento di una segnalazione di rottura
+inserimento di una manutenzione(elimina in automatico le segnalazioni di rottura)
+inserimento di una segnalazione di rottura 
 inserimento di una segnalazione di mancanza
-
+(procedura per l'eliminazione delle segnalazioni di mancanze, o qualcosa di simile)
 
 
 */
@@ -327,11 +325,5 @@ inserimento di una segnalazione di mancanza
 
 /* query
 SELECT * FROM Materiale LEFT JOIN Bicicletta ON Materiale.CodiceMateriale = Bicicletta.CodiceMateriale LEFT JOIN Colonnina ON Materiale.CodiceMateriale = Colonnina.CodiceMateriale
-
-
-
-
-
-
 
 */
