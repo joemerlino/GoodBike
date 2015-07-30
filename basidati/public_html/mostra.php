@@ -51,40 +51,40 @@ if($_GET) {
     echo '</table></div>';
   }
   if($_GET['action'] == 'bicicletta') {
-    $query = "SELECT * FROM Bicicletta";
+    $query = 'SELECT * FROM Bicicletta';
     $resource = mysql_query($query,$conn);
     echo "<div class='mostra'><table>";
-    echo "<tr><td>Codice Materiale</td><td>Elettrica</td><td>Stato</td></tr>";
+    echo '<tr><td>Codice Materiale</td><td>Elettrica</td><td>Stato</td></tr>';
     while($row=mysql_fetch_row($resource)){
-      echo "<tr><td>".$row[0]."</td><td>";
+      echo '<tr><td>'.$row[0].'</td><td>';
       if($row[1])
-	echo "Si";
+	echo 'Si';
       else
-	echo "No";
-      echo "</td><td>".$row[2]."</td></tr>";
+	echo 'No';
+      echo '</td><td>'.$row[2].'</td></tr>';
     }
-    echo "</table></div>";
+    echo '</table></div>';
   }
   if($_GET['action'] == 'colonnina') {
-    $query = "SELECT * FROM Colonnina";
+    $query = 'SELECT * FROM Colonnina';
     $resource = mysql_query($query,$conn);
     echo "<div class='mostra'><table>";
-    echo "<tr><td>Codice Materiale</td><td>Nome Stazione</td><td>Bicicletta</td></tr>";
+    echo '<tr><td>Codice Materiale</td><td>Nome Stazione</td><td>Bicicletta</td></tr>';
     while($row=mysql_fetch_row($resource)){
-      echo "<tr><td>".$row[0]."</td><td>".$row[2]."</td><td>";
+      echo '<tr><td>'.$row[0].'</td><td>'.$row[2].'</td><td>';
       if($row[1])
 	echo $row[1];
       else
-	echo "Assente";
-      echo "</td></tr>";
+	echo 'Assente';
+      echo '</td></tr>';
     }
-    echo "</table></div>";
+    echo '</table></div>';
   }
   if($_GET['action'] == 'materiale') {
   }
 }
 else
-  echo "<p>Nessuna tabella selezionata</p>";
+  echo '<p>Nessuna tabella selezionata</p>';
 
 page_end();
 
