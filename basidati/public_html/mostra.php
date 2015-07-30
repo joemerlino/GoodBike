@@ -13,12 +13,12 @@ if($_GET) {
     echo "<div class='mostra'><table>";
     echo '<tr><td>Id Tessera</td><td>Data Scadenza</td><td>Noleggio in corso</td><td>Nome</td><td>Cognome</td><td>Data Nascita</td><td>Luogo Nascita</td><td>Residenza</td><td>Indirizzo</td><td>Email</td><td>Tipo</td></tr>';
     while($row=mysql_fetch_row($resource)){
-      echo '<tr><td>'.$row[0].'</td><td>'.$row[1].'</td>';
+      echo '<tr><td>'.$row[0].'</td><td>'.$row[1].'</td><td>';
       if($row[2] == '0')
-	echo '<td>No</td>';
+	echo 'No';
       else
-	echo '<td>Si</td>';
-      echo '<td>'.$row[3].'</td><td>'.$row[4].'</td><td>'.$row[5].'</td><td>'.$row[6].'</td><td>'.$row[7].'</td><td>'.$row[8].'</td><td>'.$row[9].'</td>';
+	echo 'Si';
+      echo '</td><td>'.$row[3].'</td><td>'.$row[4].'</td><td>'.$row[5].'</td><td>'.$row[6].'</td><td>'.$row[7].'</td><td>'.$row[8].'</td><td>'.$row[9].'</td>';
       echo '<td>'.$row[10];
       if($row[10] == 'Studente') {
 	if($row[12] != '0')
@@ -81,6 +81,24 @@ if($_GET) {
     echo '</table></div>';
   }
   if($_GET['action'] == 'materiale') {
+    $query = 'SELECT * FROM Materiale LEFT JOIN Bicicletta ON Materiale.CodiceMateriale = Bicicletta.CodiceMateriale';
+    $resource = mysql_query($query,$conn);
+    echo "<div class='mostra'><table>";
+    echo '<tr><td>Codice Materiale</td><td>Danneggiato</td><td>Tipo</td></tr>';
+    while($row=mysql_fetch_row($resource)){
+      echo '<tr><td>'.$row[0].'</td><td>';
+      if($row[1] == '0')
+	echo 'No';
+      else
+	echo 'Si';
+      echo '</td><td>';
+      if($row[2] == 'NULL')
+	echo 'Colonnina';
+      else
+	echo 'Bicicletta';
+      echo '</td></tr>';
+    }
+    echo '</table></div>';
   }
 }
 else
