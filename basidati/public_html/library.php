@@ -14,7 +14,7 @@ function selectDatabase($connect) {
 
 // inizio html
 function page_start($title) {
-  $urlcss = "all.css";
+  $urlcss = 'all.css';
   echo<<<START
 <!--? xml version="1.0" encoding="utf8" ?-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -44,12 +44,12 @@ header("location: $dove");
 // fine html
 function page_end() {
   page_foot();
-  echo "</body></html>";
+  echo '</body></html>';
 };
 
 // link html
 function page_link($descr, $url) {
-  return "<a href=\"$url\">$descr</a>";
+  return '<a href="'.$url.'">$descr</a>';
 };
 
 // link html aperto su una nuova pagina
