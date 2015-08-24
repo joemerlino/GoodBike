@@ -440,25 +440,33 @@ SET NEW.Orario = dat;
 IF NEW.Motivazione = 'Prelievo' OR NEW.Motivazione = 'Deposito' THEN
 IF NEW.IdTessera IS NULL THEN SET NEW.IdOperazione = NULL;
 END IF;
-SELECT Operazione.Motivazione INTO mot FROM Operazione
-WHERE Operazione.IdTessera = NEW.IdTessera AND Operazione.Motivazione = 'Prelievo'
-AND Operazione.IdOperazione <> NEW.IdOperazione ORDER BY Operazione.Orario DESC LIMIT 1;
+SELECT Operazione.Motivazione INTO mot FROM Operazione WHERE
+Operazione.IdTessera = NEW.IdTessera AND Operazione.Motivazione = 'Prelievo' AND
+Operazione.IdOperazione <> NEW.IdOperazione
+ORDER BY Operazione.Orario DESC LIMIT 1;
 IF mot = 'Prelievo' THEN SET nol = TRUE; END IF;
 IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN
 SET NEW.IdOperazione = NULL;
 END IF; END IF;
-IF NEW.Motivazione = 'Deposito' THEN IF nol = FALSE THEN
-SET NEW.IdOperazione = NULL;
-END IF; END IF; ELSE
+IF NEW.Motivazione = 'Deposito' THEN
+IF nol = FALSE THEN SET NEW.IdOperazione = NULL;
+END IF; END IF;
+ELSE
 IF NEW.Motivazione = 'Aggiunta' THEN
 IF NEW.IdTessera IS NOT NULL THEN SET NEW.IdTessera = NULL;
 END IF;
-UPDATE Bicicletta SET Stato = 'InServizio' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
+UPDATE Bicicletta SET Bicicletta.Stato = 'InServizio' WHERE
+Bicicletta.CodiceMateriale = NEW.Bicicletta;
+UPDATE Colonnina SET Colonnina.Bicicletta = NEW.Bicicletta WHERE
+Colonnina.CodiceMateriale = NEW.Colonnina;
 END IF;
 IF NEW.Motivazione = 'Rimozione' THEN
 IF NEW.IdTessera IS NOT NULL THEN SET NEW.IdTessera = NULL;
 END IF;
-UPDATE Bicicletta SET Stato = 'InMagazzino' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
+UPDATE Bicicletta SET Bicicletta.Stato = 'InMagazzino' WHERE
+Bicicletta.CodiceMateriale = NEW.Bicicletta;
+UPDATE Colonnina SET Colonnina.Bicicletta = NULL WHERE
+Colonnina.CodiceMateriale = NEW.Colonnina;
 END IF; END IF;
 END;
 \end{lstlisting}
@@ -469,12 +477,18 @@ CREATE TRIGGER insert_manutenzione
 BEFORE INSERT ON Manutenzione
 FOR EACH ROW BEGIN
 DECLARE dat DATE;
+DECLARE bic INTEGER UNSIGNED;
 SELECT CURDATE() INTO dat;
 SET NEW.DataManutenzione = dat;
-DELETE FROM SegnalazioneRottura
-WHERE NEW.CodiceMateriale = Manutenzione.Colonnina;
-UPDATE CodiceMateriale SET CodiceMateriale.danneggiata = FALSE
-WHERE NEW.CodiceMateriale = Materiale.CodiceMateriale;
+DELETE FROM SegnalazioneRottura WHERE
+NEW.CodiceMateriale = SegnalazioneRottura.Colonnina;
+UPDATE Materiale SET Materiale.Danneggiato = FALSE WHERE
+NEW.CodiceMateriale = Materiale.CodiceMateriale;
+SELECT Colonnina.Bicicletta INTO bic FROM Colonnina WHERE
+NEW.CodiceMateriale = Colonnina.CodiceMateriale;
+IF bic IS NOT NULL THEN
+UPDATE Materiale SET Materiale.Danneggiato = FALSE WHERE bic = Materiale.CodiceMateriale;
+END IF;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_segnalazione\_rottura}}
@@ -483,12 +497,12 @@ La segnalazione di rottura aggiorna lo stato della colonnina e della bici se pre
 CREATE TRIGGER insert_segnalazione_rottura
 BEFORE INSERT ON SegnalazioneRottura
 FOR EACH ROW BEGIN
-UPDATE Materiale SET Materiale.danneggiata = TRUE
-WHERE NEW.Colonnina = Materiale.CodiceMateriale;
-UPDATE Materiale JOIN Colonnina
-ON Materiale.CodiceMateriale = Colonnina.Bicicletta
-SET Materiale.danneggiata = TRUE
-WHERE NEW.Colonnina = Colonnina.CodiceMateriale;
+UPDATE Materiale SET Materiale.Danneggiato = TRUE WHERE
+NEW.Colonnina = Materiale.CodiceMateriale;
+UPDATE Materiale JOIN Colonnina ON
+Materiale.CodiceMateriale = Colonnina.Bicicletta AND
+NEW.Colonnina = Colonnina.CodiceMateriale SET Materiale.Danneggiato = TRUE WHERE
+NEW.Colonnina = Colonnina.CodiceMateriale;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_segnalazione\_mancanza}}
@@ -497,18 +511,9 @@ La segnalazione di mancanza inserisce la data corretta, poi controlla se si è v
 CREATE TRIGGER insert_segnalazione_mancanza
 BEFORE INSERT ON SegnalazioneMancanza
 FOR EACH ROW BEGIN
-DECLARE num INTEGER;
-DECLARE vuo INTEGER;
 DECLARE dat DATE;
 SELECT CURDATE() INTO dat;
 SET NEW.DataSegnalazione = dat;
-SELECT COUNT(CodiceMateriale) INTO num FROM Colonnina
-WHERE Colonnina.NomeStazione = NEW.NomeStazione;
-SELECT COUNT(CodiceMateriale) INTO vuo FROM Colonnina
-WHERE Colonnina.NomeStazione = NEW.NomeStazione
-AND Colonnina.Bicicletta IS NULL;
-IF vou = 0 OR num = vuo THEN SET NEW.IdTessera = NULL;
-END IF;
 END;
 \end{lstlisting}
 
