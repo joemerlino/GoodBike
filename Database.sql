@@ -133,8 +133,7 @@ SELECT Tessera.IdTessera INTO idT FROM Tessera ORDER BY Tessera.IdTessera DESC L
 SET NEW.IdTessera = idT;
 IF NEW.Tipo = 'Utente' OR NEW.Tipo = 'Turista' THEN SET NEW.CodiceStudente = NULL; SET NEW.IoStudio = NULL;
 ElSE IF NEW.CodiceStudente IS NULL OR NEW.IoStudio IS NULL THEN SET NEW.IdTessera = NULL;
-END IF;
-END IF;
+END IF; END IF;
 END|
 DELIMITER ;
 
@@ -216,11 +215,9 @@ END IF;
 SELECT Operazione.Motivazione INTO mot FROM Operazione WHERE Operazione.IdTessera = NEW.IdTessera AND Operazione.Motivazione = 'Prelievo' AND Operazione.IdOperazione <> NEW.IdOperazione ORDER BY Operazione.Orario DESC LIMIT 1;
 IF mot = 'Prelievo' THEN SET nol = TRUE; END IF;
 IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN SET NEW.IdOperazione = NULL;
-END IF;
-END IF;
+END IF; END IF;
 IF NEW.Motivazione = 'Deposito' THEN IF nol = FALSE THEN SET NEW.IdOperazione = NULL;
-END IF;
-END IF;
+END IF; END IF;
 ELSE
 IF NEW.Motivazione = 'Aggiunta' THEN
 IF NEW.IdTessera IS NOT NULL THEN SET NEW.IdTessera = NULL;
@@ -233,8 +230,7 @@ IF NEW.IdTessera IS NOT NULL THEN SET NEW.IdTessera = NULL;
 END IF;
 UPDATE Bicicletta SET Bicicletta.Stato = 'InMagazzino' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
 UPDATE Colonnina SET Colonnina.Bicicletta = NULL WHERE Colonnina.CodiceMateriale = NEW.Colonnina;
-END IF;
-END IF;
+END IF; END IF;
 END |
 DELIMITER ;
 
