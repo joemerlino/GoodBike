@@ -8,7 +8,15 @@ if($_GET) {
 
 if($_GET and $_POST) {
   if($_GET['action'] == 'aggiungi utente' and $_POST['submit'] == 'aggiungi utente') {
-    redirect("admin.php",0);
+    if($_POST['Tipo'] == 'Studente')
+      $query = "INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio) VALUES ('".$_POST['Nome']."','".$_POST['Cognome']."','".$_POST['DataNascita']."','".$_POST['LuogoNascita']."','".$_POST['Residenza']."','".$_POST['Indirizzo']."','".$_POST['Email']."','Studente','".$_POST['CodiceStudente']."','".$_POST['IoStudio']."')";
+    else
+      $query = "INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio) VALUES ('".$_POST['Nome']."','".$_POST['Cognome']."','".$_POST['DataNascita']."','".$_POST['LuogoNascita']."','".$_POST['Residenza']."','".$_POST['Indirizzo']."','".$_POST['Email']."','".$_POST['Tipo']."','NULL','NULL')";
+
+    if(mysql_query($query,$conn))
+      redirect("admin.php?action=aggiungi+utente&error=false",0);
+    else
+      redirect("admin.php?action=aggiungi+utente&error=true",0);
     exit;
   }
   if($_GET['action'] == 'elimina tessera' and $_POST['submit'] == 'elimina tessera') {
@@ -40,7 +48,7 @@ if($_GET and $_POST) {
       $_POST['Elettrica'] = 1;
     else
       $_POST['Elettrica'] = 0;
-    $query = "INSERT INTO Bicicletta (Elettrica) VALUES (".$_POST['Elettrica'].")";
+    $query = "INSERT INTO Bicicletta (Elettrica) VALUES ('".$_POST['Elettrica']."')";
     if(mysql_query($query,$conn))
       redirect("admin.php?action=aggiungi+bicicletta&error=false",0);
     else
@@ -48,7 +56,7 @@ if($_GET and $_POST) {
     exit;
   }
   if($_GET['action'] == 'aggiungi colonnina' and $_POST['submit'] == 'aggiungi colonnina') {
-    $query = "INSERT INTO Colonnina (NomeStazione) VALUES (".$_POST['NomeStazione'].")";
+    $query = "INSERT INTO Colonnina (NomeStazione) VALUES ('".$_POST['Stazione']."')";
     if(mysql_query($query,$conn))
       redirect("admin.php?action=aggiungi+colonnina&error=false",0);
     else
@@ -70,7 +78,30 @@ echo page_link("Torna ad home page","index.php");
 if($_GET) {
   if($_GET['action'] == 'aggiungi utente') {
     echo "<p>".new_page_link('lista utenti','mostra.php?action=utente')."</p>";
-    echo "<div><p>form aggiungi utente</p></div>";
+    if(isset($_GET['error'])) {
+      if($_GET['error'] == 'false')
+	echo "<p>utente aggiunto</p>";
+      else
+	echo "<p>aggiunta non riuscita</p>";
+    }
+    echo "<div class='form'>";
+    echo "<form action='admin.php?action=aggiungi+utente' method='POST'>";
+    echo "<p>Nome: <input type='text' name='Nome'/></p>";
+    echo "<p>Cognome: <input type='text' name='Cognome'/></p>";
+    echo "<p>Data di nascita: <input type='text' name='DataNascita' placeholder='aaaa-mm-gg'/></p>";
+    echo "<p>Luogo di nascita: <input type='text' name='LuogoNascita'/></p>";
+    echo "<p>Residenza: <input type='text' name='Residenza'/></p>";
+    echo "<p>Indirizzo: <input type='text' name='Indirizzo'/></p>";
+    echo "<p>Email: <input type='text' name='Email'/></p>";
+    echo "<p>Tipo :</p>";
+    echo "<p><input type='radio' name='Tipo' value='Utente'/>Nessuno</p>";
+    echo "<p><input type='radio' name='Tipo' value='Turista'/>Turista</p>";
+    echo "<p><input type='radio' name='Tipo' value='Studente'/>Studente</p>";
+    echo "<p> Solo per studente</p>";
+    echo "<p>Codice studente: <input type='text' name='CodiceStudente'/></p>";
+    echo "<p><input type='radio' name='IoStudio' value='0'/>Matricola</p>";
+    echo "<p><input type='radio' name='IoStudio' value='1'/>Carta Iostudio</p>";
+    echo "<p><input type='submit' name='submit' value='aggiungi utente'></p></form></div>";
   }
   if($_GET['action'] == 'elimina tessera') {
     echo "<p>".new_page_link('lista tessere','mostra.php?action=tessera')."</p>";
@@ -136,7 +167,7 @@ if($_GET) {
     }
     echo "<div class='form'>";
     echo "<form action='admin.php?action=aggiungi+colonnina' method='POST'>";
-    echo "<p>Nome Stazione: <input type='text' name='NomeStazione'/></p>";
+    echo "<p>Nome Stazione: <input type='text' name='Stazione'/></p>";
     echo "<p><input type='submit' name='submit' value='aggiungi colonnina'></p></form></div>";
   }
   if($_GET['action'] == 'elimina materiale') {
