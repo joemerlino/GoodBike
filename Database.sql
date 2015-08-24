@@ -241,10 +241,14 @@ CREATE TRIGGER insert_manutenzione
 BEFORE INSERT ON Manutenzione
 FOR EACH ROW BEGIN
 DECLARE dat DATE;
+DECLARE bic INTEGER UNSIGNED;
 SELECT CURDATE() INTO dat;
 SET NEW.DataManutenzione = dat;
 DELETE FROM SegnalazioneRottura WHERE NEW.CodiceMateriale = SegnalazioneRottura.Colonnina;
-UPDATE CodiceMateriale SET CodiceMateriale.Danneggiato = FALSE WHERE NEW.CodiceMateriale = Materiale.CodiceMateriale;
+UPDATE Materiale SET Materiale.Danneggiato = FALSE WHERE NEW.CodiceMateriale = Materiale.CodiceMateriale;
+SELECT Colonnina.Bicicletta INTO bic FROM Colonnina WHERE NEW.CodiceMateriale = Colonnina.CodiceMateriale;
+IF bic IS NOT NULL THEN UPDATE Materiale SET Materiale.Danneggiato = FALSE WHERE bic = Materiale.CodiceMateriale;
+END IF;
 END |
 DELIMITER ;
 
