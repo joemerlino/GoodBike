@@ -82,7 +82,7 @@ function logout() { //devo avere già controllato session
 function add_operazione($motivazione,$colonnina,$bicicletta,$tessera) {
   $conn = connectDbServer();
   $connect = selectDatabase($conn);
-  if($bicicletta == '0') {
+  if($bicicletta == NULL) {
     $queryBic = "SELECT Colonnina.Bicicletta FROM Colonnina WHERE Colonnina.CodiceMateriale = '$colonnina'";
     $bicicletta = fetch_singolo(mysql_query($queryBic,$conn));
   }
