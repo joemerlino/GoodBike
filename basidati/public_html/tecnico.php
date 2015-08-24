@@ -14,6 +14,12 @@ while($row=mysql_fetch_row($query)){
 
 	echo "<tr bgcolor='".dechex(16775492-4000*$row[2])."'><td><input type='radio' name='col' value='$row[0]'></td><td>".$row[0]."</td><td>".$row[1]."</td><td>".$row[2]."</td>";
 	}
-echo "</table><textarea name='descrizione' maxlength='100' placeholder='Inserisci descrizione manutenzione eseguita' rows='5' cols='53'></textarea></br><input type='submit' name='riparazione' value='Riparazione Rottura'></form></div>";
+echo "</table><textarea name='descrizione' maxlength='100' placeholder='Inserisci descrizione manutenzione eseguita' rows='5' cols='53'></textarea></br><input type='submit' name='riparazione' value='Riparazione Rottura'></form>";
+$query=mysql_query("SELECT NomeStazione,COUNT(NomeStazione) FROM SegnalazioneMancanza GROUP BY NomeStazione ORDER BY COUNT(NomeStazione) DESC",$connect);
+echo "<h2>Monitoraggio segnalazioni mancanze</h2><table><thead><tr><th>Seleziona</th><th>Nome stazione</th><th>Priorità</th></tr></thead>";
+while($row=mysql_fetch_row($query)){
+	echo "<tr bgcolor='".dechex(16775492-4000*$row[1])."'><td><input type='radio' name='stazione' value='$row[0]'></td><td>".$row[0]."</td><td>".$row[1]."</td>";
+	}
+echo "</table></div>";
 page_end();
 ?>
