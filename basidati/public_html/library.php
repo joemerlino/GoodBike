@@ -92,7 +92,7 @@ function add_operazione($motivazione,$colonnina,$bicicletta,$tessera) {
 
 //addOperazione per i tecnici
 function add_operazione_tecnico($motivazione,$colonnina,$bicicletta) {
-  return addOperazione($motivazione,$colonnina,$bicicletta,'NULL');
+  return add_operazione($motivazione,$colonnina,$bicicletta,'NULL');
 }
 
 //inserisco una manutenzione
