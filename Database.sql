@@ -261,15 +261,9 @@ DELIMITER |
 CREATE TRIGGER insert_segnalazione_mancanza
 BEFORE INSERT ON SegnalazioneMancanza
 FOR EACH ROW BEGIN
-DECLARE num INTEGER;
-DECLARE vuo INTEGER;
 DECLARE dat DATE;
 SELECT CURDATE() INTO dat;
 SET NEW.DataSegnalazione = dat;
-SELECT COUNT(CodiceMateriale) INTO num FROM Colonnina WHERE Colonnina.NomeStazione = NEW.NomeStazione;
-SELECT COUNT(CodiceMateriale) INTO vuo FROM Colonnina WHERE Colonnina.NomeStazione = NEW.NomeStazione AND Colonnina.Bicicletta IS NULL;
-IF vou = 0 OR num = vuo THEN SET NEW.IdTessera = NULL;
-END IF;
 END |
 DELIMITER ;
 
