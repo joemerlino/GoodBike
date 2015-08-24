@@ -225,12 +225,14 @@ ELSE
 IF NEW.Motivazione = 'Aggiunta' THEN
 IF NEW.IdTessera IS NOT NULL THEN SET NEW.IdTessera = NULL;
 END IF;
-UPDATE Bicicletta SET Stato = 'InServizio' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
+UPDATE Bicicletta SET Bicicletta.Stato = 'InServizio' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
+UPDATE Colonnina SET Colonnina.Bicicletta = NEW.Bicicletta WHERE Colonnina.CodiceMateriale = NEW.Colonnina;
 END IF;
 IF NEW.Motivazione = 'Rimozione' THEN
 IF NEW.IdTessera IS NOT NULL THEN SET NEW.IdTessera = NULL;
 END IF;
-UPDATE Bicicletta SET Stato = 'InMagazzino' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
+UPDATE Bicicletta SET Bicicletta.Stato = 'InMagazzino' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
+UPDATE Colonnina SET Colonnina.Bicicletta = NULL WHERE Colonnina.CodiceMateriale = NEW.Colonnina;
 END IF;
 END IF;
 END |
