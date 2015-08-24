@@ -243,7 +243,7 @@ FOR EACH ROW BEGIN
 DECLARE dat DATE;
 SELECT CURDATE() INTO dat;
 SET NEW.DataManutenzione = dat;
-DELETE FROM SegnalazioneRottura WHERE NEW.CodiceMateriale = Manutenzione.Colonnina;
+DELETE FROM SegnalazioneRottura WHERE NEW.CodiceMateriale = SegnalazioneRottura.Colonnina;
 UPDATE CodiceMateriale SET CodiceMateriale.Danneggiato = FALSE WHERE NEW.CodiceMateriale = Materiale.CodiceMateriale;
 END |
 DELIMITER ;
