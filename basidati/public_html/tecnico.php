@@ -7,8 +7,8 @@ echo page_link("Torna ad home page","index.php");
 if($_POST){
 	$query=mysql_query("SELECT Bicicletta FROM Colonnina WHERE CodiceMateriale=$_POST[col]");
 	$row=mysql_fetch_row($query);
-	if(add_operazione_tecnico($_POST['motivazione'],$_POST['col'],$row[0])) echo "Riparazione rottura inserita!";
-	  else echo "Inserimento riparazione rottura non riuscito";
+	if(add_operazione_tecnico($_POST['motivazione'],$_POST['col'],$row[0])) echo " Messaggio dal sistema: Riparazione rottura inserita!";
+	  else echo " Messaggio dal sistema: Inserimento riparazione rottura non riuscito";
 }
 $query=mysql_query("SELECT CodiceMateriale,NomeStazione,COUNT(CodiceMateriale) FROM Colonnina RIGHT JOIN SegnalazioneRottura ON Colonnina.CodiceMateriale=SegnalazioneRottura.Colonnina GROUP BY CodiceMateriale ORDER BY COUNT(CodiceMateriale) DESC",$connect);
 echo "<div id='manutenzione'><h2>Monitoraggio segnalazioni manutenzione</h2><form action='tecnico.php' method='POST'><table><thead><tr><th>Seleziona</th><th>Colonnina</th><th>Stazione</th><th>Priorità</th></tr></thead>";
