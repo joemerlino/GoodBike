@@ -48,7 +48,11 @@ if($_GET and $_POST) {
     exit;
   }
   if($_GET['action'] == 'aggiungi colonnina' and $_POST['submit'] == 'aggiungi colonnina') {
-    redirect("admin.php",0);
+    $query = "INSERT INTO Colonnina (NomeStazione) VALUES (".$_POST['NomeStazione'].")";
+    if(mysql_query($query,$conn))
+      redirect("admin.php?action=aggiungi+colonnina&error=false",0);
+    else
+      redirect("admin.php?action=aggiungi+colonnina&error=true",0);
     exit;
   }
   if($_GET['action'] == 'elimina materiale' and $_POST['submit'] == 'elimina materiale') {
@@ -124,7 +128,16 @@ if($_GET) {
   if($_GET['action'] == 'aggiungi colonnina') {
     echo "<p>".new_page_link('lista colonnine','mostra.php?action=colonnina')."</p>";
     echo "<p>".new_page_link('lista stazioni','mostra.php?action=stazione')."</p>";
-    echo "<div><p>form aggiungi colonnina</p></div>";
+    if(isset($_GET['error'])) {
+      if($_GET['error'] == 'false')
+	echo "<p>colonnina aggiunta</p>";
+      else
+	echo "<p>aggiunta non riuscita</p>";
+    }
+    echo "<div class='form'>";
+    echo "<form action='admin.php?action=aggiungi+colonnina' method='POST'>";
+    echo "<p>Nome Stazione: <input type='text' name='NomeStazione'/></p>";
+    echo "<p><input type='submit' name='submit' value='aggiungi colonnina'></p></form></div>";
   }
   if($_GET['action'] == 'elimina materiale') {
     echo "<p>".new_page_link('lista materiale','mostra.php?action=materiale')."</p>";
