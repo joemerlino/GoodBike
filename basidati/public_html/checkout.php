@@ -23,7 +23,7 @@ if($_POST){
 	}
 	else if(isset($_POST['segnala'])){
 		$query = "SELECT * FROM SegnalazioneRottura WHERE IdTessera = '$tessera' AND Colonnina = $_POST[col]";  
-		$res = fetch_singolo(mysql_query($query));
+		$res = fetch_singolo(mysql_query($query,$conn));
 		if($res==NULL){
 			if(add_rottura($tessera,$_POST['col'])) echo "Aggiunta segnalazione rottura";
 			else echo "Aggiunta segnalazione rottura non riuscita";
@@ -41,9 +41,9 @@ if($_POST){
 	  else echo "Errore, noleggio già in corso";
 	}
 	else{
-		$query = "SELECT * FROM SegnalazioneMancanza WHERE IdTessera = '$tessera' AND NomeStazione = $_POST[stazione]";  
-		$row=mysql_fetch_row($query);
-		if($row[0]==NULL){
+		$query = "SELECT * FROM SegnalazioneMancanza WHERE IdTessera = '$tessera' AND NomeStazione = '$_POST[stazione]'";  
+		$result=fetch_singolo(mysql_query($query,$conn));
+		if($result==NULL){
 		  if(add_mancanza($_POST['stazione'],$tessera)) echo "Aggiunta segnalazione mancanza";
 		  else echo "Aggiunta segnalazione mancanza non riuscita";
 		 }

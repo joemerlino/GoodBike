@@ -42,6 +42,7 @@ if($errore)
   echo "value='".$_POST['idtes']."' ";
 echo "/></p><p><input type='submit' name='login' value='Entra'></p></form></div>";  
 echo "<div><p>".page_link("Area tecnico","tecnico.php")."</p></div>";
+echo "<div><p>".page_link("Area trasportatori","trasporto.php")."</p></div>";
 echo "<div><p>".page_link("Amministrazione","admin.php")."</p></div>";
 echo "</div>";
 

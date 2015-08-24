@@ -54,7 +54,6 @@ table{
   margin-left: auto;
   margin-right: auto;
 }
-
 td{
   text-align: center;
   padding: 30px;
@@ -72,8 +71,11 @@ div.link{
 #foot {
     text-align: center;
 }
-#manutenzione{
+.manutenzione{
+  width: 500px;
   text-align: center;
+  vertical-align: top;
+  display: inline-block;
 }
 h1{
   font-size: 36px;
