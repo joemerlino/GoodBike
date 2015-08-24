@@ -13,8 +13,7 @@
 \usepackage{listings}
 \usepackage[colorlinks=true,linkcolor=black,urlcolor=blue]{hyperref} % ancore delle varie sezioni sul menu
 \usepackage{float}
-
-%\graphicspath{Immagini/} non funziona
+\graphicspath{ {Immagini-Grafici/} }
 
 \author{Giuseppe Merlino, Miki Violetto}
 \title{Relazione progetto BiciRent}
@@ -52,94 +51,95 @@ Per la modellazione concettuale si decide di utilizzare un metodo misto e partir
 Il noleggio è formato da due distinte operazioni, un prelievo che inizia il noleggio, e un deposito che lo termina; il deposito distingue inoltre il noleggio pendente, cioè non ancora terminato, con il noleggio terminato il quale è anche uno storico dei noleggi.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale01.png}
+ \includegraphics[width=10\textwidth]{Concettuale01}
 \caption{Relazione Noleggio}
 \end{figure}
 Le informazioni personali dell'utente vengono rappresentate con l'entità Utente; Studente e Turista sono specializzazioni parziali esclusive; l'utente viene identificato dalla tessera che possiede e utilizza nel sito.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale02.png}
+  \includegraphics[width=1\textwidth]{Concettuale02}
 \caption{Entità utente}
 \end{figure}
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale03.png}
+  \includegraphics[width=1\textwidth]{Concettuale03}
 \caption{Relazione Noleggio}
 \end{figure}
 La informazioni di tessera non possono essere rappresentate da un singolo attributo, quindi lo si reifica in un'entità.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale04.png}
+  \includegraphics[width=1\textwidth]{Concettuale04}
 \caption{Entità Tessera}
 \end{figure}
 Le informazioni della bicicletta vengono rappresentate dall'entità Bicicletta, identificata dal codice del materiale.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale05.png}
+  \includegraphics[width=1\textwidth]{Concettuale05}
 \caption{Entità Bicicletta}
 \end{figure}
 Sia prelievo che deposito sono un'operazione, che ha degli attributi propri.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale06.png}
+  \includegraphics[width=1\textwidth]{Concettuale06}
 \caption{Entità Operazione}
 \end{figure}
 Quindi la relazione noleggio scompare, essendo divisa in due relazioni che legano Tessera ad Operazione. Operazione inoltre contiene operazioni di trasporto.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale07.png}
+  \includegraphics[width=1\textwidth]{Concettuale07}
 \caption{Scomparsa della relazione Noleggio}
 \end{figure}
 La colonnina non può essere rappresentata da un solo attributo.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale08.png}
+  \includegraphics[width=1\textwidth]{Concettuale08}
 \caption{Entità Colonnina}
 \end{figure}
 Per rappresentare la posizione di una Bicicletta su una Colonnina si utilizza una relazione.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale09.png}
+  \includegraphics[width=1\textwidth]{Concettuale09}
 \caption{Relazione Posizione}
 \end{figure}
 Quindi lo schema tra Operazione, Bicicletta e Colonnna è il seguente.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale10.png}
+  \includegraphics[width=1\textwidth]{Concettuale10}
 \caption{Operazione, Bicicletta, Colonnina}
 \end{figure}
 Le colonnine sono raggruppate in Stazioni.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale11.png}
+  \includegraphics[width=1\textwidth]{Concettuale11}
 \caption{Entità Stazione}
 \end{figure}
 Come descritto dai requisiti, sia le Colonnine che le Biciclette sono dei materiali, quindi sono specializzazioni complete ed esclusive
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale12.png}
+  \includegraphics[width=1\textwidth]{Concettuale12}
 \caption{Entità Materiale}
 \end{figure}
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale13.png}
+  \includegraphics[width=1\textwidth]{Concettuale13}
 \caption{Stato dell'Entità Materiale}
 \end{figure}
 Le segnalazioni di mancanza e di rottura vengono realizzata tramite delle relazioni.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale14.png}
+  \includegraphics[width=1\textwidth]{Concettuale14}
 \caption{Relazione Segnalazione di Mancanza}
 \end{figure}
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Concettuale15.png}
+  \includegraphics[width=1\textwidth]{Concettuale15}
 \caption{Relazione Segnalazione di Rottura}
 \end{figure}
+\newpage
 Questo è il modello concettuale risultante.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/ConcettualeFinale.png}
+  \includegraphics[width=1\textwidth]{ConcettualeFinale}
 \caption{Modello Concettuale Finale}
 \end{figure}
 \section{Progettazione logica}
@@ -150,13 +150,14 @@ Osservando ora Operazione, ci si accorge come i sottoinsiemi prelievo e deposito
 Si osserva come Trasporto e Noleggio siano molto simili, ma al momento si preferisce aspettare all'implementazione su sql per decidere come comportarsi.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/Logico01.png}
+  \includegraphics[width=1\textwidth]{Logico01}
 \caption{Modifica a Operazione}
 \end{figure}
+\newpage
 Lo schema Logico risultate.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/LogicoFinale.png}
+  \includegraphics[width=1\textwidth]{LogicoFinale}
 \caption{Modello Logico Finale}
 \end{figure}
 \section{Implementazione dello schema logico}
@@ -170,7 +171,7 @@ Inoltre si compiono varie scelte su come rappresentare i sottoinsiemi delle enti
 \end{itemize}
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Immagini-Grafici/SQL.png}
+  \includegraphics[width=1\textwidth]{SQL}
 \caption{Trasformazione in sql}
 \end{figure}
 \subsection{Codice sql}
@@ -321,7 +322,7 @@ CREATE TABLE SegnalazioneMancanza(
 	  ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
-\section{Query, procedure, trigger e funzioni} %le altre due bo
+\section{Query, procedure, trigger e funzioni}
 \subsection{Query}
 \subsection{Trigger}
 Visto che MySql non permette due trigger con lo stesso comportamento sulla stessa tabella (cioè per esempio insert su Utente) ho scelto i nomi dei trigger in base al comportamento e al nome della tabella, questo anche perché molti di questi trigger non eseguono solo un'operazione.\newline
@@ -365,7 +366,8 @@ AFTER DELETE ON Tessera
 FOR EACH ROW BEGIN
 DECLARE mot ENUM('Prelievo','Deposito','Aggiunta','Rimozione');
 SELECT Operazione.Motivazione INTO mot FROM Operazione
-WHERE Operazione.IdTessera = OLD.IdTessera ORDER BY Operazione.Orario DESC LIMIT 1;
+WHERE Operazione.IdTessera = OLD.IdTessera ORDER BY Operazione.Orario
+DESC LIMIT 1;
 IF mot = 'Prelievo' THEN INSERT INTO Tessera(IdTessera) VALUES (NULL);
 END IF;
 END;
@@ -390,7 +392,8 @@ CREATE TRIGGER delete_bicicletta
 AFTER DELETE ON Bicicletta
 FOR EACH ROW BEGIN
 DECLARE mot ENUM('Prelievo','Deposito','Aggiunta','Rimozione');
-SELECT Operazione.Motivazione INTO mot FROM Operazione WHERE Operazione.Bicicletta = OLD.CodiceMateriale
+SELECT Operazione.Motivazione INTO mot FROM Operazione WHERE
+Operazione.Bicicletta = OLD.CodiceMateriale
 ORDER BY Operazione.Orario DESC LIMIT 1;
 IF mot = 'Prelievo' THEN INSERT INTO Materiale(CodiceMateriale) VALUES (NULL);
 END IF;
@@ -415,7 +418,8 @@ Se si elimina una colonnina la bici (se presente) viene riportata in magazzino.
 CREATE TRIGGER delete_colonnina
 AFTER DELETE ON Colonnina
 FOR EACH ROW BEGIN
-IF OLD.Bicicletta IS NOT NULL THEN UPDATE Bicicletta SET Stato = 'InMagazzino'
+IF OLD.Bicicletta IS NOT NULL THEN UPDATE Bicicletta
+SET Stato = 'InMagazzino'
 WHERE Bicicletta.CodiceMateriale = OLD.Bicicletta;
 END IF;
 END;
@@ -424,7 +428,7 @@ END;
 Su operazione si fanno molti controlli in base al tipo di operazione (la motivazione):
 \begin{itemize}
  \item per un prelievo o un deposito si controlla che IdTessera non sia nullo, poi si controlla che quell'operazione non sia successiva ad un'operazione analoga (prelievo con prelievo o deposito con deposito), essendo possibbile solo un noleggio alla volta
- \item per una aggiunta o una rimozione si mette a null la tessera e si modifica lo stato di servizio della bicicletta tra in servio e in magazzino
+ \item per una aggiunta o una rimozione si mette a null la tessera e si modifica lo stato di servizio della bicicletta tra in servizio o in magazzino e si modifica di conseguenza la presenza della bicicletta in colonnina
 \end{itemize}
 In ogni caso il trigger si preoccupa di inserire la data.
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
@@ -441,7 +445,8 @@ IF NEW.Motivazione = 'Prelievo' OR NEW.Motivazione = 'Deposito' THEN
 IF NEW.IdTessera IS NULL THEN SET NEW.IdOperazione = NULL;
 END IF;
 SELECT Operazione.Motivazione INTO mot FROM Operazione WHERE
-Operazione.IdTessera = NEW.IdTessera AND Operazione.Motivazione = 'Prelievo' AND
+Operazione.IdTessera = NEW.IdTessera AND
+Operazione.Motivazione = 'Prelievo' AND
 Operazione.IdOperazione <> NEW.IdOperazione
 ORDER BY Operazione.Orario DESC LIMIT 1;
 IF mot = 'Prelievo' THEN SET nol = TRUE; END IF;
@@ -487,7 +492,8 @@ NEW.CodiceMateriale = Materiale.CodiceMateriale;
 SELECT Colonnina.Bicicletta INTO bic FROM Colonnina WHERE
 NEW.CodiceMateriale = Colonnina.CodiceMateriale;
 IF bic IS NOT NULL THEN
-UPDATE Materiale SET Materiale.Danneggiato = FALSE WHERE bic = Materiale.CodiceMateriale;
+UPDATE Materiale SET Materiale.Danneggiato = FALSE WHERE
+bic = Materiale.CodiceMateriale;
 END IF;
 END;
 \end{lstlisting}
@@ -516,7 +522,7 @@ SELECT CURDATE() INTO dat;
 SET NEW.DataSegnalazione = dat;
 END;
 \end{lstlisting}
-
+\newpage
 \section{Interfaccia web}
 
 \end{document}
