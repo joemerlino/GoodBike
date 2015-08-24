@@ -49,7 +49,7 @@ function page_end() {
 
 // link html
 function page_link($descr, $url) {
-  return '<a href="'.$url.'">$descr</a>';
+  return '<a href="'.$url.'">'.$descr.'</a>';
 };
 
 // link html aperto su una nuova pagina
@@ -59,7 +59,7 @@ function new_page_link($descr,$url) {
 
 // foot html
 function page_foot() {
-  echo "<div id='foot'>Copyright &#xA9; 2014 - All Rights Reserved. Giuseppe Merlino, Miki Violetto</div>";
+  echo "<div id='foot'>____________________________________________________</br>Copyright &#xA9; 2015 - All Rights Reserved. Giuseppe Merlino, Miki Violetto</div>";
 };
 
 //controlla se sono loggato e nel caso ritorna id_tessera
@@ -112,7 +112,7 @@ function add_rottura($tessera,$colonnina) {
 }
 
 //inserisco una SegnalazioneMancanza
-function add_mancanza($tessera,$stazione) {
+function add_mancanza($stazione,$tessera) {
   $conn = connectDbServer();
   $connect = selectDatabase($conn);
   $queryRo = "INSERT INTO SegnalazioneMancanza (NomeStazione, IdTessera) VALUES ('$stazione','$tessera')";

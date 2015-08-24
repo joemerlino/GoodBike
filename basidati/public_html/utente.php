@@ -32,9 +32,9 @@ $connect=connectDbServer();
 $db=selectDatabase($connect);
 $query=mysql_query("SELECT Nome,Cognome FROM Utente JOIN Tessera ON Utente.IdTessera=$tessera",$connect);
 $row=mysql_fetch_assoc($query);
-echo "Benvenuto ".$row["Nome"]." ".$row["Cognome"]."! Seleziona stazione:";
+echo "<div id='container'>Benvenuto ".$row["Nome"]." ".$row["Cognome"]."!&#09;".page_link("logout","logout.php");
 $query=mysql_query("SELECT NomeStazione FROM Stazione",$connect);
-echo "<form action='utente.php' method='POST'><select name='staz' onchange='this.form.submit()'><option value='' disabled selected>Seleziona...</option>";
+echo "</br>Seleziona stazione: <form action='utente.php' method='POST'><select name='staz' onchange='this.form.submit()'><option value='' disabled selected>Seleziona...</option>";
 while($row=mysql_fetch_row($query)){
 	if($_POST and $_POST['staz'])
 		$selectOption = $_POST['staz'];
@@ -43,7 +43,7 @@ while($row=mysql_fetch_row($query)){
 	else
 		echo "<option value='$row[0]'>$row[0]</option>";
 };
-echo "</select></form>";
+echo "</select></form></div>";
 if($_POST and $_POST['staz']){
 	$query=mysql_query("SELECT Colonnina.CodiceMateriale,Bicicletta,Danneggiato FROM Colonnina JOIN Materiale ON Colonnina.CodiceMateriale=Materiale.CodiceMateriale WHERE NomeStazione='$selectOption'",$connect);
 	echo "<form action='checkout.php' method='POST'><input type='hidden' name='stazione' value='".$_POST['staz']."'><table>";
@@ -56,7 +56,7 @@ if($_POST and $_POST['staz']){
 		$conta++;
 		if($row[2]==true){
 			echo "<td class='dis' name='$row[0]'>$row[0]<input type='radio' name='col' value='$row[0]' onclick='setButtons(true,$row[2])'></td>";
-			if($row[1]!=NULL) $free++;
+			if(!$_SESSION["noleggioInCorso"]) $free++;
 			else $occ++;
 		}
 		else if($row[1]!=NULL){

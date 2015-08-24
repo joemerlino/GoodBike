@@ -62,7 +62,7 @@ if($_GET and $_POST) {
 }
 
 page_start('Amministrazione - BiciRent');
-
+echo page_link("Torna ad home page","index.php");
 if($_GET) {
   if($_GET['action'] == 'aggiungi utente') {
     echo "<p>".new_page_link('lista utenti','mostra.php?action=utente')."</p>";

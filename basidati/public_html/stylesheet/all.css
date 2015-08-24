@@ -1,14 +1,8 @@
+
+html {
+  height: 100%;
+}
 /*
-* {
-  padding: 0px;
-  margin: 0px;
-}
-
-body{
-  background-color: #C0C0C0;
-  font-size: 12pt;
-}
-
 table{
   margin: 20px auto 0 auto;
   width: 900px;
@@ -49,6 +43,11 @@ input[type="radio"]{
   display: block;
 }
 body{
+  font-size: 18px;
+  line-height: 30px;
+  min-height: 100%;
+  height: 100%;
+  color: #333333;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 table{
@@ -61,8 +60,23 @@ td{
   padding: 30px;
   font-size: 18px;
 }
+div.link{
+  text-align: center;
+}
 #buttons{
   text-align: center;
+}
+#container{
+  text-align: center;
+}
+#foot {
+    text-align: center;
+}
+#manutenzione{
+  text-align: center;
+}
+h1{
+  font-size: 36px;
 }
 td.dis{
   background-color: whitesmoke;

@@ -32,7 +32,7 @@ if($_POST and $_POST['login'] == 'Entra') {
 }
 
 page_start('Home - BiciRent');
-echo '<div><div>';
+echo '<div id="container"><div>';
 if($errore)
   echo "<p>Errore, IdTessera errato, inserisci l'id esatto della tua tessera per iniziare</p>";
 else
