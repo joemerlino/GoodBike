@@ -8,6 +8,7 @@ admin.php
   aggiungi stazione
   aggiungi colonnina
   elimina materiale
+  elimina tessera
 mostra.php
   tessera
   stazione
@@ -22,10 +23,12 @@ utente
   segnalazione rottura già effettuata
   segnalazione mancanza
   segnalazione mancanza già effettuata
+tecnico
+  riparazione rottura
 
 FALLITI
 admin.php
   aggiungi utente
-  elimina tessera
+  
 utente
   noleggio
