@@ -32,6 +32,3 @@ trasporto.php
   
 
 FALLITI
-trasporto.php
-  nome pulsante
-  messaggi di riuscita o errore
