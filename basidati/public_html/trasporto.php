@@ -2,17 +2,21 @@
 require("library.php");
 page_start("Trasporto - BiciRent");
 echo "<script>
-var oldarrivo = 'Inizio';
+var y;
 function set(valore,arrivo){
+	var i;
+	if(y){
+	    for (i = 0; i < y.length; i++) {
+	        y[i].disabled = false;
+	    }
+	}
 	if(valore){
-		if(document.getElementById(oldarrivo)){
-			document.getElementById(oldarrivo).disabled = false;
-		}
-		oldarrivo = arrivo;	
 		document.getElementById('magazz').style.visibility = 'visible';
-		if(document.getElementById(arrivo)){
-			document.getElementById(arrivo).disabled = true;
-		}
+		var x = document.getElementsByClassName(arrivo);
+		y = x;
+	    for (i = 0; i < x.length; i++) {
+	        x[i].disabled = true;
+	    }
 	}
 	else document.getElementById('magazz').style.visibility = 'hidden';
 }
@@ -63,7 +67,7 @@ while($row=mysql_fetch_row($query)){
 echo "</table></div><div class='manutenzione'><h2>Riepilogo stazioni</h2><table><thead><tr><th>Seleziona</th><th>Codice Bicicletta</th><th>Stazione</th></tr></thead>";
 $query=mysql_query("SELECT Bicicletta, NomeStazione FROM Colonnina WHERE Bicicletta IS NOT NULL",$connect);
 while($row=mysql_fetch_row($query)){
-	echo "<tr><td><input type='checkbox' name='stazione[]' id='$row[1]' value='$row[0]'></td><td>".$row[0]."</td><td>".$row[1]."</td>";
+	echo "<tr><td><input type='checkbox' name='stazione[]' class='$row[1]' value='$row[0]'></td><td>".$row[0]."</td><td>".$row[1]."</td>";
 	}
 echo "</table></div><div class='manutenzione' id='magazz'><h2>Riepilogo Magazzino</h2><table>";
 $query=mysql_query("SELECT Bicicletta.CodiceMateriale FROM Bicicletta LEFT JOIN Materiale ON Bicicletta.CodiceMateriale = Materiale.CodiceMateriale WHERE Stato = 'InMagazzino' AND Danneggiato = FALSE",$connect);

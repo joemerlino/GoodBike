@@ -25,6 +25,10 @@ td{
 div.link{
   text-align: center;
 }
+.adminmenu p{
+  display: inline-block;
+  padding: 10px;
+}
 #buttons{
   text-align: center;
 }

@@ -9,9 +9,9 @@ if($_GET) {
 if($_GET and $_POST) {
   if($_GET['action'] == 'aggiungi utente' and $_POST['submit'] == 'aggiungi utente') {
     if($_POST['Tipo'] == 'Studente')
-      $query = "INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio) VALUES ('$_POST[Nome]','$_POST[Cognome]','$_POST[DataNascita]','$_POST[LuogoNascita]','$_POST[Residenza]','$_POST[Indirizzo]','$_POST[Email]','Studente','$_POST[CodiceStudente]','$_POST[IoStudio]')";
+      $query = "INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio) VALUES ('$_POST[Nome]','$_POST[Cognome]','$_POST[DataNascita]','$_POST[LuogoNascita]','$_POST[Residenza]','$_POST[Indirizzo]','$_POST[Email]','$_POST[Tipo]','$_POST[CodiceStudente]','$_POST[IoStudio]')";
     else
-      $query = "INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio) VALUES ('".$_POST['Nome']."','".$_POST['Cognome']."','".$_POST['DataNascita']."','".$_POST['LuogoNascita']."','".$_POST['Residenza']."','".$_POST['Indirizzo']."','".$_POST['Email']."','".$_POST['Tipo']."','NULL','NULL')";
+      $query = "INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio) VALUES ('$_POST[Nome]','$_POST[Cognome]','$_POST[DataNascita]','$_POST[LuogoNascita]','$_POST[Residenza]','$_POST[Indirizzo]','$_POST[Email]','$_POST[Tipo]','NULL','NULL')";
 
     if(mysql_query($query,$conn))
       redirect("admin.php?action=aggiungi+utente&error=false",0);
@@ -85,22 +85,22 @@ if($_GET) {
 	echo "<p>aggiunta non riuscita</p>";
     }
     echo "<div class='form'>";
-    echo "<form action='admin.php?action=aggiungi+utente' method='POST'>";
-    echo "<p>Nome: <input type='text' name='Nome'/></p>";
-    echo "<p>Cognome: <input type='text' name='Cognome'/></p>";
+    echo "<form class='adminmenu' action='admin.php?action=aggiungi+utente' method='POST'>";
+    echo "<p>Nome: <input type='text' maxlength='20' name='Nome'/></p>";
+    echo "<p>Cognome: <input type='text' maxlength='20' name='Cognome'/></p>";
     echo "<p>Data di nascita: <input type='text' name='DataNascita' placeholder='aaaa-mm-gg'/></p>";
-    echo "<p>Luogo di nascita: <input type='text' name='LuogoNascita'/></p>";
-    echo "<p>Residenza: <input type='text' name='Residenza'/></p>";
-    echo "<p>Indirizzo: <input type='text' name='Indirizzo'/></p>";
-    echo "<p>Email: <input type='text' name='Email'/></p>";
-    echo "<p>Tipo :</p>";
-    echo "<p><input type='radio' name='Tipo' value='Utente'/>Nessuno</p>";
+    echo "<p>Luogo di nascita: <input type='text' maxlength='20' name='LuogoNascita'/></p>";
+    echo "<p>Residenza: <input type='text' maxlength='20' name='Residenza'/></p>";
+    echo "<p>Indirizzo: <input type='text' maxlength='30' name='Indirizzo'/></p>";
+    echo "<p>Email: <input type='text' maxlength='30' name='Email'/></p>";
+    echo "<div><p>Tipo :</p>";
+    echo "<p><input type='radio' name='Tipo' value='Utente'/>Utente base</p>";
     echo "<p><input type='radio' name='Tipo' value='Turista'/>Turista</p>";
-    echo "<p><input type='radio' name='Tipo' value='Studente'/>Studente</p>";
-    echo "<p> Solo per studente</p>";
-    echo "<p>Codice studente: <input type='text' name='CodiceStudente'/></p>";
+    echo "<p><input type='radio' name='Tipo' value='Studente'/>Studente</p></div>";
+    echo "<div><h3> Solo per studente</h3>";
+    echo "<p>Codice studente: <input type='text' maxlength='10' name='CodiceStudente'/></p>";
     echo "<p><input type='radio' name='IoStudio' value='0' checked/>Matricola</p>";
-    echo "<p><input type='radio' name='IoStudio' value='1'/>Carta Iostudio</p>";
+    echo "<p><input type='radio' name='IoStudio' value='1'/>Carta Iostudio</p></div>";
     echo "<p><input type='submit' name='submit' value='aggiungi utente'></p></form></div>";
   }
   if($_GET['action'] == 'elimina tessera') {
@@ -186,7 +186,7 @@ if($_GET) {
 }
 
 echo "<div class='link'>";
-echo "<form action='admin.php' method='GET'>";
+echo "<form class='adminmenu' action='admin.php' method='GET'>";
 if(!$_GET or $_GET['action'] <> 'aggiungi utente')
   echo "<p><input type='submit' name='action' value='aggiungi utente'></p>";
 if(!$_GET or $_GET['action'] <> 'elimina tessera')
