@@ -267,7 +267,7 @@ SET FOREIGN_KEY_CHECKS=1;
 
 /* insert */
 
-INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio) VALUES ('Giovanni','Rossi','1990-08-23','Padova','Vigonza','Via Pascoli, 8','giovannirossi@email.it','Utente',NULL,NULL),('Paolo','Gironi','1980-10-10','Venezia','Padova','Via Montegrappa, 10','paolo@email.it','Turista',NULL,NULL),('Davide','Ceron','1992-10-12','Montebelluna','Montebelluna','Via salice, 7','cerondavid@gmail.com','Studente','287654',0);
+INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio) VALUES ('Giovanni','Rossi','1990-08-23','Padova','Vigonza','Via Pascoli,8','giovannirossi@email.it','Utente',NULL,NULL),('Paolo','Gironi','1980-10-10','Venezia','Padova','Via Montegrappa,10','paolo@email.it','Turista',NULL,NULL),('Davide','Ceron','1992-10-12','Montebelluna','Montebelluna','Via salice,7','cerondavid@gmail.com','Studente','287654',0),('Gianni','Pascoli','2000-09-12','Padova','Padova','Via monte grappa,8','gianni.pascoli@gmail.com','Studente','1234', 1),('giovanni','vernia','1960-11-12','Rimini','Riccione','Via sofia,3','giovannivernia@yahoo.it','Turista',NULL,NULL),('Miki','Violetto','1992-02-18','Cittadella','Cittadella','Via Jacopo da Ponte 30','miki.violetto@studenti.unipd.it','Studente','1029140',0);
 
 INSERT INTO Bicicletta (Elettrica) VALUES (0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(1),(0),(0),(1),(0),(0),(0),(0),(0),(0),(0),(0),(0),(1),(0),(0),(0),(0),(1),(1),(1),(1),(1),(1),(1),(1),(1),(1),(1);
 

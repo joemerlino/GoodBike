@@ -9,6 +9,7 @@ admin.php
   aggiungi colonnina
   elimina materiale
   elimina tessera
+  aggiungi utente
 mostra.php
   tessera
   stazione
@@ -31,8 +32,6 @@ trasporto.php
   
 
 FALLITI
-admin.php
-  aggiungi utente
 trasporto.php
   nome pulsante
   messaggi di riuscita o errore
