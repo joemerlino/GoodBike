@@ -215,8 +215,10 @@ END IF;
 SELECT Operazione.Motivazione INTO mot FROM Operazione WHERE Operazione.IdTessera = NEW.IdTessera AND Operazione.Motivazione = 'Prelievo' AND Operazione.IdOperazione <> NEW.IdOperazione ORDER BY Operazione.Orario DESC LIMIT 1;
 IF mot = 'Prelievo' THEN SET nol = TRUE; END IF;
 IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN SET NEW.IdOperazione = NULL;
+ElSE UPDATE Colonnina SET Colonnina.Bicicletta = NULL WHERE Colonnina.CodiceMateriale = NEW.Colonnina;
 END IF; END IF;
 IF NEW.Motivazione = 'Deposito' THEN IF nol = FALSE THEN SET NEW.IdOperazione = NULL;
+ELSE UPDATE Colonnina SET Colonnina.Bicicletta = NEW.Bicicletta WHERE Colonnina.CodiceMateriale = NEW.Colonnina;
 END IF; END IF;
 ELSE
 IF NEW.Motivazione = 'Aggiunta' THEN
@@ -231,6 +233,7 @@ END IF;
 UPDATE Bicicletta SET Bicicletta.Stato = 'InMagazzino' WHERE Bicicletta.CodiceMateriale = NEW.Bicicletta;
 UPDATE Colonnina SET Colonnina.Bicicletta = NULL WHERE Colonnina.CodiceMateriale = NEW.Colonnina;
 END IF; END IF;
+DELETE FROM SegnalazioneMancanza WHERE SegnalazioneMancanza.NomeStazione = (SELECT Colonnina.NomeStazione FROM Colonnina WHERE NEW.Colonnina = Colonnina.CodiceMateriale LIMIT 1);
 END |
 DELIMITER ;
 
