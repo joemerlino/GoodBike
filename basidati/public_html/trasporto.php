@@ -13,7 +13,6 @@ $connect=connectDbServer();
 $db=selectDatabase($connect);
 echo page_link("Torna ad home page","index.php");
 if($_POST){
-	//add_operazione_tecnico
 	//controllo se trasporto va a magazzino o a stazioni
 }
 $query=mysql_query("SELECT Stazione.NomeStazione, COUNT(SegnalazioneMancanza.NomeStazione) FROM Stazione LEFT JOIN SegnalazioneMancanza ON Stazione.NomeStazione = SegnalazioneMancanza.NomeStazione GROUP BY SegnalazioneMancanza.NomeStazione ORDER BY COUNT(SegnalazioneMancanza.NomeStazione) DESC",$connect);
