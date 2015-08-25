@@ -30,26 +30,26 @@
 
 \section{Abstract}
 BiciRent è un servizio di bike sharing ispirato a Goodbike presente qui a Padova.\newline
-Permette il noleggio di biciclette da utilizzare per girare per la città grazie a delle tessere personali e grazie a molte stazioni dislocate su varie aree della città è possibile prelevare e depositare la bicicletta con comodità.\newline
-Il progetto si focalizza sulla gestione dei noleggi e delle operazioni di routine eseguibili dall'utenza e dai tecnici di BiciRent, virtualizzando su un sito le operazioni che verrebbero normalmente svolte su vari dipositivi come le colonnine, un'applicazione per gli utenti o una per i tecnici.
+Permette il noleggio di biciclette da utilizzare per girare in città grazie a tessere personali e molte stazioni dislocate su varie aree della città è possibile prelevare e depositare la bicicletta con comodità.\newline
+Il progetto si focalizza sulla gestione dei noleggi e delle operazioni di routine eseguibili dall'utenza e dai tecnici di BiciRent, virtualizzando su un sito le operazioni che verrebbero normalmente svolte su vari dispositivi come le colonnine, un'applicazione per gli utenti o una per i tecnici.
 \section{Descrizione testuale dei requisiti e operazioni tipiche}
 \subsection{Descrizione testuale}
-Al momento dell'iscrizione di un utente verranno richiesti tutti i dati personali necessari a registrarlo e rilasciarli la tessera, quali nome, cognome, data e luogo di nascita, infomazioni sulla residenza, e un'email quale recapito per essere contattato; grazie a queste informazioni gli verrà rilasciata una tessera personale con la quale utilizzare tutti i servizi, e avente una data di attivazione.\newline
+Al momento dell'iscrizione di un utente verranno richiesti tutti i dati personali necessari a registrarlo e rilasciarli la tessera, quali nome, cognome, data e luogo di nascita, informazioni sulla residenza, e un'email quale recapito per essere contattato; grazie a queste informazioni gli verrà rilasciata una tessera personale con la quale utilizzare tutti i servizi, e avente una data di attivazione.\newline
 Bisognerà registrare se l'utente è un turista o uno studente, i quali però dovranno dimostrare di esserlo con la matricola universitaria o la carta IoStudio; il sito svolge solo un'azione di deposito dei dati.\newline
 Un utente potrà quindi prelevare una bicicletta da una colonnina di una stazione e poi depositarla su una qualsiasi colonnina libera: queste operazioni, chiamate prelievo e deposito, dovranno venire registrate dal sito con in aggiunta l'orario in cui vengono effettuate.\newline
 Sia le biciclette che le colonnine sono dei beni identificati da un codice comune che identifica tutti i beni dell'azienda BiciRent, inoltre questi materiali possono essere danneggiati: un materiale danneggiato non permette alcuna operazione su di esso da parte dell'utente e deve venire riparato dai tecnici.\newline
 Deve venire registrata ogni riparazione eseguita dai tecnici, con in aggiunta una descrizione del danno riparato.\newline
-Le biciclette possono essere a pedalata assistita (elettriche) oppure a pedalata normale e possono essere in servizio (cioè ferme nelle colonnine oppure nolleggiate) o in magazzino; una bicicletta danneggiata può ovviamente essere sia in magazzino che in una colonnina.\newline
-Le colonnine sono presenti in gruppi su tutto il territorio, raggrupate in stazioni che vengono identificate dal loro indirizzo, e possono essere libere oppure occupate da una bicicletta. Una colonnina danneggiata rende la bicicletta (se presente) danneggiata anch'essa.\newline
+Le biciclette possono essere a pedalata assistita (elettriche) oppure normali e possono essere in servizio (cioè ferme nelle colonnine oppure noleggiate) o in magazzino; una bicicletta danneggiata può ovviamente essere collegata ad una colonnina o in magazzino.\newline
+Le colonnine sono presenti in gruppi su tutto il territorio, raggruppate in stazioni che vengono identificate dal loro indirizzo, e possono essere libere oppure occupate da una bicicletta. La colonnina segnalata rende danneggiata anche la bicicletta, se presente.\newline
 Ulteriori informazioni che devono essere registrate sono le segnalazioni da parte dell'utente e le informazioni relative ai trasporti eseguiti dai tecnici.\newline
-Un utente può segnalare una mancanza su una stazione, cioè se vuole eseguire un noleggio (o un deposito) e la stazione ha tutte le colonnine vuote (o occupate) può segnalare questo ai tecnici; allo stesso modo può segnalare una reottura su una colonnina ( e sulla bicicletta presente quindi).\newline
+Un utente può segnalare la mancanza in una stazione, cioè se vuole eseguire un noleggio (o un deposito) e la stazione ha tutte le colonnine vuote (o occupate) può segnalare questo ai tecnici; oltre alla  rottura di una colonnina ( e quindi della bicicletta collegata).\newline
 I trasporti eseguiti dai tecnici sono del tutto simili alle operazioni eseguite dai clienti, solo che l'aggiunta o rimozione di una bicicletta può essere eseguita solo dai tecnici, mentre il noleggio e il deposito solo dai clienti muniti di tessera, ma non si vuole tener traccia del tecnico.\newline
 Il sito dovrà virtualizzare le operazioni che normalmente un cliente esegue su una colonnina, quindi un prelievo di una bicicletta passando la sua tessera, o un deposito, o una segnalazione di rottura (eseguita su una colonnina, per questo non si discrimina se è la bicicletta o la colonnina); dovrà inoltre prevedere un'area in cui è possibile per l'utente controllare i suoi noleggi, i suoi dati personali e lo stato delle stazioni ( nella realtà queste informazioni gli sono accessibili tramite un'applicazione per smartphone). Inoltre dovrà esserci un'area amministrativa in cui i tecnici possono registrare le manutenzioni che fanno e controllare le segnalazioni eseguite dagli utenti.\newline
 Alcune informazioni di traffico previsto: si prospettano circa 1700 noleggi giornalieri e una media di 200 richieste d'intervento al giorno (mancanza di bici e rotture); inoltre viene richiesta la composizione dei posti delle stazioni (presenza biciclette, tipi disponibili e posti liberi) almeno 10000 volte ogni giorno, ma con punte di quasi 900 richieste in una singola mezz'ora (ad esempio nelle ore di punta).
 \section{Progettazione concettuale}
-Per la modellazione concettuale si decide di utilizzare un metodo misto e partire dal'operazione di noleggio.
+Per la modellazione concettuale si è deciso di utilizzare un metodo misto e partire dall'operazione di noleggio.
 \subsection{Noleggio}
-Il noleggio è formato da due distinte operazioni, un prelievo che inizia il noleggio, e un deposito che lo termina; il deposito distingue inoltre il noleggio pendente, cioè non ancora terminato, con il noleggio terminato il quale è anche uno storico dei noleggi.
+Il noleggio è formato da due distinte operazioni, un prelievo che inizia il noleggio, e un deposito che lo termina.
 \begin{figure}[h]
  \centering
  \includegraphics[width=0.7\textwidth]{Concettuale01}
@@ -75,14 +75,14 @@ La informazioni di tessera non possono essere rappresentate da un singolo attrib
 \caption{Entità Tessera}
 \end{figure}
 \subsection{Bicicletta}
-Le informazioni della bicicletta vengono rappresentate dall'entità Bicicletta, identificata dal codice del materiale.
+Le informazioni della bici vengono rappresentate dall'entità Bicicletta, identificata dal codice del materiale.
 \begin{figure}[H]
  \centering
   \includegraphics[width=1\textwidth]{Concettuale05}
 \caption{Entità Bicicletta}
 \end{figure}
 \subsection{Operazione}
-Sia prelievo che deposito sono un'operazione con degli attributi propri.
+Sia prelievo che deposito sono operazioni con attributi propri.
 \begin{figure}[H]
  \centering
   \includegraphics[width=0.3\textwidth]{Concettuale06}
@@ -134,7 +134,7 @@ Come descritto dai requisiti, sia le Colonnine che le Biciclette sono dei materi
 \caption{Stato dell'Entità Materiale}
 \end{figure}
 \subsection{Segnalazioni}
-Le segnalazioni di mancanza e di rottura vengono realizzata tramite delle relazioni.
+Le segnalazioni di mancanza e rottura vengono realizzate tramite delle relazioni.
 \begin{figure}[H]
  \centering
   \includegraphics[width=1\textwidth]{Concettuale14}
@@ -155,8 +155,8 @@ Questo è il modello concettuale risultante.
 \end{figure}
 \newpage
 \section{Progettazione logica}
-Per la realizzazione di un modello logico a partire da uno concettuale si sevono controllare varie cose:\newline
-Per prima cosa si controllano le chiavi di ogni entità, e sono presenti tutte.\newline
+Per realizzare il modello logico siamo partiti da quello concettuale ed abbiamo controllato vari punti:
+per prima cosa ci siamo assicurati che fossero presenti le chiavi di ogni entità.\newline
 Osservando Utente e Tessera si nota che hanno la stessa chiave, quindi le due entità potrebbero essere unite in un'unica, ma si decide di non farlo in quanto le informazioni dell'utente non vengono quasi mai richiamate (solo se si deve mostrare il profilo) e quindi avere una grande entità coinvolta in tutte le relazioni di tessera rallenterebbe inutilmente il sistema,molto meglio eseguire un join quelle rare volte che servono le informazioni personali dell'utente.\newline
 Osservando ora Operazione, ci si accorge come i sottoinsiemi prelievo e deposito siano molto simili, quindi si decide di unirli in un unico sottoinsieme, e distinguerli grazie ad un attributo.\newline
 Si osserva come Trasporto e Noleggio siano molto simili, ma al momento si preferisce aspettare all'implementazione su sql per decidere come comportarsi.
@@ -176,8 +176,8 @@ Lo schema Logico risultate.
 \newpage
 \section{Implementazione dello schema logico}
 \subsection{Conversione iniziale}
-Implementando lo schema logico con mysql si modificano varie parti dello schema Logico.\newline
-Una prima conversione risultante dall'eliminazione delle relazioni tra le entità, rapprentate con l'aggiunta delle chiavi esterne: Segnalazione di Mancanza e Segnalazione di Rottura diventano entità (in quanto relazioni N:N).\newline
+Implementando lo schema logico con mysql si modificano varie parti di esso.\newline
+Una prima conversione risultante dall'eliminazione delle relazioni tra le entità, rappresentate con l'aggiunta delle chiavi esterne: Segnalazione di Mancanza e Segnalazione di Rottura diventano entità (in quanto relazioni N:N).\newline
 Inoltre si compiono varie scelte su come rappresentare i sottoinsiemi delle entità:
 \begin{itemize}
  \item per Operazione, Bicicletta, Utente, e Colonnina si sceglie di compattare il tutto nell'entità e di aggiungere degli attributi di controllo, su cui sarà però necessario dei trigger o controlli aggiuntivi
@@ -342,8 +342,6 @@ FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
 \section{Query, procedure, trigger e funzioni}
 \subsection{Query}
 \subsection{Trigger}
-Visto che MySql non permette due trigger con lo stesso comportamento sulla stessa tabella (cioè per esempio insert su Utente) ho scelto i nomi dei trigger in base al comportamento e al nome della tabella, questo anche perché molti di questi trigger non eseguono solo un'operazione.\newline
-Contrariamente alla possibilità di fare modifiche a molte tabelle, ho preferito fare lo stesso i trigger che controllano tali modifiche, per evidenziare come le scelte di implementazione siano state rispettate.
 \subsubsection{\texttt{insert\_utente}}
 Se un nuovo Utente ha come Tipo 'Studente' allora CodiceStudente e IoStudio non possono essere nulli, se non é 'Studente' allora devono essere nulli.
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
@@ -436,10 +434,10 @@ END IF;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_operazione}}
-Su operazione si fanno molti controlli in base al tipo di operazione (la motivazione):
+Su operazione si fanno molti controlli in base al tipo di essa (la motivazione):
 \begin{itemize}
- \item per un prelievo o un deposito si controlla che IdTessera non sia nullo, poi si controlla che quell'operazione non sia successiva ad un'operazione analoga (prelievo con prelievo o deposito con deposito), essendo possibile solo un noleggio alla volta, infine si modifica lo stato della colonnina in base all'operazione avvenuta
- \item per una aggiunta o una rimozione si mette a null la tessera e si modifica lo stato di servizio della bicicletta tra in servizio o in magazzino e si modifica di conseguenza la presenza della bicicletta in colonnina
+ \item per un prelievo o un deposito si verifica che IdTessera non sia nullo, poi si controlla che quell'operazione non sia successiva ad un'operazione analoga, essendo possibile solo un noleggio alla volta, infine si modifica lo stato della colonnina in base all'operazione avvenuta
+ \item per un'aggiunta o una rimozione si mette a NULL la tessera e si modifica lo stato di servizio della bicicletta tra InServizio o InMagazzino e si modifica di conseguenza la presenza della bicicletta in colonnina
 \end{itemize}
 In ogni caso il trigger si preoccupa di inserire la data e come ultima operazione elimina le segnalazioni si mancanza della stazione in cui la colonnina fa parte.
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
@@ -494,7 +492,7 @@ SegnalazioneMancanza.NomeStazione = (
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_manutenzione}}
-All'inserimento di una manutenzione vengono cancellate tutte le segnalazioni di quella colonnina (se è una colonnina) e viene aggiornato il materiale rimuovendo la danneggiato; viene anche inserita la data esatta.
+All'inserimento di una manutenzione vengono cancellate tutte le segnalazioni relative alla colonnina e viene aggiornato il materiale rimuovendo il booleano che rappresenta lo stato danneggiato. Viene anche inserita la data esatta.
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_manutenzione
 BEFORE INSERT ON Manutenzione
@@ -516,7 +514,7 @@ END IF;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_segnalazione\_rottura}}
-La segnalazione di rottura aggiorna lo stato della colonnina e della bici se presente, mettendole come materiale danneggiato.
+La segnalazione di rottura aggiorna lo stato della colonnina e della bici se presente, segnalandole come materiale danneggiato.
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_segnalazione_rottura
 BEFORE INSERT ON SegnalazioneRottura
@@ -531,7 +529,7 @@ NEW.Colonnina = Colonnina.CodiceMateriale;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_segnalazione\_mancanza}}
-La segnalazione di mancanza inserisce la data corretta, poi controlla se si è veramente con una stazione comletamente piena o completamente vuota; solo in questi casi si può fare una segnalazione.
+La segnalazione di mancanza inserisce la data corretta, poi controlla se si è veramente con una stazione completamente piena o completamente vuota; solo in questi casi si può fare una segnalazione.
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_segnalazione_mancanza
 BEFORE INSERT ON SegnalazioneMancanza
@@ -639,4 +637,13 @@ La form permette di eliminare dal database una bicicletta o colonnina e si prese
 	\includegraphics[width=0.8\textwidth]{Screenshot13}
 	\caption{Rappresentazione admin.php?action=elimina+materiale}
 \end{figure}
+\subsubsection{Liste dell'area amministrativa}
+I link che mostrano le liste di oggetti nelle sotto-sezioni dell'area amministrativa vengono indirizzati alla pagina mostra.php che tramite GET crea liste contenenti gli oggetti richiesti dalla rispettiva pagina admin.php.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Screenshot14}
+	\caption{Rappresentazione mostra.php?action=stazione}
+\end{figure}
+\section{Conclusioni}
+Il progetto si è rivelato estremamente interessante sia dal punto di vista pratico che didattico, inoltre abbiamo avuto la possibilità di utilizzare tecnologie come HTML, JavaScript, PHP, e MySQL insieme ottenendo risultati davvero eccezionali. Abbiamo inoltre cercato di curare il più possibile la facilità d'uso nell'esperienza utente con particolare attenzione agli errori e possibili fallback del sistema. Infine speriamo di aver riportato in maniera chiara tramite la seguente documentazione il lavoro svolto.
 \end{document}
