@@ -12,9 +12,9 @@ if($_POST){
 	if(isset($_POST['noleggia'])){
 	  if($_SESSION["noleggioInCorso"]) echo "errore, noleggio già in corso";
 	  else {
-	    if(add_operazione('Prelievo',$_POST['col'],'0',$tessera)) {
+	    if(add_operazione('Prelievo',$_POST['col'],NULL,$tessera)) {
 	      $_SESSION["noleggioInCorso"] = TRUE;
-	      $queryBic = "SELECT Operazione.Bicicletta FROM Operazione WHERE Operazione.IdTessera = '$tessera' ORDER BY Operazione.Orario DESC LIMIT 1";
+	      $queryBic = 'SELECT Operazione.Bicicletta FROM Operazione WHERE Operazione.IdTessera = '.$tessera.' ORDER BY Operazione.Orario DESC LIMIT 1';
 	      $_SESSION["Bicicletta"] = fetch_singolo(mysql_query($queryBic,$conn));
 	      echo "Inserimento operazione di noleggio riuscita";
 	    }
