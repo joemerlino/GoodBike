@@ -11,7 +11,7 @@ if($_GET) {
     $query = 'SELECT * FROM Tessera LEFT JOIN Utente ON Tessera.IdTessera = Utente.IdTessera';
     $resource = mysql_query($query,$conn);
     echo "<div class='mostra'><table>";
-    echo '<tr><td>Id Tessera</td><td>Data Attivazione</td><td>Nome</td><td>Cognome</td><td>Data Nascita</td><td>Luogo Nascita</td><td>Residenza</td><td>Indirizzo</td><td>Email</td><td>Tipo</td></tr>';
+    echo '<tr><td>Id Tessera</td><td>Data Attivazione</td><td>Nome</td><td>Cognome</td><td>Data Nascita</td><td>Luogo Nascita</td><td>Residenza</td><td>Indirizzo</td><td>Email</td><td>Tipo</td><td>Codice</td></tr>';
     while($row=mysql_fetch_row($resource)){
       echo '<tr><td>'.$row[0].'</td><td>'.$row[1].'</td><td>'.$row[2].'</td><td>'.$row[3].'</td><td>'.$row[4].'</td><td>'.$row[5].'</td><td>'.$row[6].'</td><td>'.$row[7].'</td><td>'.$row[8].'</td><td>'.$row[9].'</td>';
       if($row[9] == 'Studente') {
