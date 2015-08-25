@@ -16,19 +16,24 @@ mostra.php
   bicicletta
   materiale
   utente
-utente
+utente.php
   logout
   selezione stazione
   segnalazione rottura
   segnalazione rottura già effettuata
   segnalazione mancanza
   segnalazione mancanza già effettuata
-tecnico
+tecnico.php
   riparazione rottura
+trasporto.php
+  movimento bici
+  
 
 FALLITI
 admin.php
   aggiungi utente
-  
-utente
+trasporto.php
+  nome pulsante
+  messaggi di riuscita o errore
+utente.php
   noleggio
