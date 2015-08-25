@@ -99,7 +99,7 @@ if($_GET) {
     echo "<p><input type='radio' name='Tipo' value='Studente'/>Studente</p>";
     echo "<p> Solo per studente</p>";
     echo "<p>Codice studente: <input type='text' name='CodiceStudente'/></p>";
-    echo "<p><input type='radio' name='IoStudio' value='0'/>Matricola</p>";
+    echo "<p><input type='radio' name='IoStudio' value='0' checked/>Matricola</p>";
     echo "<p><input type='radio' name='IoStudio' value='1'/>Carta Iostudio</p>";
     echo "<p><input type='submit' name='submit' value='aggiungi utente'></p></form></div>";
   }
