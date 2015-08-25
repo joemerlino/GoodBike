@@ -17,7 +17,7 @@ if($_POST){
 		if($_POST['arrivo']!='Magazzino'){
 			foreach($_POST['stazione'] as $selected){
 				add_operazione_tecnico('Rimozione',NULL,$selected);
-				$query = "SELECT CodiceMateriale FROM Colonnina WHERE NomeStazione = $_POST[arrivo] AND Bicicletta IS NULL";
+				$query = "SELECT CodiceMateriale FROM Colonnina WHERE NomeStazione = '$_POST[arrivo]' AND Bicicletta IS NULL";
 				$Colonnina = fetch_singolo(mysql_query($query,$connect));
 				if($Colonnina != NULL)
 					add_operazione_tecnico('Aggiunta',$Colonnina,$selected);
@@ -32,7 +32,7 @@ if($_POST){
 	}
 	if(!empty($_POST['magazzino'])){
 			foreach($_POST['magazzino'] as $selected){
-				$query = "SELECT CodiceMateriale FROM Colonnina WHERE NomeStazione = $_POST[arrivo] AND Bicicletta IS NULL";
+				$query = "SELECT CodiceMateriale FROM Colonnina WHERE NomeStazione = '$_POST[arrivo]' AND Bicicletta IS NULL";
 				$Colonnina = fetch_singolo(mysql_query($query,$connect));
 				if($Colonnina != NULL)
 					add_operazione_tecnico('Aggiunta',$Colonnina,$selected);
