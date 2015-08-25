@@ -64,7 +64,7 @@ while($row=mysql_fetch_row($query)){
 	echo "<tr bgcolor='".dechex(16775492-4000*$row[1])."'><td><input type='radio' name='arrivo' value='$row[0]' onclick=set(true,'$row[0]')></td><td>".$row[0]."</td><td>".$row[1]."</td>";
 	}
 	echo "<tr bgcolor='".dechex(16776600)."'><td><input type='radio' name='arrivo' value='Magazzino' onclick=set(false,'Magazzino')></td><td>Magazzino</td><td>-</td>";
-echo "</table></div><div class='manutenzione'><h2>Riepilogo stazioni</h2><table><thead><tr><th>Seleziona</th><th>Bicicletta</th><th>Stazione</th></tr></thead>";
+echo "</table><input type='submit' name='trasposto' value='Trasporta bici'></div><div class='manutenzione'><h2>Riepilogo stazioni</h2><table><thead><tr><th>Seleziona</th><th>Bicicletta</th><th>Stazione</th></tr></thead>";
 $query=mysql_query("SELECT Bicicletta, NomeStazione FROM Colonnina WHERE Bicicletta IS NOT NULL",$connect);
 while($row=mysql_fetch_row($query)){
 	echo "<tr><td><input type='checkbox' name='stazione[]' class='$row[1]' value='$row[0]'></td><td>".$row[0]."</td><td>".$row[1]."</td>";
@@ -81,6 +81,6 @@ while($row=mysql_fetch_row($query)){
 			echo "</tr>";
 		}
 	}
-	echo "</table></div><input type='submit' name='trasposto' value='Trasporta bici'></form>";
+	echo "</table></div></form>";
 page_end();
 ?>
