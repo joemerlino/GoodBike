@@ -14,12 +14,11 @@ if($_GET) {
     echo '<tr><td>Id Tessera</td><td>Data Attivazione</td><td>Nome</td><td>Cognome</td><td>Data Nascita</td><td>Luogo Nascita</td><td>Residenza</td><td>Indirizzo</td><td>Email</td><td>Tipo</td></tr>';
     while($row=mysql_fetch_row($resource)){
       echo '<tr><td>'.$row[0].'</td><td>'.$row[1].'</td><td>'.$row[2].'</td><td>'.$row[3].'</td><td>'.$row[4].'</td><td>'.$row[5].'</td><td>'.$row[6].'</td><td>'.$row[7].'</td><td>'.$row[8].'</td><td>'.$row[9].'</td>';
-      echo '<td>'.$row[10];
-      if($row[10] == 'Studente') {
-	if($row[12] != '0')
-	  echo ' Matricola: '.$row[11];
+      if($row[9] == 'Studente') {
+	if($row[11] != '0')
+	  echo ' Matricola: '.$row[10];
 	else
-	  echo ' IoStudio: '.$row[11];
+	  echo ' IoStudio: '.$row[10];
       }
       echo '</td></tr>';
     }
