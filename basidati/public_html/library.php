@@ -86,6 +86,10 @@ function add_operazione($motivazione,$colonnina,$bicicletta,$tessera) {
     $queryBic = "SELECT Colonnina.Bicicletta FROM Colonnina WHERE Colonnina.CodiceMateriale = '$colonnina'";
     $bicicletta = fetch_singolo(mysql_query($queryBic,$conn));
   }
+  else if($colonnina == NULL) {
+    $queryCol = "SELECT Colonnina.CodiceMateriale FROM Colonnina WHERE Colonnina.Bicicletta = '$bicicletta'";
+    $colonnina = fetch_singolo(mysql_query($queryCol,$conn));
+  }
   $queryOp = "INSERT INTO Operazione(Colonnina,Bicicletta,Motivazione,IdTessera) VALUES ('$colonnina','$bicicletta','$motivazione','$tessera')";
   return mysql_query($queryOp,$conn); 
 }
