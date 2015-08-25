@@ -20,7 +20,7 @@ if($_POST and $_POST['login'] == 'Entra') {
     $row = mysql_fetch_assoc($utente);
     $_SESSION["id_tessera"] = $row["IdTessera"];
       
-    $query2 = "SELECT Operazione.Motivazone FROM Tessera LEFT JOIN Operazione ON Tessera.IdTessera = Operazione.IdTessera WHERE Tessera.IdTessera = '$tessera' ORDER BY Operazione.Orario DESC LIMIT 1;";
+    $query2 = "SELECT Operazione.Motivazone FROM Tessera LEFT JOIN Operazione ON Tessera.IdTessera = Operazione.IdTessera WHERE Tessera.IdTessera = '$tessera' ORDER BY Operazione.Orario DESC LIMIT 1";
     $noleggioInCorso = fetch_singolo(mysql_query($query2,$conn));
     if($noleggioInCorso and $noleggioInCorso == '0') $_SESSION["noleggioInCorso"] = TRUE;
       else $_SESSION["noleggioInCorso"] = FALSE;

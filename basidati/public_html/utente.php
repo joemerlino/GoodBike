@@ -5,6 +5,7 @@ if(!$tessera){
 	redirect("index.php",0);
 	exit;
 }
+$noleggio = $_SESSION["noleggioInCorso"];
 page_start("Noleggio - BiciRent");
 echo "<script>
 var status;
@@ -32,7 +33,9 @@ $connect=connectDbServer();
 $db=selectDatabase($connect);
 $query=mysql_query("SELECT Nome,Cognome FROM Utente JOIN Tessera ON Utente.IdTessera=$tessera",$connect);
 $row=mysql_fetch_assoc($query);
-echo "<div id='container'>Benvenuto ".$row["Nome"]." ".$row["Cognome"]."!&#09;".page_link("logout","logout.php");
+echo "<div id='container'><p>Benvenuto ".$row["Nome"]." ".$row["Cognome"]."!&#09;".page_link("logout","logout.php").'</p>';
+if($noleggio) echo '<p>Attualmente stai noleggiando la bicicletta'.$_SESSION['Bicicletta'].'</p>';
+else echo '<p>non stai noleggiando nessuna bicicletta</p>';
 $query=mysql_query("SELECT NomeStazione FROM Stazione",$connect);
 echo "</br>Seleziona stazione: <form action='utente.php' method='POST'><select name='staz' onchange='this.form.submit()'><option value='' disabled selected>Seleziona...</option>";
 while($row=mysql_fetch_row($query)){
