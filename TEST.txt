@@ -1,5 +1,8 @@
  
 SUPERATI
+index.php
+  link
+  login tessera
 admin.php
   elimina tessera
   aggiungi stazione
@@ -12,8 +15,17 @@ mostra.php
   bicicletta
   materiale
   utente
+utente
+  logout
+  selezione stazione
+  segnalazione rottura
+  segnalazione rottura già effettuata
+  segnalazione mancanza
+  segnalazione mancanza già effettuata
 
 FALLITI
 admin.php
   aggiungi utente
   elimina tessera
+utente
+  noleggio
