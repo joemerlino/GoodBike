@@ -47,17 +47,19 @@ I trasporti eseguiti dai tecnici sono del tutto simili alle operazioni eseguite 
 Il sito dovrà virtualizzare le operazioni che normalmente un cliente esegue su una colonnina, quindi un prelievo di una bicicletta passando la sua tessera, o un deposito, o una segnalazione di rottura (eseguita su una colonnina, per questo non si discrimina se è la bicicletta o la colonnina); dovrà inoltre prevedere un'area in cui è possibile per l'utente controllare i suoi noleggi, i suoi dati personali e lo stato delle stazioni ( nella realtà queste informazioni gli sono accessibili tramite un'applicazione per smartphone). Inoltre dovrà esserci un'area amministrativa in cui i tecnici possono registrare le manutenzioni che fanno e controllare le segnalazioni eseguite dagli utenti.\newline
 Alcune informazioni di traffico previsto: si prospettano circa 1700 noleggi giornalieri e una media di 200 richieste d'intervento al giorno (mancanza di bici e rotture); inoltre viene richiesta la composizione dei posti delle stazioni (presenza biciclette, tipi disponibili e posti liberi) almeno 10000 volte ogni giorno, ma con punte di quasi 900 richieste in una singola mezz'ora (ad esempio nelle ore di punta).
 \section{Progettazione concettuale}
-Per la modellazione concettuale si decide di utilizzare un metodo misto e partire dal'operazione di noleggio.\newline
+Per la modellazione concettuale si decide di utilizzare un metodo misto e partire dal'operazione di noleggio.
+\subsection{Noleggio}
 Il noleggio è formato da due distinte operazioni, un prelievo che inizia il noleggio, e un deposito che lo termina; il deposito distingue inoltre il noleggio pendente, cioè non ancora terminato, con il noleggio terminato il quale è anche uno storico dei noleggi.
-\begin{figure}[H]
+\begin{figure}[h]
  \centering
- \includegraphics[width=10\textwidth]{Concettuale01}
+ \includegraphics[width=0.7\textwidth]{Concettuale01}
 \caption{Relazione Noleggio}
 \end{figure}
+\subsection{Utente}
 Le informazioni personali dell'utente vengono rappresentate con l'entità Utente; Studente e Turista sono specializzazioni parziali esclusive; l'utente viene identificato dalla tessera che possiede e utilizza nel sito.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Concettuale02}
+  \includegraphics[width=0.6\textwidth]{Concettuale02}
 \caption{Entità utente}
 \end{figure}
 \begin{figure}[H]
@@ -65,40 +67,45 @@ Le informazioni personali dell'utente vengono rappresentate con l'entità Utente
   \includegraphics[width=1\textwidth]{Concettuale03}
 \caption{Relazione Noleggio}
 \end{figure}
+\subsection{Tessera}
 La informazioni di tessera non possono essere rappresentate da un singolo attributo, quindi lo si reifica in un'entità.
 \begin{figure}[H]
  \centering
   \includegraphics[width=1\textwidth]{Concettuale04}
 \caption{Entità Tessera}
 \end{figure}
+\subsection{Bicicletta}
 Le informazioni della bicicletta vengono rappresentate dall'entità Bicicletta, identificata dal codice del materiale.
 \begin{figure}[H]
  \centering
   \includegraphics[width=1\textwidth]{Concettuale05}
 \caption{Entità Bicicletta}
 \end{figure}
-Sia prelievo che deposito sono un'operazione, che ha degli attributi propri.
+\subsection{Operazione}
+Sia prelievo che deposito sono un'operazione con degli attributi propri.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Concettuale06}
+  \includegraphics[width=0.3\textwidth]{Concettuale06}
 \caption{Entità Operazione}
 \end{figure}
+\subsubsection{Eliminazione Noleggio}
 Quindi la relazione noleggio scompare, essendo divisa in due relazioni che legano Tessera ad Operazione. Operazione inoltre contiene operazioni di trasporto.
 \begin{figure}[H]
  \centering
   \includegraphics[width=1\textwidth]{Concettuale07}
 \caption{Scomparsa della relazione Noleggio}
 \end{figure}
+\subsection{Colonnina}
 La colonnina non può essere rappresentata da un solo attributo.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Concettuale08}
+  \includegraphics[width=0.3\textwidth]{Concettuale08}
 \caption{Entità Colonnina}
 \end{figure}
 Per rappresentare la posizione di una Bicicletta su una Colonnina si utilizza una relazione.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Concettuale09}
+  \includegraphics[width=0.7\textwidth]{Concettuale09}
 \caption{Relazione Posizione}
 \end{figure}
 Quindi lo schema tra Operazione, Bicicletta e Colonnna è il seguente.
@@ -107,16 +114,18 @@ Quindi lo schema tra Operazione, Bicicletta e Colonnna è il seguente.
   \includegraphics[width=1\textwidth]{Concettuale10}
 \caption{Operazione, Bicicletta, Colonnina}
 \end{figure}
+\subsection{Stazione}
 Le colonnine sono raggruppate in Stazioni.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Concettuale11}
+  \includegraphics[width=0.6\textwidth]{Concettuale11}
 \caption{Entità Stazione}
 \end{figure}
+\subsection{Materiale}
 Come descritto dai requisiti, sia le Colonnine che le Biciclette sono dei materiali, quindi sono specializzazioni complete ed esclusive
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{Concettuale12}
+  \includegraphics[width=0.6\textwidth]{Concettuale12}
 \caption{Entità Materiale}
 \end{figure}
 \begin{figure}[H]
@@ -124,6 +133,7 @@ Come descritto dai requisiti, sia le Colonnine che le Biciclette sono dei materi
   \includegraphics[width=1\textwidth]{Concettuale13}
 \caption{Stato dell'Entità Materiale}
 \end{figure}
+\subsection{Segnalazioni}
 Le segnalazioni di mancanza e di rottura vengono realizzata tramite delle relazioni.
 \begin{figure}[H]
  \centering
@@ -136,12 +146,14 @@ Le segnalazioni di mancanza e di rottura vengono realizzata tramite delle relazi
 \caption{Relazione Segnalazione di Rottura}
 \end{figure}
 \newpage
+\subsection{Modello concettuale finale}
 Questo è il modello concettuale risultante.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{ConcettualeFinale}
+  \includegraphics[width=1.35\textwidth,angle=90]{ConcettualeFinale}
 \caption{Modello Concettuale Finale}
 \end{figure}
+\newpage
 \section{Progettazione logica}
 Per la realizzazione di un modello logico a partire da uno concettuale si sevono controllare varie cose:\newline
 Per prima cosa si controllano le chiavi di ogni entità, e sono presenti tutte.\newline
@@ -154,12 +166,14 @@ Si osserva come Trasporto e Noleggio siano molto simili, ma al momento si prefer
 \caption{Modifica a Operazione}
 \end{figure}
 \newpage
+\subsection{Schema logico finale}
 Lo schema Logico risultate.
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{LogicoFinale}
+  \includegraphics[width=1.35\textwidth,angle=90]{LogicoFinale}
 \caption{Modello Logico Finale}
 \end{figure}
+\newpage
 \section{Implementazione dello schema logico}
 \subsection{Conversione iniziale}
 Implementando lo schema logico con mysql si modificano varie parti dello schema Logico.\newline
@@ -171,155 +185,159 @@ Inoltre si compiono varie scelte su come rappresentare i sottoinsiemi delle enti
 \end{itemize}
 \begin{figure}[H]
  \centering
-  \includegraphics[width=1\textwidth]{SQL}
-\caption{Trasformazione in sql}
+  \includegraphics[width=0.8\textwidth]{SQL}
+\caption{Trasformazione in SQL}
 \end{figure}
 \subsection{Codice sql}
 Si decide di implementare i controlli sono sulle operazioni che verranno effettivamente eseguite (non ci si preoccupa ad esempio della modifica della chiave primaria di materiale, perchè non viene permesso di farlo).\newline
-Tessera
+\subsubsection{Tessera}
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Tessera(
-	IdTessera INTEGER UNSIGNED AUTO_INCREMENT,
-	DataScadenza DATE NOT NULL,
-	PRIMARY KEY(IdTessera)
+IdTessera INTEGER UNSIGNED AUTO_INCREMENT,
+DataScadenza DATE NOT NULL,
+PRIMARY KEY(IdTessera)
 )ENGINE=INNODB;
 \end{lstlisting}
-Utente
+\subsubsection{Utente}
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Utente(
-	Nome VARCHAR(20) NOT NULL,
-	Cognome VARCHAR(20) NOT NULL,
-	DataNascita DATE NOT NULL,
-	LuogoNascita VARCHAR(20) NOT NULL,
-	Residenza VARCHAR(20) NOT NULL,
-	Indirizzo VARCHAR(30) NOT NULL,
-	Email VARCHAR(30) NOT NULL,
-	Tipo ENUM('Utente','Turista','Studente') DEFAULT 'Utente' NOT NULL,
-	CodiceStudente CHAR(10),
-	IoStudio BOOLEAN,
-	IdTessera INTEGER UNSIGNED,
-	PRIMARY KEY(IdTessera),
-	UNIQUE(Email),
-	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
-	  ON DELETE CASCADE
+Nome VARCHAR(20) NOT NULL,
+Cognome VARCHAR(20) NOT NULL,
+DataNascita DATE NOT NULL,
+LuogoNascita VARCHAR(20) NOT NULL,
+Residenza VARCHAR(20) NOT NULL,
+Indirizzo VARCHAR(30) NOT NULL,
+Email VARCHAR(30) NOT NULL,
+Tipo ENUM('Utente','Turista','Studente') DEFAULT 'Utente'
+ NOT NULL,
+CodiceStudente CHAR(10),
+IoStudio BOOLEAN,
+IdTessera INTEGER UNSIGNED,
+PRIMARY KEY(IdTessera),
+UNIQUE(Email),
+FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
+ ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
-Materiale
+\subsubsection{Materiale}
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Materiale(
-	CodiceMateriale INTEGER UNSIGNED AUTO_INCREMENT,
-	Danneggiato BOOLEAN DEFAULT 0 NOT NULL,
-	PRIMARY KEY(CodiceMateriale)
+CodiceMateriale INTEGER UNSIGNED AUTO_INCREMENT,
+Danneggiato BOOLEAN DEFAULT 0 NOT NULL,
+PRIMARY KEY(CodiceMateriale)
 )ENGINE=INNODB;
 \end{lstlisting}
-Bicicletta
+\subsubsection{Bicicletta}
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Bicicletta(
-	CodiceMateriale INTEGER UNSIGNED,
-	Elettrica BOOLEAN DEFAULT 0 NOT NULL,
-	Stato ENUM('InServizio','InMagazzino') DEFAULT 'InMagazzino' NOT NULL,
-	PRIMARY KEY(CodiceMateriale),
-	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale)
-	  ON DELETE CASCADE
+CodiceMateriale INTEGER UNSIGNED,
+Elettrica BOOLEAN DEFAULT 0 NOT NULL,
+Stato ENUM('InServizio','InMagazzino') DEFAULT 'InMagazzino'
+ NOT NULL,
+PRIMARY KEY(CodiceMateriale),
+FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale)
+ ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
-Stazione
+\subsubsection{Stazione}
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Stazione(
-	NomeStazione VARCHAR(20),
-	Via VARCHAR(30) NOT NULL,
-	PRIMARY KEY(NomeStazione)
+NomeStazione VARCHAR(20),
+Via VARCHAR(30) NOT NULL,
+PRIMARY KEY(NomeStazione)
 )ENGINE=INNODB;
 \end{lstlisting}
-Colonnina
+\subsubsection{Colonnina}
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Colonnina(
-	CodiceMateriale INTEGER UNSIGNED,
-	Bicicletta INTEGER UNSIGNED DEFAULT NULL,
-	NomeStazione VARCHAR(20) NOT NULL,
-	PRIMARY KEY(CodiceMateriale),
-	UNIQUE(Bicicletta),
-	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale)
-	  ON DELETE CASCADE,
-	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale)
-	  ON DELETE SET NULL,
-	FOREIGN KEY (NomeStazione) REFERENCES Stazione(NomeStazione)
-	  ON DELETE CASCADE ON UPDATE CASCADE
+CodiceMateriale INTEGER UNSIGNED,
+Bicicletta INTEGER UNSIGNED DEFAULT NULL,
+NomeStazione VARCHAR(20) NOT NULL,
+PRIMARY KEY(CodiceMateriale),
+UNIQUE(Bicicletta),
+FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale)
+ ON DELETE CASCADE,
+FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale)
+ ON DELETE SET NULL,
+FOREIGN KEY (NomeStazione) REFERENCES Stazione(NomeStazione)
+ ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
-Operazione
+\subsubsection{Operazione}
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Operazione(
-	IdOperazione INTEGER UNSIGNED AUTO_INCREMENT,
-	Orario DATETIME NOT NULL,
-	Colonnina INTEGER UNSIGNED NOT NULL,
-	Bicicletta INTEGER UNSIGNED NOT NULL,
-	Tipo ENUM('PerNoleggio','Trasporto') NOT NULL,
-	TipologiaPerNoleggio ENUM('Prelievo','Deposito'),
-	TipologiaTrasporto ENUM('Aggiunta','Rimozione'),
-	IdTessera INTEGER UNSIGNED,
-	PRIMARY KEY(IdOperazione),
-	UNIQUE(Orario,Colonnina),
-	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale)
-	  ON DELETE CASCADE,
-	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
-	  ON DELETE CASCADE
+IdOperazione INTEGER UNSIGNED AUTO_INCREMENT,
+Orario DATETIME NOT NULL,
+Colonnina INTEGER UNSIGNED NOT NULL,
+Bicicletta INTEGER UNSIGNED NOT NULL,
+Motivazione ENUM('Prelievo','Deposito','Aggiunta','Rimozione')
+ NOT NULL,
+IdTessera INTEGER UNSIGNED,
+PRIMARY KEY(IdOperazione),
+UNIQUE(Orario,Colonnina),
+FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale)
+ ON DELETE CASCADE,
+FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale)
+ ON DELETE CASCADE,
+FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
+ ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
 Ora però si osserva come Tipo,TipologiaPerNoleggio e TipologiaTrasporto siamo una brutta rappresentazione di come un'operazione possa essere di tipo 'Prelievo', 'Deposito', 'Aggiunta' o 'Rimozione', quindi si sostituiscono con un unico Attributo.
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Operazione(
-	IdOperazione INTEGER UNSIGNED AUTO_INCREMENT,
-	Orario DATETIME NOT NULL,
-	Colonnina INTEGER UNSIGNED NOT NULL,
-	Bicicletta INTEGER UNSIGNED NOT NULL,
-	Motivazione ENUM('Prelievo','Deposito','Aggiunta','Rimozione') NOT NULL,
-	IdTessera INTEGER UNSIGNED,
-	PRIMARY KEY(IdOperazione),
-	UNIQUE(Orario,Colonnina),
-	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale)
-	  ON DELETE CASCADE,
-	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale)
-	  ON DELETE CASCADE,
-	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
-	  ON DELETE CASCADE
+IdOperazione INTEGER UNSIGNED AUTO_INCREMENT,
+Orario DATETIME NOT NULL,
+Colonnina INTEGER UNSIGNED NOT NULL,
+Bicicletta INTEGER UNSIGNED NOT NULL,
+Motivazione ENUM('Prelievo','Deposito','Aggiunta','Rimozione')
+ NOT NULL,
+IdTessera INTEGER UNSIGNED,
+PRIMARY KEY(IdOperazione),
+UNIQUE(Orario,Colonnina),
+FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale)
+ ON DELETE CASCADE,
+FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale)
+ ON DELETE CASCADE,
+FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
+ ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
-Manutenzione
+\subsubsection{Manutenzione}
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Manutenzione(
-	Numero INTEGER UNSIGNED AUTO_INCREMENT,
-	DataManutenzione DATE NOT NULL,
-	DescrizioneDanno VARCHAR(100),
-	CodiceMateriale INTEGER UNSIGNED NOT NULL,
-	PRIMARY KEY(Numero),
-	FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale)
-	  ON DELETE CASCADE
+NumeroManutenzione INTEGER UNSIGNED AUTO_INCREMENT,
+DataManutenzione DATE NOT NULL,
+DescrizioneDanno VARCHAR(100),
+CodiceMateriale INTEGER UNSIGNED NOT NULL,
+PRIMARY KEY(NumeroManutenzione),
+FOREIGN KEY (CodiceMateriale) REFERENCES Materiale(CodiceMateriale)
+ ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
-Segnalazione Rottura
+\subsubsection{Segnalazione Rottura}
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE SegnalazioneRottura(
-	Colonnina INTEGER UNSIGNED,
-	IdTessera INTEGER UNSIGNED,
-	PRIMARY KEY(IdTessera,Colonnina),
-	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale)
-	  ON DELETE CASCADE,
-	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
-	  ON DELETE CASCADE
+Colonnina INTEGER UNSIGNED,
+IdTessera INTEGER UNSIGNED,
+PRIMARY KEY(IdTessera,Colonnina),
+FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale)
+ ON DELETE CASCADE,
+FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
+ ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
-Segnalazione Mancanza
+\subsubsection{Segnalazione Mancanza}
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE SegnalazioneMancanza(
-	NomeStazione VARCHAR(20),
-	IdTessera INTEGER UNSIGNED,
-	DataSegnalazione DATE NOT NULL,
-	PRIMARY KEY(IdTessera,NomeStazione),
-	FOREIGN KEY (NomeStazione) REFERENCES Stazione(NomeStazione)
-	  ON DELETE CASCADE,
-	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
-	  ON DELETE CASCADE
+NomeStazione VARCHAR(20),
+IdTessera INTEGER UNSIGNED,
+DataSegnalazione DATE NOT NULL,
+PRIMARY KEY(IdTessera,NomeStazione),
+FOREIGN KEY (NomeStazione) REFERENCES Stazione(NomeStazione)
+ ON DELETE CASCADE,
+FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera)
+ ON DELETE CASCADE
 )ENGINE=INNODB;
 \end{lstlisting}
 \section{Query, procedure, trigger e funzioni}
@@ -341,8 +359,10 @@ SELECT Tessera.IdTessera INTO idT FROM Tessera
 ORDER BY Tessera.IdTessera DESC LIMIT 1;
 SET NEW.IdTessera = idT;
 IF NEW.Tipo = 'Utente' OR NEW.Tipo = 'Turista'
-THEN SET NEW.CodiceStudente = NULL; SET NEW.IoStudio = NULL;
-ElSE IF NEW.CodiceStudente IS NULL OR NEW.IoStudio IS NULL
+THEN SET NEW.CodiceStudente = NULL;
+SET NEW.IoStudio = NULL;
+ElSE IF NEW.CodiceStudente IS NULL OR
+NEW.IoStudio IS NULL
 THEN SET NEW.IdTessera = NULL;
 END IF; END IF;
 END;
@@ -365,10 +385,12 @@ CREATE TRIGGER delete_tessera
 AFTER DELETE ON Tessera
 FOR EACH ROW BEGIN
 DECLARE mot ENUM('Prelievo','Deposito','Aggiunta','Rimozione');
-SELECT Operazione.Motivazione INTO mot FROM Operazione
-WHERE Operazione.IdTessera = OLD.IdTessera ORDER BY Operazione.Orario
-DESC LIMIT 1;
-IF mot = 'Prelievo' THEN INSERT INTO Tessera(IdTessera) VALUES (NULL);
+SELECT Operazione.Motivazione INTO mot
+FROM Operazione
+WHERE Operazione.IdTessera = OLD.IdTessera
+ORDER BY Operazione.Orario DESC LIMIT 1;
+IF mot = 'Prelievo' THEN
+INSERT INTO Tessera(IdTessera) VALUES (NULL);
 END IF;
 END;
 \end{lstlisting}
@@ -395,7 +417,8 @@ DECLARE mot ENUM('Prelievo','Deposito','Aggiunta','Rimozione');
 SELECT Operazione.Motivazione INTO mot FROM Operazione WHERE
 Operazione.Bicicletta = OLD.CodiceMateriale
 ORDER BY Operazione.Orario DESC LIMIT 1;
-IF mot = 'Prelievo' THEN INSERT INTO Materiale(CodiceMateriale) VALUES (NULL);
+IF mot = 'Prelievo' THEN
+INSERT INTO Materiale(CodiceMateriale) VALUES (NULL);
 END IF;
 END;
 \end{lstlisting}
@@ -507,7 +530,8 @@ UPDATE Materiale SET Materiale.Danneggiato = TRUE WHERE
 NEW.Colonnina = Materiale.CodiceMateriale;
 UPDATE Materiale JOIN Colonnina ON
 Materiale.CodiceMateriale = Colonnina.Bicicletta AND
-NEW.Colonnina = Colonnina.CodiceMateriale SET Materiale.Danneggiato = TRUE WHERE
+NEW.Colonnina = Colonnina.CodiceMateriale
+SET Materiale.Danneggiato = TRUE WHERE
 NEW.Colonnina = Colonnina.CodiceMateriale;
 END;
 \end{lstlisting}
