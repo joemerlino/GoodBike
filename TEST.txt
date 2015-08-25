@@ -1,0 +1,20 @@
+ 
+SUPERATI
+admin.php
+  elimina tessera
+  aggiungi stazione
+  aggiungi colonnina
+  elimina materiale
+mostra.php
+  tessera
+  stazione
+  colonnina
+  bicicletta
+
+FALLITI
+admin.php
+  aggiungi utente
+  elimina tessera
+mostra.php
+  materiale
+  utente
