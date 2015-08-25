@@ -543,5 +543,100 @@ END;
 \end{lstlisting}
 \newpage
 \section{Interfaccia web}
-
+L'applicazione web è composta da un'area riservata all'utente e una dedicata all'amministrazione e trasporto/manutenzione.
+Per comodità visto la natura accademica del progetto e per facilitare la correzione, sono state differenziate le aree già nella pagina iniziale dove è possibile fare il login inserendo un IdTessera valido (int unsigned incrementale) per accedere alle funzionalità per l'utente mentre cliccando gli appositi link si accederà alle funzioni riservate ai tecnici per le riparazioni, trasportatori per trasportare le biciclette e amministratori per poter aggiungere e rimuovere utenti, colonnine, stazioni e bici: 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Screenshot01}
+	\caption{Rappresentazione index.php}
+\end{figure}
+\subsection{Area utente}
+Una volta effettuato il login verrà creata una sessione dove vengono salvate alcune informazioni utili come la tessera e se si ha un noleggio attualmente in corso o meno in modo che la pagina possa presentare l'operazione corretta da effettuare (Noleggio o Deposito). Nella figura 21 si nota che viene presentata un elemento select dove è possibile selezionare la stazione desiderata per noleggiare o depositare la bici.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Screenshot02}
+	\caption{Rappresentazione iniziale utente.php}
+\end{figure}
+Dopo aver scelto la stazione apparirà una tabella che mostra la situazione attuale delle colonnine per poter effettuare operazioni di noleggio o segnalare la mancanza di colonnine libere quando si deposita o occupate in caso di prelievo. Inoltre è possibile segnalare ogni singola colonnina, da notare che se essa è occupata da una bicicletta anche quest'ultima verrà segnalata come guasta, inoltre è possibile effettuare una sola segnalazione per ogni colonnina da parte di ogni utente.
+Le colonnine sono identificate dal loro CodiceMateriale e risultano di color rosso se occupate da una bicicletta o verdi se libere, grigie se segnalate come guaste.
+I pulsanti si abilitano o disabilitano per ogni particolare caso grazie ad un'apposita funzione javascript. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Screenshot03}
+	\caption{Rappresentazione espansa utente.php}
+\end{figure}
+Compilata correttamente la form, essa viene inviata alla pagina checkout.php che valuterà l'azione necessaria da compiere nel database.
+Una volta effettuata l'operazione l'utente potrà effettuare il logout o tornare alla propria area riservata per procedere con ulteriori operazioni.
+\subsection{Area tecnico}
+La sezione serve per effettuare operazioni di manutenzione sulle colonnine e/o biciclette ad esse collegate. La pagina visualizza un tabella contenente le colonnine segnalate ordinate per priorità di segnalazione (in alto quelle più segnalate) modificando inoltre il colore delle righe per notare meglio le urgenze. Il manutentore cliccherà il radio button relativo alla colonnina che deve riparare e scriverà nella textarea sottostante la tabella l'operazione di manutenzione effettuata. Una volta inviata la form, la pagina verrà ricaricata e verrà visualizzato un messaggio di conferma o un errore in caso la sottomissione non vada a buon fine.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Screenshot04}
+	\caption{Rappresentazione tecnico.php}
+\end{figure}
+\subsection{Area trasportatori}
+In quest'area i trasportatori potranno aggiungere o rimuovere biciclette da stazioni o dal magazzino. La pagina mostra le segnalazioni di mancanza per prelievi o depositi anche in questo caso ordinati per numero di segnalazioni effettuate. Inoltre verranno mostrate anche le stazioni dove non sono state segnalate mancanze in modo che l'impiegato possa aggiungere biciclette anche in queste stazioni. Infine si trova l'opzione del magazzino dove sarà solamente possibile trasportare delle biciclette dalle stazioni presenti. Una funzione javascript si prende carico di rimuovere il riepilogo magazzino se verrà selezionato quest'ultimo poichè non ha senso trasportare una bicicletta nel medesimo luogo, lo stesso tipo di controllo viene effettuato per il riepilogo delle stazioni in modo da disabilitare le checkbox relative alla stazione selezionata verso la quale effettuare il trasporto. Una volta scelto il luogo e le biciclette da trasportare si può cliccare sul bottone posto sotto la tabella del monitoraggio segnalazioni per effettuare l'operazione.
+La pagina verrà ricaricata mostrando un esito per ogni singola bicicletta trasportata.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Screenshot05}
+	\caption{Rappresentazione trasporto.php}
+\end{figure}
+\subsection{Amministrazione}
+A differenza delle altre pagine, quest'area sfrutta inizialmente il metodo GET per accedere alle varie sotto-categorie, da qui è possibile effettuare le tipiche operazioni di aggiunta/eliminazione.
+Dopo aver selezionato l'operazione da effettuare la pagina si ricarica presentando la form corretta.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Screenshot06}
+	\caption{Rappresentazione admin.php}
+\end{figure}
+\subsubsection{Aggiungi utente}
+La form permette di inserire nel database un nuovo utente e si presenta con i campi relativi alle informazioni personali, al tipo di utente che si crea e in caso esso sia uno studente, l'impiegato dovrà compilare i campi dedicati. Una volta terminato l'inserimento è possibile inviare la richiesta tramite il pulsante aggiungi utente che ricaricherà la pagina e invierà i dati con metodo POST inserendo l'esito tramite GET nell'url. Inoltre è possibile consultare la lista utenti cliccando l'apposito link.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Screenshot07}
+	\caption{Rappresentazione admin.php?action=aggiungi+utente}
+\end{figure}
+\subsubsection{Aggiungi stazione}
+La form permette di inserire nel database una nuova stazione e si presenta con i campi relativi al nome e alla via dove verrà aggiunta. Una volta terminato l'inserimento è possibile inviare la richiesta tramite il pulsante aggiungi stazione che ricaricherà la pagina e invierà i dati con metodo POST inserendo l'esito tramite GET nell'url. Inoltre è possibile consultare la lista stazioni cliccando l'apposito link.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Screenshot08}
+	\caption{Rappresentazione admin.php?action=aggiungi+stazione}
+\end{figure}
+\subsubsection{Elimina tessera}
+La form permette di eliminare dal database una tessera e si presenta con il campo relativo all'id da inserire per procedere alla cancellazione. Una volta terminato l'inserimento è possibile inviare la richiesta tramite il pulsante elimina tessera che ricaricherà la pagina e invierà i dati con metodo POST inserendo l'esito tramite GET nell'url. Inoltre è possibile consultare la lista tessere cliccando l'apposito link.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Screenshot09}
+	\caption{Rappresentazione admin.php?action=elimina+tessera}
+\end{figure}
+\subsubsection{Elimina stazione}
+La form permette di eliminare dal database una stazione e si presenta con il campo relativo al nome da inserire per procedere alla cancellazione. Una volta terminato l'inserimento è possibile inviare la richiesta tramite il pulsante elimina stazione che ricaricherà la pagina e invierà i dati con metodo POST inserendo l'esito tramite GET nell'url. Inoltre è possibile consultare la lista stazioni cliccando l'apposito link.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Screenshot10}
+	\caption{Rappresentazione admin.php?action=elimina+stazione}
+\end{figure}
+\subsubsection{Aggiungi bicicletta}
+La form permette di inserire nel database una bicicletta e si presenta con una checkbox per indicare se essa sia elettrica o meno. Una volta terminato l'inserimento è possibile inviare la richiesta tramite il pulsante aggiungi bicicletta che ricaricherà la pagina e invierà i dati con metodo POST inserendo l'esito tramite GET nell'url. Inoltre è possibile consultare la lista biciclette cliccando l'apposito link.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Screenshot11}
+	\caption{Rappresentazione admin.php?action=aggiungi+bicicletta}
+\end{figure}
+\subsubsection{Aggiungi colonnina}
+La form permette di inserire nel database una colonnina e si presenta con un campo di testo per indicare la stazione a cui dovrà appartenere. Una volta terminato l'inserimento è possibile inviare la richiesta tramite il pulsante aggiungi colonnina che ricaricherà la pagina e invierà i dati con metodo POST inserendo l'esito tramite GET nell'url. Inoltre è possibile consultare la lista colonnine e quella delle stazioni cliccando gli appositi link.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Screenshot12}
+	\caption{Rappresentazione admin.php?action=aggiungi+colonnina}
+\end{figure}
+\subsubsection{Elimina materiale}
+La form permette di eliminare dal database una bicicletta o colonnina e si presenta con un campo di testo per indicare il codice materiale da eliminare. Una volta terminato l'inserimento è possibile inviare la richiesta tramite il pulsante elimina materiale che ricaricherà la pagina e invierà i dati con metodo POST inserendo l'esito tramite GET nell'url. Inoltre è possibile consultare la lista materiale cliccando l'apposito link.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Screenshot13}
+	\caption{Rappresentazione admin.php?action=elimina+materiale}
+\end{figure}
 \end{document}
