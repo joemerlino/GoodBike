@@ -274,7 +274,6 @@ Motivazione ENUM('Prelievo','Deposito','Aggiunta','Rimozione')
  NOT NULL,
 IdTessera INTEGER UNSIGNED,
 PRIMARY KEY(IdOperazione),
-UNIQUE(Orario,Colonnina),
 FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale)
  ON DELETE CASCADE,
 FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale)

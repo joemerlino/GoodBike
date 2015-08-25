@@ -75,7 +75,6 @@ CREATE TABLE Operazione(
 	Motivazione ENUM('Prelievo','Deposito','Aggiunta','Rimozione') NOT NULL,
 	IdTessera INTEGER UNSIGNED,
 	PRIMARY KEY(IdOperazione),
-	UNIQUE(Orario,Colonnina),
 	FOREIGN KEY (Colonnina) REFERENCES Colonnina(CodiceMateriale) ON DELETE CASCADE,
 	FOREIGN KEY (Bicicletta) REFERENCES Bicicletta(CodiceMateriale) ON DELETE CASCADE,
 	FOREIGN KEY (IdTessera) REFERENCES Tessera(IdTessera) ON DELETE CASCADE
@@ -280,7 +279,7 @@ INSERT INTO Operazione(Colonnina,Bicicletta,Motivazione,IdTessera) VALUES (41,1,
 
 INSERT INTO SegnalazioneMancanza (NomeStazione, IdTessera) VALUES ('Paolotti',1),('Paolotti',2),('Prato',1);
 
-INSERT INTO SegnalazioneRottura (Colonnina, IdTessera) VALUES (81,1),(59,1),(60,2),(81,1);
+INSERT INTO SegnalazioneRottura (Colonnina, IdTessera) VALUES (81,1),(59,1),(60,2),(81,2);
 
 INSERT INTO Manutenzione(DescrizioneDanno, CodiceMateriale) VALUES ('riparato il lucchetto elettronico',60);
 
