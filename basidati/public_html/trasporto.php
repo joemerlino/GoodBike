@@ -49,7 +49,7 @@ if($_POST){
 			}
 		}
 }
-$query=mysql_query("SELECT Stazione.NomeStazione, COUNT(SegnalazioneMancanza.NomeStazione) FROM Stazione LEFT JOIN SegnalazioneMancanza ON Stazione.NomeStazione = SegnalazioneMancanza.NomeStazione GROUP BY SegnalazioneMancanza.NomeStazione ORDER BY COUNT(SegnalazioneMancanza.NomeStazione) DESC",$connect);
+$query=mysql_query("SELECT Stazione.NomeStazione, COUNT(SegnalazioneMancanza.NomeStazione) FROM Stazione LEFT JOIN SegnalazioneMancanza ON Stazione.NomeStazione = SegnalazioneMancanza.NomeStazione GROUP BY Stazione.NomeStazione, SegnalazioneMancanza.NomeStazione ORDER BY COUNT(SegnalazioneMancanza.NomeStazione) DESC",$connect);
 echo "</br><form action='trasporto.php' method='POST'><div class='manutenzione'><h2>Monitoraggio segnalazioni mancanze</h2><table><thead><tr><th>Seleziona</th><th>Nome stazione</th><th>Priorità</th></tr></thead>";
 while($row=mysql_fetch_row($query)){
 	echo "<tr bgcolor='".dechex(16775492-4000*$row[1])."'><td><input type='radio' name='arrivo' value='$row[0]' onclick=set(true,'$row[0]')></td><td>".$row[0]."</td><td>".$row[1]."</td>";
