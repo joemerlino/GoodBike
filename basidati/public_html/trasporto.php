@@ -24,13 +24,16 @@ echo page_link("Torna ad home page","index.php");
 if($_POST){
 	if(!empty($_POST['stazione'])){
 		if($_POST['arrivo']!='Magazzino'){
+			echo "</br>";
 			foreach($_POST['stazione'] as $selected){
 				add_operazione_tecnico('Rimozione',NULL,$selected);
 				$query = "SELECT CodiceMateriale FROM Colonnina WHERE NomeStazione = '$_POST[arrivo]' AND Bicicletta IS NULL";
 				$Colonnina = fetch_singolo(mysql_query($query,$connect));
-				if($Colonnina != NULL)
+				if($Colonnina != NULL){
 					add_operazione_tecnico('Aggiunta',$Colonnina,$selected);
-				else echo "Errore: Non ho aggiunto la bicicletta ".$selected." poichè sono finite le colonnine libere alla stazione desiderata.</br>";
+					echo "Bicicletta ".$selected." trasportata correttamente. ";
+				}
+				else echo "Bicicletta ".$selected." non trasportata, stazione già piena. ";
 			}
 		}
 		else{
@@ -43,9 +46,11 @@ if($_POST){
 			foreach($_POST['magazzino'] as $selected){
 				$query = "SELECT CodiceMateriale FROM Colonnina WHERE NomeStazione = '$_POST[arrivo]' AND Bicicletta IS NULL";
 				$Colonnina = fetch_singolo(mysql_query($query,$connect));
-				if($Colonnina != NULL)
+				if($Colonnina != NULL){
 					add_operazione_tecnico('Aggiunta',$Colonnina,$selected);
-				else echo "Errore: Non ho aggiunto la bicicletta ".$selected." poichè sono finite le colonnine libere alla stazione desiderata.</br>";
+					echo "Bicicletta ".$selected." trasportata correttamente. ";
+				}
+				else echo "Bicicletta ".$selected." non trasportata, stazione già piena. ";
 			}
 		}
 }
@@ -72,6 +77,6 @@ while($row=mysql_fetch_row($query)){
 			echo "</tr>";
 		}
 	}
-	echo "</table></div><input type='submit' name='riparazione' value='Riparazione Rottura'></form>";
+	echo "</table></div><input type='submit' name='trasposto' value='Trasporta bici'></form>";
 page_end();
 ?>

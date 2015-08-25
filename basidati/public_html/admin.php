@@ -9,7 +9,7 @@ if($_GET) {
 if($_GET and $_POST) {
   if($_GET['action'] == 'aggiungi utente' and $_POST['submit'] == 'aggiungi utente') {
     if($_POST['Tipo'] == 'Studente')
-      $query = "INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio) VALUES ('".$_POST['Nome']."','".$_POST['Cognome']."','".$_POST['DataNascita']."','".$_POST['LuogoNascita']."','".$_POST['Residenza']."','".$_POST['Indirizzo']."','".$_POST['Email']."','Studente','".$_POST['CodiceStudente']."','".$_POST['IoStudio']."')";
+      $query = "INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio) VALUES ('$_POST[Nome]','$_POST[Cognome]','$_POST[DataNascita]','$_POST[LuogoNascita]','$_POST[Residenza]','$_POST[Indirizzo]','$_POST[Email]','Studente','$_POST[CodiceStudente]','$_POST[IoStudio]')";
     else
       $query = "INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio) VALUES ('".$_POST['Nome']."','".$_POST['Cognome']."','".$_POST['DataNascita']."','".$_POST['LuogoNascita']."','".$_POST['Residenza']."','".$_POST['Indirizzo']."','".$_POST['Email']."','".$_POST['Tipo']."','NULL','NULL')";
 
