@@ -34,8 +34,8 @@ Permette il noleggio di biciclette da utilizzare per girare per la città grazie
 Il progetto si focalizza sulla gestione dei noleggi e delle operazioni di routine eseguibili dall'utenza e dai tecnici di BiciRent, virtualizzando su un sito le operazioni che verrebbero normalmente svolte su vari dipositivi come le colonnine, un'applicazione per gli utenti o una per i tecnici.
 \section{Descrizione testuale dei requisiti e operazioni tipiche}
 \subsection{Descrizione testuale}
-Al momento dell'iscrizione di un utente verranno richiesti tutti i dati personali necessari a registrarlo e rilasciarli la tessera, quali nome, cognome, data e luogo di nascita, infomazioni sulla residenza, e un'email quale recapito per essere contattato; grazie a queste informazioni gli verrà rilasciata una tessera personale con la quale utilizzare tutti i servizi, e avente una validità definita dal piano  che è stato scelto.\newline
-A seconda del piano ci sono varie agevolazioni per i turisti e gli studenti, i quali però dovranno dimostrare di esserlo con la matricola universitaria o la carta IoStudio; il sito non si preoccupa di permettere l'acquisto o l'aggiornamento di questi piani, ma svolge solo un'azione di deposito dei dati, e controllando se l'utente utilizza una tessera con un piano scaduto.\newline
+Al momento dell'iscrizione di un utente verranno richiesti tutti i dati personali necessari a registrarlo e rilasciarli la tessera, quali nome, cognome, data e luogo di nascita, infomazioni sulla residenza, e un'email quale recapito per essere contattato; grazie a queste informazioni gli verrà rilasciata una tessera personale con la quale utilizzare tutti i servizi, e avente una data di attivazione.\newline
+Bisognerà registrare se l'utente è un turista o uno studente, i quali però dovranno dimostrare di esserlo con la matricola universitaria o la carta IoStudio; il sito svolge solo un'azione di deposito dei dati.\newline
 Un utente potrà quindi prelevare una bicicletta da una colonnina di una stazione e poi depositarla su una qualsiasi colonnina libera: queste operazioni, chiamate prelievo e deposito, dovranno venire registrate dal sito con in aggiunta l'orario in cui vengono effettuate.\newline
 Sia le biciclette che le colonnine sono dei beni identificati da un codice comune che identifica tutti i beni dell'azienda BiciRent, inoltre questi materiali possono essere danneggiati: un materiale danneggiato non permette alcuna operazione su di esso da parte dell'utente e deve venire riparato dai tecnici.\newline
 Deve venire registrata ogni riparazione eseguita dai tecnici, con in aggiunta una descrizione del danno riparato.\newline
@@ -194,7 +194,7 @@ Si decide di implementare i controlli sono sulle operazioni che verranno effetti
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TABLE Tessera(
 IdTessera INTEGER UNSIGNED AUTO_INCREMENT,
-DataScadenza DATE NOT NULL,
+DataAttivazione DATE NOT NULL,
 PRIMARY KEY(IdTessera)
 )ENGINE=INNODB;
 \end{lstlisting}
@@ -354,7 +354,7 @@ FOR EACH ROW BEGIN
 DECLARE idT INTEGER UNSIGNED;
 DECLARE dat DATE;
 SELECT CURDATE() INTO dat;
-INSERT INTO Tessera(DataScadenza) VALUES (dat);
+INSERT INTO Tessera(DataAttivazione) VALUES (dat);
 SELECT Tessera.IdTessera INTO idT FROM Tessera
 ORDER BY Tessera.IdTessera DESC LIMIT 1;
 SET NEW.IdTessera = idT;
@@ -365,17 +365,6 @@ ElSE IF NEW.CodiceStudente IS NULL OR
 NEW.IoStudio IS NULL
 THEN SET NEW.IdTessera = NULL;
 END IF; END IF;
-END;
-\end{lstlisting}
-\subsubsection{\texttt{update\_tessera}}
-Una tessera non può avere una data di scadenza inferiore a quella precedente.
-\begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
-CREATE TRIGGER update_tessera
-BEFORE UPDATE ON Tessera
-FOR EACH ROW BEGIN
-IF NEW.DataScadenza < OLD.DataScadenza THEN
-SET NEW.DataScadenza = OLD.DataScadenza;
-END IF;
 END;
 \end{lstlisting}
 \subsubsection{\texttt{delete\_tessera}}

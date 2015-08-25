@@ -34,7 +34,7 @@ if($_GET) {
     $query = "SELECT * FROM Tessera";
     $resource = mysql_query($query,$conn);
     echo "<div class='mostra'><table>";
-    echo '<tr><td>Id</td><td>Scadenza</td></tr>';
+    echo '<tr><td>Id</td><td>Attivazione</td></tr>';
     while($row=mysql_fetch_row($resource)){
       echo '<tr><td>'.$row[0].'</td><td>'.$row[1].'</td></tr>';
     }

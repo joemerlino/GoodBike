@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS Tessera;
 
 CREATE TABLE Tessera(
 	IdTessera INTEGER UNSIGNED AUTO_INCREMENT,
-	DataScadenza DATE NOT NULL,
+	DataAttivazione DATE NOT NULL,
 	PRIMARY KEY(IdTessera)
 )ENGINE=INNODB;
 
@@ -110,7 +110,6 @@ CREATE TABLE SegnalazioneMancanza(
 /* trigger */
 
 DROP TRIGGER IF EXISTS insert_utente;
-DROP TRIGGER IF EXISTS update_tessera;
 DROP TRIGGER IF EXISTS delete_tessera;
 DROP TRIGGER IF EXISTS insert_bicicletta;
 DROP TRIGGER IF EXISTS delete_bicicletta;
@@ -128,22 +127,13 @@ FOR EACH ROW BEGIN
 DECLARE idT INTEGER UNSIGNED;
 DECLARE dat DATE;
 SELECT CURDATE() INTO dat;
-INSERT INTO Tessera(DataScadenza) VALUES (dat);
+INSERT INTO Tessera(DataAttivazione) VALUES (dat);
 SELECT Tessera.IdTessera INTO idT FROM Tessera ORDER BY Tessera.IdTessera DESC LIMIT 1;
 SET NEW.IdTessera = idT;
 IF NEW.Tipo = 'Utente' OR NEW.Tipo = 'Turista' THEN SET NEW.CodiceStudente = NULL; SET NEW.IoStudio = NULL;
 ElSE IF NEW.CodiceStudente IS NULL OR NEW.IoStudio IS NULL THEN SET NEW.IdTessera = NULL;
 END IF; END IF;
 END|
-DELIMITER ;
-
-DELIMITER |
-CREATE TRIGGER update_tessera
-BEFORE UPDATE ON Tessera
-FOR EACH ROW BEGIN
-IF NEW.DataScadenza < OLD.DataScadenza THEN SET NEW.DataScadenza = OLD.DataScadenza;
-END IF;
-END |
 DELIMITER ;
 
 DELIMITER |
@@ -280,20 +270,19 @@ SET FOREIGN_KEY_CHECKS=1;
 
 INSERT INTO Utente(Nome, Cognome, DataNascita, LuogoNascita, Residenza,Indirizzo, Email, Tipo, CodiceStudente, IoStudio) VALUES ('Giovanni','Rossi','1990-08-23','Padova','Vigonza','Via Pascoli, 8','giovannirossi@email.it','Utente',NULL,NULL),('Paolo','Gironi','1980-10-10','Venezia','Padova','Via Montegrappa, 10','paolo@email.it','Turista',NULL,NULL),('Davide','Ceron','1992-10-12','Montebelluna','Montebelluna','Via salice, 7','cerondavid@gmail.com','Studente','287654',0);
 
-UPDATE Tessera SET Tessera.DataScadenza = '2015-06-30' WHERE Tessera.IdTessera = '1';
-UPDATE Tessera SET Tessera.DataScadenza = '2015-09-14' WHERE Tessera.IdTessera = '2';
-UPDATE Tessera SET Tessera.DataScadenza = '2015-08-22' WHERE Tessera.IdTessera = '3';
+INSERT INTO Bicicletta (Elettrica) VALUES (0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(1),(0),(0),(1),(0),(0),(0),(0),(0),(0),(0),(0),(0),(1),(0),(0),(0),(0),(1),(1),(1),(1),(1),(1),(1),(1),(1),(1),(1);
 
-INSERT INTO Bicicletta (Elettrica) VALUES (0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(0),(1),(0),(0),(1),(0),(0),(0),(0),(0),(0),(0),(0),(0),(1),(0),(0),(0),(0),(0);
+INSERT INTO Stazione (NomeStazione, Via) VALUES ('Paolotti','Via Paolotti'),('Prato','Via del Santo'),('Stazione','Pizzale Stazione'),('Santo','Via dei Santi');
 
-INSERT INTO Stazione (NomeStazione, Via) VALUES ('Paolotti','Via Paolotti'),('Prato','Via del Santo'),('Stazione','Pizzale Stazione');
+INSERT INTO Colonnina (NomeStazione) VALUES ('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Santo'),('Santo'),('Santo'),('Santo'),('Santo'),('Santo'),('Santo'),('Santo'),('Santo'),('Santo'),('Santo'),('Santo');
 
-INSERT INTO Colonnina (NomeStazione) VALUES ('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Paolotti'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Prato'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione'),('Stazione');
+INSERT INTO Operazione(Colonnina,Bicicletta,Motivazione,IdTessera) VALUES (41,1,'Aggiunta',NULL),(42,3,'Aggiunta',NULL),(43,4,'Aggiunta',NULL),(44,18,'Aggiunta',NULL),(45,27,'Aggiunta',NULL),(46,25,'Aggiunta',NULL),(47,8,'Aggiunta',NULL),(48,12,'Aggiunta',NULL),(49,24,'Aggiunta',NULL),(50,21,'Aggiunta',NULL),(51,29,'Aggiunta',NULL),(52,23,'Aggiunta',NULL),(53,20,'Aggiunta',NULL),(54,15,'Aggiunta',NULL),(55,35,'Aggiunta',NULL),(56,26,'Aggiunta',NULL),(57,7,'Aggiunta',NULL),(58,32,'Aggiunta',NULL),(59,10,'Aggiunta',NULL),(60,36,'Aggiunta',NULL),(81,16,'Aggiunta',NULL),(85,17,'Aggiunta',NULL),(86,30,'Aggiunta',NULL),(87,6,'Aggiunta',NULL),(91,11,'Aggiunta',NULL),(97,33,'Aggiunta',NULL),(98,9,'Aggiunta',NULL),(99,22,'Aggiunta',NULL),(101,28,'Aggiunta',NULL),(106,13,'Aggiunta',NULL)(54,15,'Rimozione',NULL)(81,16,'Aggiunta',NULL);
 
-INSERT INTO Operazione(Colonnina,Bicicletta,Motivazione,IdTessera) VALUES (31,02,'Prelievo',1),(51,02,'Deposito',1);
 
+/*
 UPDATE Operazione SET Operazione.Orario = '2015-07-15 08:45:47' WHERE Operazione.IdOperazione = '1';
 UPDATE Operazione SET Operazione.Orario = '2015-07-15 17:37:29' WHERE Operazione.IdOperazione = '2';
+*/
 
 /*
 INSERT INTO Manutenzione(DescrizioneDanno, CodiceMateriale) VALUES (),();
@@ -317,12 +306,4 @@ inserimento di una manutenzione(elimina in automatico le segnalazioni di rottura
 inserimento di una segnalazione di rottura 
 inserimento di una segnalazione di mancanza
 (procedura per l'eliminazione delle segnalazioni di mancanze, o qualcosa di simile)
-
-
-*/
-
-
-/* query
-SELECT * FROM Materiale LEFT JOIN Bicicletta ON Materiale.CodiceMateriale = Bicicletta.CodiceMateriale LEFT JOIN Colonnina ON Materiale.CodiceMateriale = Colonnina.CodiceMateriale
-
 */
