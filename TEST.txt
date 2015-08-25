@@ -17,6 +17,7 @@ mostra.php
   materiale
   utente
 utente.php
+  noleggio
   logout
   selezione stazione
   segnalazione rottura
@@ -35,5 +36,3 @@ admin.php
 trasporto.php
   nome pulsante
   messaggi di riuscita o errore
-utente.php
-  noleggio
