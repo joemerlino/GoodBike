@@ -121,6 +121,7 @@ function add_mancanza($stazione,$tessera) {
 
 //funzione che fa il fetch della risorsa e ritorna il primo elemento della prima riga
 function fetch_singolo($risorsa) {
+  if($risorsa == NULL) return NULL;
   $row = mysql_fetch_array($risorsa);
   return $row[0];
 }
