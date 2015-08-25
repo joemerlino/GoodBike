@@ -278,20 +278,16 @@ INSERT INTO Colonnina (NomeStazione) VALUES ('Paolotti'),('Paolotti'),('Paolotti
 
 INSERT INTO Operazione(Colonnina,Bicicletta,Motivazione,IdTessera) VALUES (41,1,'Aggiunta',NULL),(42,3,'Aggiunta',NULL),(43,4,'Aggiunta',NULL),(44,18,'Aggiunta',NULL),(45,27,'Aggiunta',NULL),(46,25,'Aggiunta',NULL),(47,8,'Aggiunta',NULL),(48,12,'Aggiunta',NULL),(49,24,'Aggiunta',NULL),(50,21,'Aggiunta',NULL),(51,29,'Aggiunta',NULL),(52,23,'Aggiunta',NULL),(53,20,'Aggiunta',NULL),(54,15,'Aggiunta',NULL),(55,35,'Aggiunta',NULL),(56,26,'Aggiunta',NULL),(57,7,'Aggiunta',NULL),(58,32,'Aggiunta',NULL),(59,10,'Aggiunta',NULL),(60,36,'Aggiunta',NULL),(81,16,'Aggiunta',NULL),(85,17,'Aggiunta',NULL),(86,30,'Aggiunta',NULL),(87,6,'Aggiunta',NULL),(91,11,'Aggiunta',NULL),(97,33,'Aggiunta',NULL),(98,9,'Aggiunta',NULL),(99,22,'Aggiunta',NULL),(101,28,'Aggiunta',NULL),(106,13,'Aggiunta',NULL)(54,15,'Rimozione',NULL)(81,16,'Aggiunta',NULL);
 
+INSERT INTO SegnalazioneMancanza (NomeStazione, IdTessera) VALUES ('Paolotti',1),('Paolotti',2),('Prato',1);
+
+INSERT INTO SegnalazioneRottura (Colonnina, IdTessera) VALUES (81,1),(59,1),(60,2),(81,1);
+
+INSERT INTO Manutenzione(DescrizioneDanno, CodiceMateriale) VALUES ('riparato il lucchetto elettronico',60);
 
 /*
 UPDATE Operazione SET Operazione.Orario = '2015-07-15 08:45:47' WHERE Operazione.IdOperazione = '1';
 UPDATE Operazione SET Operazione.Orario = '2015-07-15 17:37:29' WHERE Operazione.IdOperazione = '2';
 */
-
-/*
-INSERT INTO Manutenzione(DescrizioneDanno, CodiceMateriale) VALUES (),();
-
-INSERT INTO SegnalazioneRottura (Colonnina, IdTessera) VALUES (),();
-
-INSERT INTO SegnalazioneMancanza (NomeStazione, IdTessera) VALUES (),();
-*/
-
 
 /*operazioni eseguibili:
 inserimento utente (inserimento tessera in automatico)
