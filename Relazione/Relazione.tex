@@ -450,10 +450,10 @@ END;
 \subsubsection{\texttt{insert\_operazione}}
 Su operazione si fanno molti controlli in base al tipo di operazione (la motivazione):
 \begin{itemize}
- \item per un prelievo o un deposito si controlla che IdTessera non sia nullo, poi si controlla che quell'operazione non sia successiva ad un'operazione analoga (prelievo con prelievo o deposito con deposito), essendo possibbile solo un noleggio alla volta
+ \item per un prelievo o un deposito si controlla che IdTessera non sia nullo, poi si controlla che quell'operazione non sia successiva ad un'operazione analoga (prelievo con prelievo o deposito con deposito), essendo possibile solo un noleggio alla volta, infine si modifica lo stato della colonnina in base all'operazione avvenuta
  \item per una aggiunta o una rimozione si mette a null la tessera e si modifica lo stato di servizio della bicicletta tra in servizio o in magazzino e si modifica di conseguenza la presenza della bicicletta in colonnina
 \end{itemize}
-In ogni caso il trigger si preoccupa di inserire la data.
+In ogni caso il trigger si preoccupa di inserire la data e come ultima operazione elimina le segnalazioni si mancanza della stazione in cui la colonnina fa parte.
 \begin{lstlisting}[ language=SQL, showspaces=false, basicstyle=\ttfamily, numbers=none, numberstyle=\tiny, commentstyle=\color{gray} ]
 CREATE TRIGGER insert_operazione
 BEFORE INSERT ON Operazione
@@ -468,16 +468,19 @@ IF NEW.Motivazione = 'Prelievo' OR NEW.Motivazione = 'Deposito' THEN
 IF NEW.IdTessera IS NULL THEN SET NEW.IdOperazione = NULL;
 END IF;
 SELECT Operazione.Motivazione INTO mot FROM Operazione WHERE
-Operazione.IdTessera = NEW.IdTessera AND
-Operazione.Motivazione = 'Prelievo' AND
-Operazione.IdOperazione <> NEW.IdOperazione
-ORDER BY Operazione.Orario DESC LIMIT 1;
+Operazione.IdTessera = NEW.IdTessera AND Operazione.Motivazione = 'Prelievo'
+AND Operazione.IdOperazione <> NEW.IdOperazione ORDER BY Operazione.Orario
+ DESC LIMIT 1;
 IF mot = 'Prelievo' THEN SET nol = TRUE; END IF;
 IF NEW.Motivazione = 'Prelievo' THEN IF nol = TRUE THEN
 SET NEW.IdOperazione = NULL;
+ElSE UPDATE Colonnina SET Colonnina.Bicicletta = NULL WHERE
+Colonnina.CodiceMateriale = NEW.Colonnina;
 END IF; END IF;
-IF NEW.Motivazione = 'Deposito' THEN
-IF nol = FALSE THEN SET NEW.IdOperazione = NULL;
+IF NEW.Motivazione = 'Deposito' THEN IF nol = FALSE THEN
+SET NEW.IdOperazione = NULL;
+ELSE UPDATE Colonnina SET Colonnina.Bicicletta = NEW.Bicicletta WHERE
+Colonnina.CodiceMateriale = NEW.Colonnina;
 END IF; END IF;
 ELSE
 IF NEW.Motivazione = 'Aggiunta' THEN
@@ -496,6 +499,10 @@ Bicicletta.CodiceMateriale = NEW.Bicicletta;
 UPDATE Colonnina SET Colonnina.Bicicletta = NULL WHERE
 Colonnina.CodiceMateriale = NEW.Colonnina;
 END IF; END IF;
+DELETE FROM SegnalazioneMancanza WHERE
+SegnalazioneMancanza.NomeStazione = (
+ SELECT Colonnina.NomeStazione FROM Colonnina WHERE
+ NEW.Colonnina = Colonnina.CodiceMateriale LIMIT 1);
 END;
 \end{lstlisting}
 \subsubsection{\texttt{insert\_manutenzione}}
