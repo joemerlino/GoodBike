@@ -10,11 +10,10 @@ mostra.php
   stazione
   colonnina
   bicicletta
+  materiale
+  utente
 
 FALLITI
 admin.php
   aggiungi utente
   elimina tessera
-mostra.php
-  materiale
-  utente
